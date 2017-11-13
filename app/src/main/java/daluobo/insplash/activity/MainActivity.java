@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +23,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
 
-    protected List<Fragment> mFragments = new ArrayList<>();
     protected FragmentManager mFragmentManager;
     protected FragmentHeapPresenter mFragmentHeapPresenter;
 

@@ -22,8 +22,6 @@ import daluobo.insplash.viewmodel.StatsViewModel;
  */
 
 public class StatsFragment extends BaseFragment {
-
-
     @BindView(R.id.photos)
     TextView mPhotos;
     @BindView(R.id.downloads)

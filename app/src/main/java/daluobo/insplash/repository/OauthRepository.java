@@ -19,8 +19,6 @@ import daluobo.insplash.net.api.OauthApi;
  */
 
 public class OauthRepository {
-    public static final String TAG = "StatsRepository";
-
     private OauthApi mOauthService;
 
     public OauthRepository(){

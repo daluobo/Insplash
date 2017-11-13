@@ -1,6 +1,8 @@
 package daluobo.insplash.base.view;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,13 +40,8 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         return view;
     }
 
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void initView() {
+    @CallSuper
+    public void initListView(@NonNull RecyclerView.Adapter adapter) {
         mSwipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright),
                 ContextCompat.getColor(getContext(), android.R.color.holo_green_light),
                 ContextCompat.getColor(getContext(), android.R.color.holo_orange_light),
@@ -54,6 +51,17 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         mLayoutManager = new LinearLayoutManager(getContext());
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(mLayoutManager);
+        mListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onHideLoading() {
+        mSwipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onShowLoading() {
+
     }
 
     @Override

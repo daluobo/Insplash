@@ -15,8 +15,6 @@ import daluobo.insplash.net.api.StatsApi;
  */
 
 public class StatsRepository {
-    public static final String TAG = "StatsRepository";
-
     private StatsApi mStatsService;
 
     public StatsRepository(){

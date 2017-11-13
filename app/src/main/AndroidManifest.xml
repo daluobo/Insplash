@@ -24,12 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"
-                  android:launchMode="singleInstance">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <data
                     android:host="insplash-auth-callback"
                     android:scheme="insplash"/>
+
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
