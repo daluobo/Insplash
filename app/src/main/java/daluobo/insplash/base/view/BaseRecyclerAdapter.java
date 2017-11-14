@@ -23,8 +23,8 @@ public abstract class BaseRecyclerAdapter<D, V extends RecyclerView.ViewHolder> 
 
     protected abstract void bindDataToItemView(V holder, D item, int position);
 
-    protected View inflateItemView(ViewGroup viewGroupm, int layoutId){
-        return LayoutInflater.from(viewGroupm.getContext()).inflate(layoutId, viewGroupm, false);
+    protected View inflateItemView(ViewGroup viewGroup, int layoutId){
+        return LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
     }
 
     @Override

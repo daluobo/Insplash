@@ -5,5 +5,8 @@
     <color name="colorAccent">#783937</color>
 
     <color name="colorWhite">#FFFFFF</color>
+
     <color name="colorIcon">#646464</color>
+    <color name="colorText">#d8d8d8</color>
+
 </resources>

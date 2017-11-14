@@ -14,17 +14,19 @@ public class Photo implements Parcelable {
     public String id;
     public String created_at;
     public String updated_at;
-    public String width;
-    public String height;
+    public int width;
+    public int height;
     public String color;
     public String likes;
     public boolean liked_by_user;
     public String description;
 
     public User user;
-    public List<Collection> current_user_collections;
     public Urls urls;
     public Links links;
+    public List<Collection> current_user_collections;
+    public List<Category> categories;
+
 
     @Override
     public int describeContents() {
@@ -36,16 +38,17 @@ public class Photo implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.created_at);
         dest.writeString(this.updated_at);
-        dest.writeString(this.width);
-        dest.writeString(this.height);
+        dest.writeInt(this.width);
+        dest.writeInt(this.height);
         dest.writeString(this.color);
         dest.writeString(this.likes);
         dest.writeByte(this.liked_by_user ? (byte) 1 : (byte) 0);
         dest.writeString(this.description);
         dest.writeParcelable(this.user, flags);
-        dest.writeTypedList(this.current_user_collections);
         dest.writeParcelable(this.urls, flags);
         dest.writeParcelable(this.links, flags);
+        dest.writeTypedList(this.current_user_collections);
+        dest.writeTypedList(this.categories);
     }
 
     public Photo() {
@@ -55,16 +58,17 @@ public class Photo implements Parcelable {
         this.id = in.readString();
         this.created_at = in.readString();
         this.updated_at = in.readString();
-        this.width = in.readString();
-        this.height = in.readString();
+        this.width = in.readInt();
+        this.height = in.readInt();
         this.color = in.readString();
         this.likes = in.readString();
         this.liked_by_user = in.readByte() != 0;
         this.description = in.readString();
         this.user = in.readParcelable(User.class.getClassLoader());
-        this.current_user_collections = in.createTypedArrayList(Collection.CREATOR);
         this.urls = in.readParcelable(Urls.class.getClassLoader());
         this.links = in.readParcelable(Links.class.getClassLoader());
+        this.current_user_collections = in.createTypedArrayList(Collection.CREATOR);
+        this.categories = in.createTypedArrayList(Category.CREATOR);
     }
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {

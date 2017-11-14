@@ -22,13 +22,15 @@ public class FragmentHeapPresenter {
 
     public void addFragment(@NonNull Fragment fragment, String tag) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.add(mContainerId, fragment, tag).commit();
-    }
 
-    public void addFragment(@NonNull Fragment fragment, String tag, boolean b) {
-        if (getFragment(tag) != null && b) {
-            addFragment(fragment, tag);
+        transaction.add(mContainerId, fragment, tag);
+        if (mTopId != null) {
+            Fragment oldF = getFragment(mTopId);
+            transaction.hide(oldF);
         }
+        transaction.commit();
+
+        mTopId = tag;
     }
 
     public Fragment getFragment(String tag) {

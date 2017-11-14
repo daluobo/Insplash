@@ -1,11 +1,17 @@
 package daluobo.insplash.fragment;
 
 import android.arch.lifecycle.Observer;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.view.SwipeListFragment;
@@ -31,6 +37,15 @@ public class PhotosFragment extends SwipeListFragment {
     public static PhotosFragment newInstance() {
         PhotosFragment fragment = new PhotosFragment();
         return fragment;
+    }
+
+    @Nullable
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_photos, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
+
+        return view;
     }
 
     @Override

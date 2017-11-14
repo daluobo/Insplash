@@ -1,19 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/container"
+    android:layout_marginBottom="16dp"
     android:background="@color/colorWhite"
-    android:layout_marginBottom="8dp">
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/img"
+        android:id="@+id/photo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        tools:minHeight="240dp"/>
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        tools:text="description"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_account_box"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimary"
+            tools:text="username"/>
+
+        <ImageView
+            android:id="@+id/like_icon"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:src="@drawable/ic_favorite_border"/>
+
+        <TextView
+            android:id="@+id/likes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimary"
+            tools:text="likes"/>
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_vert"
+            android:tint="@color/colorPrimary"/>
+    </LinearLayout>
+
 </LinearLayout>

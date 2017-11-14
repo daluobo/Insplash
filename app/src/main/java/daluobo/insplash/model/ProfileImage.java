@@ -13,7 +13,6 @@ public class ProfileImage implements Parcelable {
     public String medium;
     public String large;
 
-
     @Override
     public int describeContents() {
         return 0;
