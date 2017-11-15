@@ -8,7 +8,7 @@ import android.support.annotation.Keep;
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class User implements Parcelable {
+public class User extends ApiModel implements Parcelable {
     public String id;
     public String updated_at;
     public String username;

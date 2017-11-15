@@ -1,10 +1,8 @@
 package daluobo.insplash.activity;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Button;
 
@@ -13,10 +11,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.Token;
-import daluobo.insplash.util.ToastUtil;
+import daluobo.insplash.util.SharePrefUtil;
 import daluobo.insplash.viewmodel.OauthViewModel;
 
 public class LoginActivity extends BaseActivity {
@@ -42,21 +41,10 @@ public class LoginActivity extends BaseActivity {
                 && !TextUtils.isEmpty(intent.getData().getAuthority())
                 && AppConstant.APP_CALLBACK_URL.equals(intent.getData().getAuthority())) {
 
-            mViewModel.getToken(intent.getData().getQueryParameter("code")).observe(this, new Observer<Resource<Token>>() {
-
+            mViewModel.getToken(intent.getData().getQueryParameter("code")).observe(this, new ResourceObserver<Resource<Token>, Token>(this) {
                 @Override
-                public void onChanged(@Nullable Resource<Token> resource) {
-                    switch (resource.status) {
-                        case SUCCESS:
-                            ToastUtil.showShort(LoginActivity.this, "token: " + resource.data.access_token);
-                            break;
-                        case ERROR:
-                            ToastUtil.showShort(LoginActivity.this, resource.message);
-                            break;
-                        case LOADING:
-                            ToastUtil.showShort(LoginActivity.this, "loading");
-                            break;
-                    }
+                protected void onSuccess(Token token) {
+                    SharePrefUtil.putPreference(LoginActivity.this,AppConstant.SharePref.token, token.access_token);
                 }
             });
         }

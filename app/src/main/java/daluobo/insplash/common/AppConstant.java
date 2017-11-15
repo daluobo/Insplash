@@ -22,4 +22,10 @@ public class AppConstant {
                 + "&response_type=" + "code"
                 + "&scope=" + "public+read_user+write_user+read_photos+write_photos+write_likes+write_followers+read_collections+write_collections";
     }
+
+    public static final String SHARE_PREF_KEY = "turboz_set";
+
+    public static class SharePref{
+        public static String token = "access_token";
+    }
 }

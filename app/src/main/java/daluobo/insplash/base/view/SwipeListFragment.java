@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import daluobo.insplash.R;
 
 /**
@@ -22,7 +21,7 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout mSwipeLayout;
 
-    protected Unbinder mUnbinder;
+
     protected LinearLayoutManager mLayoutManager;
 
     @CallSuper
@@ -48,13 +47,4 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
     public void onShowLoading() {
 
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
-    }
-
 }

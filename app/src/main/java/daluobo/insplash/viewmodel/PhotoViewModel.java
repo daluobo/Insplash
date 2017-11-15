@@ -17,7 +17,6 @@ public class PhotoViewModel extends ViewModel{
     private LiveData<Resource<List<Photo>>> mPhotos;
     protected PhotoRepository mRepository;
 
-
     public PhotoViewModel(){
         mRepository = new PhotoRepository();
     }
