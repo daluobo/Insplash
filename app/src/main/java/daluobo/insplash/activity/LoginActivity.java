@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -44,7 +45,13 @@ public class LoginActivity extends BaseActivity {
             mViewModel.getToken(intent.getData().getQueryParameter("code")).observe(this, new ResourceObserver<Resource<Token>, Token>(this) {
                 @Override
                 protected void onSuccess(Token token) {
-                    SharePrefUtil.putPreference(LoginActivity.this,AppConstant.SharePref.token, token.access_token);
+                    SharePrefUtil.putPreference(LoginActivity.this,AppConstant.SharePref.ACCESS_TOKEN, token.access_token);
+                    SharePrefUtil.putPreference(LoginActivity.this,AppConstant.SharePref.REFRESH_TOKEN, token.refresh_token);
+
+                    Log.e("LoginActivity accessT", token.access_token);
+                    Log.e("LoginActivity refreshT", token.refresh_token);
+
+                    finish();
                 }
             });
         }
@@ -63,6 +70,7 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.login_btn)
     public void onViewClicked() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstant.getLoginUrl())));
+        finish();
     }
 
 

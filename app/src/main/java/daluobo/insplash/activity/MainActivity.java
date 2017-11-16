@@ -47,7 +47,9 @@ public class MainActivity extends BaseActivity {
                 }
             }
 
-            return mFragmentHeapPresenter.showFragment(tag);
+            mFragmentHeapPresenter.showFragment(tag);
+
+            return true;
         }
     };
 

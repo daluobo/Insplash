@@ -12,8 +12,10 @@ import android.support.annotation.Keep;
 public class Token implements Parcelable {
     public String access_token;
     public String token_type;
+    public String refresh_token;
     public String scope;
     public String created_at;
+
 
     @Override
     public int describeContents() {
@@ -24,6 +26,7 @@ public class Token implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.access_token);
         dest.writeString(this.token_type);
+        dest.writeString(this.refresh_token);
         dest.writeString(this.scope);
         dest.writeString(this.created_at);
     }
@@ -34,11 +37,12 @@ public class Token implements Parcelable {
     protected Token(Parcel in) {
         this.access_token = in.readString();
         this.token_type = in.readString();
+        this.refresh_token = in.readString();
         this.scope = in.readString();
         this.created_at = in.readString();
     }
 
-    public static final Parcelable.Creator<Token> CREATOR = new Parcelable.Creator<Token>() {
+    public static final Creator<Token> CREATOR = new Creator<Token>() {
         @Override
         public Token createFromParcel(Parcel source) {
             return new Token(source);

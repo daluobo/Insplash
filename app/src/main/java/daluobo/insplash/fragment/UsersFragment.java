@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import daluobo.insplash.R;
+import daluobo.insplash.activity.LoginActivity;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseFragment;
@@ -63,9 +66,9 @@ public class UsersFragment extends BaseFragment {
                 ImgHelper.loadImg(getContext(), mAvatar, user.profile_image.small);
 
                 mUsername.setText(user.name);
-                mTotalLikes.setText(user.total_likes);
-                mTotalPhotos.setText(user.total_photos);
-                mTotalCollections.setText(user.total_collections);
+                mTotalLikes.setText(user.total_likes+"");
+                mTotalPhotos.setText(user.total_photos+"");
+                mTotalCollections.setText(user.total_collections+"");
             }
         });
     }
@@ -75,4 +78,8 @@ public class UsersFragment extends BaseFragment {
 
     }
 
+    @OnClick(R.id.avatar)
+    public void onViewClicked() {
+        startActivity(new Intent(getContext(), LoginActivity.class));
+    }
 }

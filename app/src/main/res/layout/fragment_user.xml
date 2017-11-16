@@ -15,7 +15,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_centerInParent="true"
-            tools:src="@drawable/ic_account_box"/>
+            android:src="@drawable/ic_account_box"/>
 
         <TextView
             android:id="@+id/username"
@@ -24,7 +24,6 @@
             android:layout_below="@+id/avatar"
             android:gravity="center"
             tools:text="username"/>
-
 
         <LinearLayout
             android:layout_width="match_parent"
