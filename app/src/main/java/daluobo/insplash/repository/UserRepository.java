@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.User;
-import daluobo.insplash.net.NetworkResource;
+import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.UserApi;
 

@@ -7,7 +7,7 @@ import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.model.TotalStats;
-import daluobo.insplash.net.NetworkResource;
+import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.api.StatsApi;
 
 /**

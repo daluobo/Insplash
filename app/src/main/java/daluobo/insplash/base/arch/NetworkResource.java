@@ -1,4 +1,4 @@
-package daluobo.insplash.net;
+package daluobo.insplash.base.arch;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -7,9 +7,6 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
-
-import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.base.arch.Resource;
 
 /**
  * Created by daluobo on 2017/11/2.

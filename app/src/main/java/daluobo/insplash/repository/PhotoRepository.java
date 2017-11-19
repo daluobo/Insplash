@@ -8,7 +8,7 @@ import java.util.List;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.Photo;
-import daluobo.insplash.net.NetworkResource;
+import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.PhotoApi;
 
