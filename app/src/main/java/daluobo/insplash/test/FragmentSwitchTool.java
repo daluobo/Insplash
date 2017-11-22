@@ -1,9 +1,10 @@
-package daluobo.insplash.presenter;
+package daluobo.insplash.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.List;
 public class FragmentSwitchTool implements View.OnClickListener {
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
-    //  private View currentClickableView;
     private View[] currentSelectedView;
     private View[] clickableViews; //传入用于被点击的view,比如是一个LinearLayout
     private List<View[]> selectedViews; //传入用于被更改资源selected状态的view[], 比如一组View[]{TextView, ImageView}
@@ -58,6 +58,12 @@ public class FragmentSwitchTool implements View.OnClickListener {
         this.bundles = bundles;
     }
 
+    @Override
+    public void onClick(View v)
+    {
+        changeTag(v);
+    }
+
     public void changeTag(View v) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(v.getId()));
@@ -67,7 +73,7 @@ public class FragmentSwitchTool implements View.OnClickListener {
                 //过渡动画
                 if (showAnimator) {
                     int exitIndex = selectedViews.indexOf(currentSelectedView);
-//                  Log.e("yao", "enter : " + i + "   exit: " + exitIndex);
+                  Log.e("yao", "enter : " + i + "   exit: " + exitIndex);
 //                    if (i > exitIndex){
 //                        fragmentTransaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out);
 //                    } else if (i < exitIndex) {
@@ -97,6 +103,7 @@ public class FragmentSwitchTool implements View.OnClickListener {
                     }
                     fragmentTransaction.add(containerId, fragment, String.valueOf(clickableViews[i].getId()));
                 } else if (fragment == currentFragment) {
+
                 } else {
                     fragmentTransaction.hide(currentFragment);
                     for (View view : currentSelectedView) {
@@ -116,9 +123,5 @@ public class FragmentSwitchTool implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View v)
-    {
-        changeTag(v);
-    }
+
 }

@@ -1,4 +1,4 @@
-package daluobo.insplash.test;
+package daluobo.insplash.view;
 
 import android.content.Context;
 import android.os.Parcelable;

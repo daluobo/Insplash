@@ -1,4 +1,4 @@
-package daluobo.insplash.test;
+package daluobo.insplash.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -107,12 +107,12 @@ public class TopSearchBehavior<V extends View> extends VerticalScrollingBehavior
         this.scrollingEnabled = scrollingEnabled;
     }
 
-    public void setHidden(V view, boolean bottomLayoutHidden) {
-        if (!bottomLayoutHidden && hidden) {
+    public void setHidden(V view, boolean isHidden) {
+        if (!isHidden && hidden) {
             animateOffset(view, 0);
-        } else if (bottomLayoutHidden && !hidden) {
-            animateOffset(view, (view.getHeight() + view.getTop()));
+        } else if (isHidden && !hidden) {
+            animateOffset(view, -(view.getHeight() + view.getTop()));
         }
-        hidden = bottomLayoutHidden;
+        hidden = isHidden;
     }
 }

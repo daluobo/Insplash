@@ -44,6 +44,9 @@ public class FragmentHeapPresenter {
         }
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        //transaction.setCustomAnimations()
+
         if (mTopId == null) {
             transaction.show(newF).commit();
         } else {

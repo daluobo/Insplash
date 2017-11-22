@@ -1,4 +1,4 @@
-package daluobo.insplash.test;
+package daluobo.insplash.view;
 
 import android.content.Context;
 import android.os.Build;
@@ -26,8 +26,9 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
     private int mSnackbarHeight = -1;
     private boolean scrollingEnabled = true;
     private boolean hideAlongSnackbar = false;
-    int[] attrsArray = new int[] {
-            android.R.attr.id };
+    int[] attrsArray = new int[]{
+            android.R.attr.id};
+
     public BottomNavigationBehavior() {
         super();
     }
@@ -65,11 +66,11 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
     private void updateScrollingForSnackbar(View dependency, V child, boolean enabled) {
         if (!isTablet && dependency instanceof Snackbar.SnackbarLayout) {
             scrollingEnabled = enabled;
-            if (!hideAlongSnackbar && ViewCompat.getTranslationY(child) != 0) {
-                ViewCompat.setTranslationY(child, 0);
+            if (!hideAlongSnackbar && child.getTranslationY() != 0) {
+                child.setTranslationY(0);
                 hidden = false;
                 hideAlongSnackbar = true;
-            }else if(hideAlongSnackbar){
+            } else if (hideAlongSnackbar) {
                 hidden = true;
                 animateOffset(child, -child.getHeight());
             }
@@ -89,11 +90,19 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
     }
 
     @Override
-    public void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout, V child, @ScrollDirection int direction, int currentOverScroll, int totalOverScroll) {
+    public void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout,
+                                           V child,
+                                           @ScrollDirection int direction,
+                                           int currentOverScroll,
+                                           int totalOverScroll) {
     }
 
     @Override
-    public void onDirectionNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed, @ScrollDirection int scrollDirection) {
+    public void onDirectionNestedPreScroll(CoordinatorLayout coordinatorLayout,
+                                           V child,
+                                           View target, int dx, int dy,
+                                           int[] consumed,
+                                           @ScrollDirection int scrollDirection) {
         handleDirection(child, scrollDirection);
     }
 
@@ -109,7 +118,11 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
     }
 
     @Override
-    protected boolean onNestedDirectionFling(CoordinatorLayout coordinatorLayout, V child, View target, float velocityX, float velocityY, @ScrollDirection int scrollDirection) {
+    protected boolean onNestedDirectionFling(CoordinatorLayout coordinatorLayout,
+                                             V child, View target,
+                                             float velocityX,
+                                             float velocityY,
+                                             @ScrollDirection int scrollDirection) {
         handleDirection(child, scrollDirection);
         return true;
     }
@@ -123,7 +136,7 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
     private void ensureOrCancelAnimator(V child) {
         if (mOffsetValueAnimator == null) {
             mOffsetValueAnimator = ViewCompat.animate(child);
-            mOffsetValueAnimator.setDuration(200);
+            mOffsetValueAnimator.setDuration(300);
             mOffsetValueAnimator.setInterpolator(INTERPOLATOR);
         } else {
             mOffsetValueAnimator.cancel();
