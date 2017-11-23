@@ -10,6 +10,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            keyAlias 'daluobo'
+            keyPassword 'ap0906118'
+            storeFile file('D:/BuProjects/key/daluobo.keystore')
+            storePassword 'ap0906118'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

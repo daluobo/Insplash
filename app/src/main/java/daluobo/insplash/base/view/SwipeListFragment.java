@@ -19,8 +19,7 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
     @BindView(R.id.list_view)
     RecyclerView mListView;
     @BindView(R.id.swipe_layout)
-    SwipeRefreshLayout mSwipeLayout;
-
+    protected SwipeRefreshLayout mSwipeLayout;
 
     protected LinearLayoutManager mLayoutManager;
 
@@ -39,8 +38,19 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
     }
 
     @Override
-    public void onHideLoading() {
+    public void onShowRefresh() {
+        mSwipeLayout.setProgressViewOffset(false, 0, 52);
+        mSwipeLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void onHideRefresh() {
         mSwipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onHideLoading() {
+
     }
 
     @Override

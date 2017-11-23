@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public abstract class BaseRecyclerAdapter<D, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V>{
-    protected List<D> mData = new ArrayList<>();
+    final List<D> mData = new ArrayList<>();
 
     @Override
     public void onBindViewHolder(V holder, int position) {
@@ -27,12 +27,20 @@ public abstract class BaseRecyclerAdapter<D, V extends RecyclerView.ViewHolder> 
         return LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
     }
 
+    protected D getItem(int position){
+        return mData.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
-    protected D getItem(int position){
-        return mData.get(position);
+    public void addItem(D item) {
+        mData.add(item); // 需要自己通知更新
+    }
+
+    public void addItems(List<D> items) {
+        mData.addAll(items); // 需要自己通知更新
     }
 }

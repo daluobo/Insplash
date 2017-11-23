@@ -30,6 +30,8 @@ public abstract class ResourceObserver<T extends Resource<D>, D > implements Obs
                 onLoading();
                 break;
         }
+
+        onFinal();
     }
 
     protected abstract void onSuccess(D d);
@@ -38,7 +40,7 @@ public abstract class ResourceObserver<T extends Resource<D>, D > implements Obs
         ToastUtil.showShort(mContext, msg);
     }
 
-    protected void onLoading() {
+    protected void onLoading() {}
 
-    }
+    protected void onFinal() {}
 }

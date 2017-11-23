@@ -5,6 +5,10 @@ package daluobo.insplash.base.view;
  */
 
 public interface LoadingView {
+    void onShowRefresh();
+
+    void onHideRefresh();
+
     void onHideLoading();
 
     void onShowLoading();

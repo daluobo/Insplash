@@ -14,7 +14,6 @@ import daluobo.insplash.repository.PhotoRepository;
  */
 
 public class PhotoViewModel extends ViewModel{
-    private LiveData<Resource<List<Photo>>> mPhotos;
     protected PhotoRepository mRepository;
 
     public PhotoViewModel(){
@@ -22,11 +21,6 @@ public class PhotoViewModel extends ViewModel{
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(int page, String order_by) {
-        if (this.mPhotos != null) {
-            return mPhotos;
-        } else {
-            mPhotos = mRepository.getPhotos(page, order_by);
-        }
-        return mPhotos;
+        return mRepository.getPhotos(page, order_by);
     }
 }

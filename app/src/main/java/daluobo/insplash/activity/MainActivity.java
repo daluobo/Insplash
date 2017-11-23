@@ -75,6 +75,12 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    protected void onStart() {
+        super.onStart();
+
+        mFragmentHeapPresenter.addFragment(PhotosFragment.newInstance(), R.id.navigation_photos+"");
+    }
+
     @Override
     public void initData() {
         mFragmentManager = getSupportFragmentManager();

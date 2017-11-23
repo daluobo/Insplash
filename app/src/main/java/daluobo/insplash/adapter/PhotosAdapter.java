@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,9 +26,8 @@ import daluobo.insplash.model.Photo;
 public class PhotosAdapter extends BaseRecyclerAdapter<Photo, PhotosAdapter.ViewHolder> {
     Context mContext;
 
-    public PhotosAdapter(Context context, List<Photo> data) {
+    public PhotosAdapter(Context context) {
         this.mContext = context;
-        super.mData = data;
     }
 
     @Override
@@ -56,10 +53,8 @@ public class PhotosAdapter extends BaseRecyclerAdapter<Photo, PhotosAdapter.View
         lp.height = lp.width * item.height /item.width;
         holder.mPhoto.setLayoutParams(lp);
 
-        holder.mPhoto.setImageDrawable(new ColorDrawable(Color.parseColor(item.color)));
-
         ImgHelper.loadImg(mContext, holder.mProfileImage, item.user.profile_image.small);
-        ImgHelper.loadImg(mContext, holder.mPhoto, item.urls.small);
+        ImgHelper.loadImg(mContext, holder.mPhoto, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
     }
 
     @Override
