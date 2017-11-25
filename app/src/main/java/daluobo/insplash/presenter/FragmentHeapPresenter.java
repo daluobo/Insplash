@@ -51,6 +51,7 @@ public class FragmentHeapPresenter {
             transaction.show(newF).commit();
         } else {
             Fragment oldF = getFragment(mTopId);
+
             transaction.hide(oldF)
                     .show(newF)
                     .commit();

@@ -12,23 +12,29 @@ import java.util.List;
  * Created by daluobo on 2017/6/8.
  */
 
-public abstract class BaseRecyclerAdapter<D, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V>{
+public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     final List<D> mData = new ArrayList<>();
 
     @Override
-    public void onBindViewHolder(V holder, int position) {
+    public void onBindViewHolder(VH holder, int position) {
         final D item = getItem(position);
-        bindDataToItemView(holder,item, position);
+        if (item != null) {
+            bindDataToItemView(holder, item, position);
+        }
     }
 
-    protected abstract void bindDataToItemView(V holder, D item, int position);
+    protected abstract void bindDataToItemView(VH holder, D item, int position);
 
-    protected View inflateItemView(ViewGroup viewGroup, int layoutId){
+    protected View inflateItemView(ViewGroup viewGroup, int layoutId) {
         return LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
     }
 
-    protected D getItem(int position){
-        return mData.get(position);
+    protected D getItem(int position) {
+        if (position < mData.size()) {
+            return mData.get(position);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -42,5 +48,9 @@ public abstract class BaseRecyclerAdapter<D, V extends RecyclerView.ViewHolder> 
 
     public void addItems(List<D> items) {
         mData.addAll(items); // 需要自己通知更新
+    }
+
+    public void clearItems(){
+        mData.clear();
     }
 }

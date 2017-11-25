@@ -9,15 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class BaseActivity extends AppCompatActivity implements IContentView{
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        initData();
-        initView();
-        initContent();
-    }
-
-    @Override
     public void initContent() {
 
     }

@@ -12,19 +12,9 @@ public abstract class BaseFragment extends Fragment implements IContentView{
     protected Unbinder mUnbinder;
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        initData();
-        initView();
-        initContent();
-    }
-
-    @Override
     public void initContent() {
 
     }
-
 
     @Override
     public void onDestroyView() {

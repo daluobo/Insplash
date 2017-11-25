@@ -22,6 +22,7 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
     protected SwipeRefreshLayout mSwipeLayout;
 
     protected LinearLayoutManager mLayoutManager;
+    protected OnScrollUpListener mOnScrollUpListener;
 
     @CallSuper
     public void initListView(@NonNull RecyclerView.Adapter adapter) {
@@ -35,6 +36,15 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(mLayoutManager);
         mListView.setAdapter(adapter);
+
+        mOnScrollUpListener = new OnScrollUpListener(mSwipeLayout, mLayoutManager) {
+            @Override
+            public void onScrollUp() {
+                onLoadMore();
+            }
+        };
+
+        mListView.addOnScrollListener(mOnScrollUpListener);
     }
 
     @Override
@@ -50,11 +60,13 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
 
     @Override
     public void onHideLoading() {
-
+        ((FooterAdapter) mListView.getAdapter()).setShowFooter(false);
     }
 
     @Override
     public void onShowLoading() {
-
+        mListView.smoothScrollToPosition(mListView.getAdapter().getItemCount() - 1);
     }
+
+    public abstract void onLoadMore();
 }

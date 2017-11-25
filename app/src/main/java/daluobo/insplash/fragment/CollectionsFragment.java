@@ -29,6 +29,8 @@ public class CollectionsFragment extends BaseFragment{
         View view = inflater.inflate(R.layout.holder_empty, container, false);
         ButterKnife.bind(this, view);
 
+        initData();
+        initView();
         return view;
     }
 

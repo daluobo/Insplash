@@ -31,6 +31,9 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        initData();
+        initView();
     }
 
     @Override
@@ -70,8 +73,6 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.login_btn)
     public void onViewClicked() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstant.getLoginUrl())));
-        finish();
     }
-
 
 }

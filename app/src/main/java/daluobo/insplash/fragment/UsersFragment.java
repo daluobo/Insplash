@@ -41,8 +41,6 @@ public class UsersFragment extends BaseFragment {
     TextView mTotalCollections;
     @BindView(R.id.location)
     TextView mLocation;
-    @BindView(R.id.show_more_info)
-    ImageView mShowMoreInfo;
     @BindView(R.id.email)
     TextView mEmail;
     @BindView(R.id.bio)
@@ -68,6 +66,8 @@ public class UsersFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        initData();
+        initView();
         return view;
     }
 
@@ -98,19 +98,30 @@ public class UsersFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.avatar, R.id.show_more_info})
+    @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.btn_setting, R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar:
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 break;
-            case R.id.show_more_info:
+            case R.id.user_info_container:
+                break;
+            case R.id.show_more_info_container:
                 if (mExtraInfoContainer.getVisibility() == View.VISIBLE) {
                     mExtraInfoContainer.setVisibility(View.GONE);
                 } else {
                     mExtraInfoContainer.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.btn_setting:
+                break;
+            case R.id.total_photos_container:
+                break;
+            case R.id.total_collections_container:
+                break;
+            case R.id.total_likes_container:
+                break;
         }
     }
+
 }

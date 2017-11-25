@@ -6,11 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.fragment.CollectionsFragment;
@@ -30,7 +34,8 @@ public class MainActivity extends BaseActivity {
     protected FragmentManager mFragmentManager;
     protected FragmentHeapPresenter mFragmentHeapPresenter;
     TopSearchBehavior mTopSearchBehavior;
-
+    @BindView(R.id.search_key)
+    EditText mSearchKey;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,12 +78,9 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-    }
 
-    protected void onStart() {
-        super.onStart();
-
-        mFragmentHeapPresenter.addFragment(PhotosFragment.newInstance(), R.id.navigation_photos+"");
+        initData();
+        initView();
     }
 
     @Override
@@ -91,8 +93,17 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
+        mFragmentHeapPresenter.addFragment(PhotosFragment.newInstance(), R.id.navigation_photos + "");
     }
 
+    @OnClick({R.id.btn_filter, R.id.btn_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_filter:
+                break;
+            case R.id.btn_search:
+                Log.e("mSearchContainer", mSearchContainer.getY() + mSearchContainer.getHeight() + "");
+                break;
+        }
+    }
 }
