@@ -30,12 +30,13 @@ public class MainActivity extends BaseActivity {
     BottomNavigationView mNavigation;
     @BindView(R.id.search_container)
     CardView mSearchContainer;
+    @BindView(R.id.search_key)
+    EditText mSearchKey;
+
 
     protected FragmentManager mFragmentManager;
     protected FragmentHeapPresenter mFragmentHeapPresenter;
     TopSearchBehavior mTopSearchBehavior;
-    @BindView(R.id.search_key)
-    EditText mSearchKey;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -25,10 +25,6 @@ public class PhotosFragment extends SwipeListFragment {
     protected PhotoViewModel mViewModel;
     protected PhotosAdapter mAdapter;
 
-    protected int mPage = 1;
-    protected String mOrderBy = "latest";
-
-
     public PhotosFragment() {
     }
 
@@ -63,9 +59,7 @@ public class PhotosFragment extends SwipeListFragment {
 
     @Override
     public void onRefresh() {
-        mPage = 1;
-
-        mViewModel.getPhotos(mPage, mOrderBy).observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
+        mViewModel.refresh().observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
 
             @Override
             protected void onSuccess(List<Photo> photos) {
@@ -73,7 +67,7 @@ public class PhotosFragment extends SwipeListFragment {
                 mAdapter.addItems(photos);
                 mAdapter.notifyDataSetChanged();
 
-                mPage++;
+                mViewModel.onPageLoaded();
             }
 
             @Override
@@ -82,22 +76,19 @@ public class PhotosFragment extends SwipeListFragment {
                 onHideRefresh();
             }
         });
-
     }
 
     @Override
     public void onLoadMore() {
-        mViewModel.getPhotos(mPage, mOrderBy).observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
+        mViewModel.load(mViewModel.getPage()).observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
 
             @Override
             protected void onSuccess(List<Photo> photos) {
                 mAdapter.addItems(photos);
                 mAdapter.notifyDataSetChanged();
 
-                mPage++;
+                mViewModel.onPageLoaded();
             }
         });
     }
-
-
 }

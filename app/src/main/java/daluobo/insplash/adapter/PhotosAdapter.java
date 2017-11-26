@@ -54,7 +54,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         } else {
             holder.mLikeIcon.setImageDrawable(holder.mIcFavoriteBorder);
         }
-        holder.mLikes.setText(item.likes);
+        holder.mLikes.setText(item.likes + "");
 
         holder.mUsername.setText(item.user.name);
 

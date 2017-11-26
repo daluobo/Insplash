@@ -2,7 +2,10 @@ package daluobo.insplash.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
@@ -13,14 +16,68 @@ import daluobo.insplash.repository.PhotoRepository;
  * Created by daluobo on 2017/11/12.
  */
 
-public class PhotoViewModel extends ViewModel{
+public class PhotoViewModel extends ViewModel {
     protected PhotoRepository mRepository;
 
-    public PhotoViewModel(){
+    @PhotoType
+    private int mType = PhotoType.NEW;
+    private int mPage = 1;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({PhotoViewModel.PhotoType.NEW, PhotoViewModel.PhotoType.CURATED})
+    public @interface PhotoType {
+        int NEW = 0;
+        int CURATED = 1;
+    }
+
+    public PhotoViewModel() {
         mRepository = new PhotoRepository();
     }
 
-    public LiveData<Resource<List<Photo>>> getPhotos(int page, String order_by) {
-        return mRepository.getPhotos(page, order_by);
+    public LiveData<Resource<List<Photo>>> getPhotos(int page) {
+        return mRepository.getPhotos(page);
+    }
+
+    public LiveData<Resource<List<Photo>>> getCurated(int page) {
+        return mRepository.getCurated(page);
+    }
+
+    public LiveData<Resource<Photo>> getPhoto(String id) {
+        return mRepository.getPhoto(id);
+    }
+
+    public LiveData<Resource<List<Photo>>> refresh() {
+        mPage = 1;
+
+        return load(mPage);
+    }
+
+    public LiveData<Resource<List<Photo>>> load(int page) {
+        if (mType == PhotoType.NEW) {
+            return mRepository.getPhotos(page);
+        } else {
+            return mRepository.getCurated(page);
+        }
+    }
+
+    public int getType() {
+        return mType;
+    }
+
+    public void setType(int type) {
+        mType = type;
+        mPage = 1;
+    }
+
+    public int getPage() {
+        return mPage;
+    }
+
+    public void setPage(int page) {
+        mPage = page;
+    }
+
+    public void onPageLoaded() {
+        mPage++;
     }
 }

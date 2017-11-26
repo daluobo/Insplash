@@ -33,16 +33,15 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({ScrollDirection.SCROLL_DIRECTION_UP, ScrollDirection.SCROLL_DIRECTION_DOWN})
+    @IntDef({ScrollDirection.SCROLL_DIRECTION_UP, ScrollDirection.SCROLL_DIRECTION_DOWN, ScrollDirection.SCROLL_NONE})
     public @interface ScrollDirection {
         int SCROLL_DIRECTION_UP = 1;
-        int SCROLL_DIRECTION_DOWN = -1;
         int SCROLL_NONE = 0;
+        int SCROLL_DIRECTION_DOWN = -1;
     }
 
-
     /*
-       @return Overscroll direction: SCROLL_DIRECTION_UP, CROLL_DIRECTION_DOWN, SCROLL_NONE
+       @return Overscroll direction: NEW, CROLL_DIRECTION_DOWN, SCROLL_NONE
    */
     @ScrollDirection
     public int getOverScrollDirection() {
@@ -51,7 +50,7 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
 
 
     /**
-     * @return Scroll direction: SCROLL_DIRECTION_UP, SCROLL_DIRECTION_DOWN, SCROLL_NONE
+     * @return Scroll direction: NEW, SCROLL_DIRECTION_DOWN, SCROLL_NONE
      */
 
     @ScrollDirection
@@ -63,14 +62,14 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
     /**
      * @param coordinatorLayout
      * @param child
-     * @param direction         Direction of the overscroll: SCROLL_DIRECTION_UP, SCROLL_DIRECTION_DOWN
+     * @param direction         Direction of the overscroll: NEW, SCROLL_DIRECTION_DOWN
      * @param currentOverScroll Unconsumed value, negative or positive based on the direction;
      * @param totalOverScroll   Cumulative value for current direction
      */
     public abstract void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout, V child, @ScrollDirection int direction, int currentOverScroll, int totalOverScroll);
 
     /**
-     * @param scrollDirection Direction of the overscroll: SCROLL_DIRECTION_UP, SCROLL_DIRECTION_DOWN
+     * @param scrollDirection Direction of the overscroll: NEW, SCROLL_DIRECTION_DOWN
      */
     public abstract void onDirectionNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed, @ScrollDirection int scrollDirection);
 

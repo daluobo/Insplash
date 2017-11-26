@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_email"
+                android:drawableLeft="@drawable/ic_email"
                 android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
                 tools:text="email"/>
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_blog"
+                android:drawableLeft="@drawable/ic_blog"
                 android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
                 tools:text="bio"/>
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_twitter"
+                android:drawableLeft="@drawable/ic_twitter"
                 android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
                 tools:text="twitter_username"/>
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_instagram"
+                android:drawableLeft="@drawable/ic_instagram"
                 android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
                 tools:text="instagram_username"/>
