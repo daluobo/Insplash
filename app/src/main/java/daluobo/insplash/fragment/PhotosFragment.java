@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -33,6 +34,12 @@ public class PhotosFragment extends SwipeListFragment {
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +61,8 @@ public class PhotosFragment extends SwipeListFragment {
     public void initView() {
         super.initListView(mAdapter);
 
-        mSwipeLayout.setProgressViewOffset(true, 160, 260);
+        onShowRefresh();
+        onRefresh();
     }
 
     @Override
@@ -89,6 +97,13 @@ public class PhotosFragment extends SwipeListFragment {
 
                 mViewModel.onPageLoaded();
             }
+
+            @Override
+            protected void onFinal() {
+                super.onFinal();
+                mOnScrollUpListener.setLoading(false);
+            }
         });
     }
+
 }

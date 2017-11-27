@@ -159,7 +159,7 @@
                     tools:text="location"/>
 
                 <TextView
-                    android:id="@+id/created_at"
+                    android:id="@+id/time"
                     style="@style/InfoText"
                     android:drawableLeft="@drawable/ic_time"
                     android:drawablePadding="16dp"
@@ -298,19 +298,44 @@
                 <TextView
                     android:id="@+id/size"
                     style="@style/InfoText"
-                    android:drawableLeft="@drawable/ic_zoom"
+                    android:drawableLeft="@drawable/ic_straighten"
                     android:drawablePadding="16dp"
                     android:drawableTint="@color/colorPrimary"
                     tools:text="size x size"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/color"
+                        style="@style/InfoText"
+                        android:layout_width="wrap_content"
+                        android:drawableLeft="@drawable/ic_palette"
+                        android:drawablePadding="16dp"
+                        android:drawableTint="@color/colorPrimary"
+                        tools:text="color"/>
+
+                    <ImageView
+                        android:id="@+id/color_hint"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"/>
+                </LinearLayout>
+
+
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/user_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
                 android:background="@color/colorWhite"
                 android:foreground="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
@@ -320,25 +345,22 @@
                     android:id="@+id/user_avatar"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_centerVertical="true"
                     tools:src="@drawable/ic_account_box"
                     tools:tint="@color/colorPrimary"/>
-
 
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/user_avatar"
                     android:drawableRight="@drawable/ic_person_outline"
                     android:drawableTint="@color/colorPrimary"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     tools:text="username"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <LinearLayout

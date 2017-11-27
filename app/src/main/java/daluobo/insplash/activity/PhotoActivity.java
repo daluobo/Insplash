@@ -2,7 +2,6 @@ package daluobo.insplash.activity;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,11 +29,6 @@ public class PhotoActivity extends BaseActivity {
     public static final String ARG_PHOTO = "photo";
     protected Photo mPhoto;
     protected PhotoViewModel mViewModel;
-
-    @BindDrawable(R.drawable.ic_arrow_up)
-    Drawable mIcArrowUp;
-    @BindDrawable(R.drawable.ic_arrow_down)
-    Drawable mIcArrowDown;
 
     @BindView(R.id.photo_view)
     ImageView mPhotoView;
@@ -85,14 +78,26 @@ public class PhotoActivity extends BaseActivity {
     TextView mLabelFocalLength;
     @BindView(R.id.label_iso)
     TextView mLabelIso;
-    @BindView(R.id.created_at)
-    TextView mCreatedAt;
+    @BindView(R.id.time)
+    TextView mTime;
     @BindView(R.id.like_count)
     TextView mLikeCount;
     @BindView(R.id.views_count)
     TextView mViewsCount;
     @BindView(R.id.download_count)
     TextView mDownloadCount;
+    @BindView(R.id.color)
+    TextView mColor;
+    @BindView(R.id.user_container)
+    LinearLayout mUserContainer;
+    @BindView(R.id.collect_hint)
+    TextView mCollectHint;
+    @BindView(R.id.collect_icon)
+    ImageView mCollectIcon;
+    @BindView(R.id.collect_container)
+    LinearLayout mCollectContainer;
+    @BindView(R.id.color_hint)
+    ImageView mColorHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,18 +123,26 @@ public class PhotoActivity extends BaseActivity {
         lp.height = lp.width * mPhoto.height / mPhoto.width;
         mPhotoView.setLayoutParams(lp);
 
-        ColorDrawable bg = new ColorDrawable(Color.parseColor(mPhoto.color));
+        ColorDrawable photoColor = new ColorDrawable(Color.parseColor(mPhoto.color));
         //mAppBar.setBackground(bg);
 
-        ImgHelper.loadImg(this, mPhotoView, bg, mPhoto.urls.small);
+        ImgHelper.loadImg(this, mPhotoView, photoColor, mPhoto.urls.small);
 
         mLikeCount.setText(mPhoto.likes + "");
 
-        mCreatedAt.setText(DateUtil.GmtFormat(mPhoto.created_at));
+        String time;
+        if (mPhoto.created_at !=null) {
+            time = DateUtil.GmtFormat(mPhoto.created_at);
+        }else {
+            time = DateUtil.GmtFormat(mPhoto.updated_at);
+        }
+        mTime.setText(time);
         mSize.setText(mPhoto.width + " x " + mPhoto.height);
 
         ImgHelper.loadImg(PhotoActivity.this, mUserAvatar, mPhoto.user.profile_image.medium);
         mUsername.setText(mPhoto.user.username);
+        mColor.setText(mPhoto.color);
+        mColorHint.setImageDrawable(photoColor);
 
         mViewModel.getPhoto(mPhoto.id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
@@ -157,7 +170,7 @@ public class PhotoActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.like_container, R.id.mark_container, R.id.download_container, R.id.show_exif_btn,R.id.collect_container,R.id.user_container})
+    @OnClick({R.id.like_container, R.id.mark_container, R.id.download_container, R.id.show_exif_btn, R.id.collect_container, R.id.user_container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_container:
@@ -169,11 +182,12 @@ public class PhotoActivity extends BaseActivity {
             case R.id.show_exif_btn:
                 if (mExifContainer.getVisibility() == View.VISIBLE) {
                     mExifContainer.setVisibility(View.GONE);
-                    mExifContainerHint.setImageDrawable(mIcArrowDown);
+                    mExifContainerHint.animate().rotation(0);
                 } else {
                     mExifContainer.setVisibility(View.VISIBLE);
-                    mExifContainerHint.setImageDrawable(mIcArrowUp);
+                    mExifContainerHint.animate().rotation(180);
                 }
+
                 break;
             case R.id.user_container:
                 break;

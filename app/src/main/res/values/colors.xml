@@ -9,8 +9,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
+    <color name="colorText">#646464</color>
     <color name="colorIcon">#646464</color>
-    <color name="colorText">#D8D8D8</color>
+    <color name="colorHint">#D8D8D8</color>
     <color name="colorBg">#FAFAFA</color>
 
     <color name="black_overlay">#66000000</color>

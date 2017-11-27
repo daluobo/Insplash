@@ -19,10 +19,11 @@ public class DateUtil {
         String str = "";
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date date = sd.parse(s);
             str = sdf.format(date);
         } catch (Exception e) {
+            e.printStackTrace();
             return str;
         }
         return str;

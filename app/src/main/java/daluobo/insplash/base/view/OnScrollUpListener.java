@@ -16,25 +16,13 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
     protected SwipeRefreshLayout mSwipeLayout;
 
     protected boolean mIsScrollDown = false;
+    protected boolean mIsLoading = false;
     protected int mLastVisibleItem;
 
     public OnScrollUpListener(SwipeRefreshLayout swipeLayout,
             LinearLayoutManager linearLayoutManager) {
         this.mLayoutManager = linearLayoutManager;
         this.mSwipeLayout = swipeLayout;
-    }
-
-    @Override
-    public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
-
-        if (newState == RecyclerView.SCROLL_STATE_IDLE && mIsScrollDown && mLastVisibleItem + 1 == mLayoutManager.getItemCount()) {
-            if (mSwipeLayout.isRefreshing()) {
-                Log.d(TAG, "加载中,忽略操作");
-                return;
-            }
-            onScrollUp();
-        }
     }
 
     @Override
@@ -53,6 +41,28 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
                 (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
         mSwipeLayout.setEnabled(topRowVerticalPosition >= 0);
 
+    }
+
+    @Override
+    public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+
+        if (newState == RecyclerView.SCROLL_STATE_IDLE && mIsScrollDown && mLastVisibleItem + 1 == mLayoutManager.getItemCount()) {
+            if (mSwipeLayout.isRefreshing() || mIsLoading) {
+                Log.d(TAG, "加载中,忽略操作");
+                return;
+            }
+            mIsLoading = true;
+            onScrollUp();
+        }
+    }
+
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        mIsLoading = loading;
     }
 
     public abstract void onScrollUp();

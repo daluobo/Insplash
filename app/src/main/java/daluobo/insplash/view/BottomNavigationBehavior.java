@@ -132,7 +132,6 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
         mOffsetValueAnimator.translationY(offset).start();
     }
 
-
     private void ensureOrCancelAnimator(V child) {
         if (mOffsetValueAnimator == null) {
             mOffsetValueAnimator = ViewCompat.animate(child);

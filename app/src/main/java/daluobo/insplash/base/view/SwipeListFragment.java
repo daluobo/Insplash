@@ -17,7 +17,7 @@ import daluobo.insplash.R;
 public abstract class SwipeListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, LoadingView {
 
     @BindView(R.id.list_view)
-    RecyclerView mListView;
+    protected RecyclerView mListView;
     @BindView(R.id.swipe_layout)
     protected SwipeRefreshLayout mSwipeLayout;
 

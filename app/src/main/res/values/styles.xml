@@ -25,6 +25,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="Widget.Design.AppBarLayout" parent="android:Widget">
+        <item name="elevation">0dp</item>
+    </style>
+
     <style name="InfoText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
