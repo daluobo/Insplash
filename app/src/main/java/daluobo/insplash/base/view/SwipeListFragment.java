@@ -40,7 +40,7 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         mOnScrollUpListener = new OnScrollUpListener(mSwipeLayout, mLayoutManager) {
             @Override
             public void onScrollUp() {
-                onLoadMore();
+                onLoad();
             }
         };
 
@@ -68,5 +68,5 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         mListView.smoothScrollToPosition(mListView.getAdapter().getItemCount() - 1);
     }
 
-    public abstract void onLoadMore();
+    public abstract void onLoad();
 }

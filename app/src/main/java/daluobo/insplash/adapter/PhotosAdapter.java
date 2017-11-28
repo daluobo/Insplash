@@ -5,18 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.MainActivity;
 import daluobo.insplash.activity.PhotoActivity;
@@ -31,6 +29,12 @@ import daluobo.insplash.model.Photo;
 
 public class PhotosAdapter extends FooterAdapter<Photo> {
     private Context mContext;
+
+    public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
+        mOnLikeClickListener = onLikeClickListener;
+    }
+
+    private OnLikeClickListener mOnLikeClickListener;
 
     public PhotosAdapter(Context context) {
         this.mContext = context;
@@ -50,9 +54,11 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
 
         if (item.liked_by_user) {
-            holder.mLikeIcon.setImageDrawable(holder.mIcFavorite);
+            holder.mLikeIcon.setVisibility(View.VISIBLE);
+            holder.mLikeIcon.animate().scaleX(1).scaleY(1).alpha(1).start();
         } else {
-            holder.mLikeIcon.setImageDrawable(holder.mIcFavoriteBorder);
+            holder.mLikeIcon.setVisibility(View.INVISIBLE);
+            holder.mLikeIcon.animate().scaleX(0).scaleY(0).alpha(0).start();
         }
         holder.mLikes.setText(item.likes + "");
 
@@ -72,8 +78,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         return new ViewHolder(inflateItemView(parent, R.layout.item_photo));
     }
 
-    @OnClick(R.id.container)
-    public void onViewClicked() {
+    public interface OnLikeClickListener {
+        void OnLikeClick(ImageView imageView, Photo photo);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -91,11 +97,10 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         ImageView mLikeIcon;
         @BindView(R.id.likes)
         TextView mLikes;
-
-        @BindDrawable(R.drawable.ic_favorite_border)
-        Drawable mIcFavoriteBorder;
-        @BindDrawable(R.drawable.ic_favorite)
-        Drawable mIcFavorite;
+        @BindView(R.id.un_like_icon)
+        ImageView mUnLikeIcon;
+        @BindView(R.id.like_container)
+        RelativeLayout mLikeContainer;
 
         Photo mPhoto;
 
@@ -104,6 +109,12 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             ButterKnife.bind(this, itemView);
 
             mContainer.setOnClickListener(this);
+            mLikeContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnLikeClickListener.OnLikeClick(mLikeIcon, mPhoto);
+                }
+            });
         }
 
         @Override

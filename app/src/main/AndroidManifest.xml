@@ -46,6 +46,8 @@
             android:label="@string/title_activity_photo"
             android:theme="@style/AppTheme.FullScreen">
         </activity>
+        <activity android:name=".test.TestActivity">
+        </activity>
     </application>
 
 </manifest>

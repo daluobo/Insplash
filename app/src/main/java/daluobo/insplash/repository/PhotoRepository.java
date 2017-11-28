@@ -10,7 +10,7 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
-import daluobo.insplash.net.api.PhotoApi;
+import daluobo.insplash.net.api.PhotosApi;
 
 /**
  * Created by daluobo on 2017/11/12.
@@ -18,10 +18,10 @@ import daluobo.insplash.net.api.PhotoApi;
 
 public class PhotoRepository {
 
-    private PhotoApi mPhotoService;
+    private PhotosApi mPhotoService;
 
     public PhotoRepository() {
-        mPhotoService = RetrofitHelper.buildApi().create(PhotoApi.class);
+        mPhotoService = RetrofitHelper.buildApi().create(PhotosApi.class);
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(final int page) {
@@ -60,6 +60,36 @@ public class PhotoRepository {
             @Override
             protected LiveData<ApiResponse<Photo>> createCall() {
                 return mPhotoService.photo(id);
+            }
+
+            @Override
+            protected Photo convertResult(@NonNull Photo item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Photo>> unlike(final String id) {
+        return new NetworkResource<Photo, Photo>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Photo>> createCall() {
+                return mPhotoService.unlike(id);
+            }
+
+            @Override
+            protected Photo convertResult(@NonNull Photo item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Photo>> like(final String id) {
+        return new NetworkResource<Photo, Photo>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Photo>> createCall() {
+                return mPhotoService.like(id);
             }
 
             @Override

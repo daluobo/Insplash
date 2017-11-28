@@ -20,13 +20,13 @@ public class PhotoViewModel extends ViewModel {
     protected PhotoRepository mRepository;
 
     @PhotoType
-    private int mType = PhotoType.NEW;
+    private int mType = PhotoType.ALL;
     private int mPage = 1;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({PhotoViewModel.PhotoType.NEW, PhotoViewModel.PhotoType.CURATED})
+    @IntDef({PhotoViewModel.PhotoType.ALL, PhotoViewModel.PhotoType.CURATED})
     public @interface PhotoType {
-        int NEW = 0;
+        int ALL = 0;
         int CURATED = 1;
     }
 
@@ -49,14 +49,22 @@ public class PhotoViewModel extends ViewModel {
     public LiveData<Resource<List<Photo>>> refresh() {
         mPage = 1;
 
-        return load(mPage);
+        return loadPage(mPage);
     }
 
-    public LiveData<Resource<List<Photo>>> load(int page) {
-        if (mType == PhotoType.NEW) {
+    public LiveData<Resource<List<Photo>>> loadPage(int page) {
+        if (mType == PhotoType.ALL) {
             return mRepository.getPhotos(page);
         } else {
             return mRepository.getCurated(page);
+        }
+    }
+
+    public LiveData<Resource<Photo>> likePhoto(Photo photo) {
+        if(photo.liked_by_user){
+           return mRepository.unlike(photo.id);
+        }else {
+            return mRepository.like(photo.id);
         }
     }
 
