@@ -26,7 +26,7 @@ public abstract class BasePageViewModel<T> extends ViewModel{
 
     public abstract LiveData<Resource<List<T>>> loadPage(int page);
 
-    public void onPageLoaded() {
+    public void onPageLoad() {
         mPage++;
     }
 

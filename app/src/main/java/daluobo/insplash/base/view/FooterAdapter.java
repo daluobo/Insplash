@@ -59,6 +59,8 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
     public int getItemCount() {
         if (mData.size() > 0 && isShowFooter) {
             return mData.size() + 1;
+        } else if (mData.size() < 10) {
+            return mData.size();
         } else {
             return mData.size();
         }

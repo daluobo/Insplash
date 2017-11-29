@@ -1,6 +1,5 @@
 package daluobo.insplash.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.test.TestActivity;
-import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -37,12 +35,6 @@ public class PhotosFragment extends SwipeListFragment {
     public static PhotosFragment newInstance() {
         PhotosFragment fragment = new PhotosFragment();
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
     }
 
     @Nullable
@@ -63,22 +55,7 @@ public class PhotosFragment extends SwipeListFragment {
         mAdapter.setOnLikeClickListener(new PhotosAdapter.OnLikeClickListener() {
             @Override
             public void OnLikeClick(final ImageView imageView, final Photo photo) {
-                mViewModel.likePhoto(photo).observe(PhotosFragment.this, new ResourceObserver<Resource<Photo>, Photo>(getContext()) {
-                    @Override
-                    protected void onSuccess(Photo newPhoto) {
-                        photo.liked_by_user = newPhoto.liked_by_user;
 
-                        if (newPhoto.liked_by_user) {
-                            ToastUtil.showShort(getContext(), "like" + newPhoto.liked_by_user);
-
-                        } else {
-
-                            ToastUtil.showShort(getContext(), "unlike" + newPhoto.liked_by_user);
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
             }
         });
     }
@@ -114,7 +91,7 @@ public class PhotosFragment extends SwipeListFragment {
 
     @Override
     public void onLoad() {
-        mViewModel.loadPage(mViewModel.getPage()).observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
+        mViewModel.load(mViewModel.getPage()).observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
 
             @Override
             protected void onSuccess(List<Photo> photos) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.Photo;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -27,4 +28,7 @@ public interface CollectionsApi {
 
     @GET("/collections/{id}")
     LiveData<ApiResponse<Collection>> collection(@Path("id") String id);
+
+    @GET("/collections/{id}/photos")
+    LiveData<ApiResponse<List<Photo>>> photos(@Path("id") String id, @Query("page") int page);
 }

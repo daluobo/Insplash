@@ -49,10 +49,10 @@ public class PhotoViewModel extends ViewModel {
     public LiveData<Resource<List<Photo>>> refresh() {
         mPage = 1;
 
-        return loadPage(mPage);
+        return load(mPage);
     }
 
-    public LiveData<Resource<List<Photo>>> loadPage(int page) {
+    public LiveData<Resource<List<Photo>>> load(int page) {
         if (mType == PhotoType.ALL) {
             return mRepository.getPhotos(page);
         } else {

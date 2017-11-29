@@ -9,6 +9,7 @@ import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.Photo;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.CollectionsApi;
 
@@ -78,6 +79,21 @@ public class CollectionsRepository {
 
             @Override
             protected Collection convertResult(@NonNull Collection item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Photo>>> loadPhotoPage(final String collectionId, final int page) {
+        return new NetworkResource<List<Photo>, List<Photo>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Photo>>> createCall() {
+                return mCollectsService.photos(collectionId, page);
+            }
+
+            @Override
+            protected List<Photo> convertResult(@NonNull List<Photo> item) {
                 return item;
             }
         }.getAsLiveData();

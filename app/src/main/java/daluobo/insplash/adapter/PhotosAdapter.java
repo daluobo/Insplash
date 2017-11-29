@@ -1,5 +1,6 @@
 package daluobo.insplash.adapter;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.activity.MainActivity;
 import daluobo.insplash.activity.PhotoActivity;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ImgHelper;
@@ -121,7 +121,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         public void onClick(View v) {
             Intent intent = new Intent(mContext, PhotoActivity.class);
             intent.putExtra(PhotoActivity.ARG_PHOTO, mPhoto);
-            mContext.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((MainActivity) mContext, mPhotoView, "transitionImg").toBundle());
+            mContext.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, mPhotoView, "transitionImg").toBundle());
         }
     }
 }
