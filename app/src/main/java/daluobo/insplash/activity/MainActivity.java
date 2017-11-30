@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity{
     @Override
     public void initView() {
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mFragmentHeapPresenter.addFragment(PhotosFragment.newInstance(), R.id.navigation_photos + "");
     }
 
 }

@@ -48,8 +48,15 @@
         </activity>
         <activity android:name=".test.TestActivity">
         </activity>
-        <activity android:name=".activity.CollectionActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".activity.CollectionActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".test.ScrollingActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 

@@ -5,25 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="daluobo.insplash.activity.CollectionActivity">
+    android:fitsSystemWindows="true"
+    tools:context="daluobo.insplash.test.ScrollingActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:layout_marginBottom="1dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@color/colorPrimary"
                 android:orientation="vertical"
                 android:paddingTop="?attr/actionBarSize"
                 android:paddingBottom="8dp"
@@ -35,10 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                    android:padding="16dp"
                     android:text="description"/>
 
                 <TextView
@@ -46,10 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                    android:padding="16dp"
                     android:text="tags"/>
 
 
@@ -89,7 +85,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorWhite"
+                android:background="@color/colorPrimary"
                 app:layout_collapseMode="pin">
 
                 <TextView
@@ -97,7 +93,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="title"
-                    android:textColor="@color/colorText"
                     android:textSize="18sp"/>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -112,15 +107,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/user_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:background="@color/colorWhite">
+            android:paddingTop="8dp">
 
             <ImageView
                 android:id="@+id/user_avatar"
@@ -131,24 +124,25 @@
 
             <TextView
                 android:id="@+id/username"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:text="username"
-                android:drawableRight="@drawable/ic_arrow_right"
-                android:drawableTint="@color/colorIcon"/>
+                android:text="username"/>
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-        </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/large_text"/>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 

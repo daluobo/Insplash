@@ -28,4 +28,18 @@ public class DateUtil {
         }
         return str;
     }
+
+    public static String GmtFormatDay(String s) {
+        String str = "";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date date = sd.parse(s);
+            str = sdf.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return str;
+        }
+        return str;
+    }
 }

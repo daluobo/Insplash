@@ -21,6 +21,8 @@ import daluobo.insplash.fragment.CollectionPhotoFragment;
 import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.Tag;
+import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
@@ -46,6 +48,14 @@ public class CollectionActivity extends BaseActivity {
     FrameLayout mFragmentContainer;
     @BindView(R.id.username)
     TextView mUsername;
+    @BindView(R.id.tags)
+    TextView mTags;
+    @BindView(R.id.published_at)
+    TextView mPublishedAt;
+    @BindView(R.id.updated_at)
+    TextView mUpdatedAt;
+    @BindView(R.id.title)
+    TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +99,23 @@ public class CollectionActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar.setTitle(mCollection.title);
+        mTitle.setText(mCollection.title);
         if (mCollection.description != null) {
             mDescription.setText(mCollection.description);
             mDescription.setVisibility(View.VISIBLE);
         } else {
             mDescription.setVisibility(View.GONE);
         }
+
+        StringBuffer sb =new StringBuffer();
+        for (Tag tag : mCollection.tags) {
+            sb.append(tag.title+"、 ");
+        }
+        mTags.setText(sb);
+
+        mPublishedAt.setText(DateUtil.GmtFormatDay(mCollection.published_at));
+        mUpdatedAt.setText(DateUtil.GmtFormatDay(mCollection.updated_at));
+
         mUsername.setText(mCollection.user.username);
         ImgHelper.loadImg(this, mUserAvatar, mCollection.user.profile_image.medium);
 
