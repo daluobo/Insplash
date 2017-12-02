@@ -31,6 +31,7 @@ public class Collection implements Parcelable {
     public List<PreviewPhotos> preview_photos;
     public List<String> keywords;
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -40,7 +41,7 @@ public class Collection implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.title);
-        dest.writeString(this.description);
+        dest.writeString(this.description == null ? this.description : this.description.replaceAll(": ", ":"));
         dest.writeString(this.published_at);
         dest.writeString(this.updated_at);
         dest.writeByte(this.curated ? (byte) 1 : (byte) 0);
@@ -62,7 +63,7 @@ public class Collection implements Parcelable {
     protected Collection(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
-        this.description = in.readParcelable(Object.class.getClassLoader());
+        this.description = in.readString();
         this.published_at = in.readString();
         this.updated_at = in.readString();
         this.curated = in.readByte() != 0;

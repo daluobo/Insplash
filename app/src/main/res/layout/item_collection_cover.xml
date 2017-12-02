@@ -19,27 +19,33 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/photo_view"
+            android:id="@+id/cover_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:transitionName="transitionImg"
-            tools:minHeight="240dp"/>
+            tools:layout_height="196dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            tools:text="title"/>
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textSize="12sp"
             tools:text="description"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
@@ -47,7 +53,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="8dp"
-                android:src="@drawable/ic_account_box"/>
+                android:src="@drawable/ic_account_box"
+                tools:tint="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/username"
@@ -60,44 +67,18 @@
                 android:textColor="@color/colorPrimary"
                 tools:text="username"/>
 
-            <RelativeLayout
-                android:id="@+id/like_container"
+            <TextView
+                android:id="@+id/total_photos"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/un_like_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_favorite_border"/>
-
-                <ImageView
-                    android:id="@+id/like_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_favorite"
-                    android:tint="@color/colorPrimary"/>
-
-                <TextView
-                    android:id="@+id/likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/like_icon"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/colorPrimary"
-                    tools:text="likes"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/more"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_more_vert"
-                android:tint="@color/colorPrimary"/>
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ic_folder"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/colorPrimary"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:textColor="@color/colorPrimary"
+                tools:text="0"/>
         </LinearLayout>
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

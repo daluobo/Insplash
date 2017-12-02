@@ -2,12 +2,27 @@
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:background="@color/colorWhite"
     android:navigationIcon="@drawable/ic_menu"
     app:navigationIcon="@drawable/ic_menu">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="24dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="insplsh"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="@color/colorText">
+    </TextView>
 
 </android.support.v7.widget.Toolbar>

@@ -20,7 +20,7 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
     protected int mLastVisibleItem;
 
     public OnScrollUpListener(SwipeRefreshLayout swipeLayout,
-            LinearLayoutManager linearLayoutManager) {
+                              LinearLayoutManager linearLayoutManager) {
         this.mLayoutManager = linearLayoutManager;
         this.mSwipeLayout = swipeLayout;
     }
@@ -47,7 +47,11 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
     public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
 
-        if (newState == RecyclerView.SCROLL_STATE_IDLE && mIsScrollDown && mLastVisibleItem + 1 == mLayoutManager.getItemCount()) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE
+                &&((FooterAdapter) recyclerView.getAdapter()).isShowFooter
+                && mIsScrollDown
+                && mLastVisibleItem + 1 == mLayoutManager.getItemCount()) {
+
             if (mSwipeLayout.isRefreshing() || mIsLoading) {
                 Log.d(TAG, "加载中,忽略操作");
                 return;

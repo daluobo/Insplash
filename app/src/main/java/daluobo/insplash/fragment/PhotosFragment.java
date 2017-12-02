@@ -1,24 +1,23 @@
 package daluobo.insplash.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.model.Photo;
-import daluobo.insplash.test.TestActivity;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -28,6 +27,11 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
 public class PhotosFragment extends SwipeListFragment {
     protected PhotoViewModel mViewModel;
     protected PhotosAdapter mAdapter;
+    protected LayoutInflater mInflater;
+
+    @BindView(R.id.header_container)
+    FrameLayout mHeaderContainer;
+
 
     public PhotosFragment() {
     }
@@ -50,6 +54,8 @@ public class PhotosFragment extends SwipeListFragment {
 
     @Override
     public void initData() {
+        mInflater = LayoutInflater.from(getContext());
+
         mViewModel = new PhotoViewModel();
         mAdapter = new PhotosAdapter(getContext());
         mAdapter.setOnLikeClickListener(new PhotosAdapter.OnLikeClickListener() {
@@ -62,10 +68,11 @@ public class PhotosFragment extends SwipeListFragment {
 
     @Override
     public void initView() {
-        super.initListView(mAdapter);
+        View titleView = mInflater.inflate(R.layout.header_photos, null);
+        mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        onShowRefresh();
-        onRefresh();
+        super.initListView(mAdapter);
     }
 
     @Override
@@ -109,8 +116,6 @@ public class PhotosFragment extends SwipeListFragment {
         });
     }
 
-    @OnClick(R.id.btn_search)
-    public void onViewClicked() {
-        startActivity(new Intent(getContext(), TestActivity.class));
-    }
+
+
 }

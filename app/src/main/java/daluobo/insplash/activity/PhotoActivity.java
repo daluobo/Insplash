@@ -3,8 +3,6 @@ package daluobo.insplash.activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,65 +27,62 @@ public class PhotoActivity extends BaseActivity {
     public static final String ARG_PHOTO = "photo";
     protected Photo mPhoto;
     protected PhotoViewModel mViewModel;
-
     @BindView(R.id.photo_view)
     ImageView mPhotoView;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mToolbarLayout;
-    @BindView(R.id.app_bar)
-    AppBarLayout mAppBar;
+    @BindView(R.id.like_btn)
+    ImageView mLikeBtn;
+    @BindView(R.id.like_count)
+    TextView mLikeCount;
+    @BindView(R.id.like_container)
+    LinearLayout mLikeContainer;
+    @BindView(R.id.views_count)
+    TextView mViewsCount;
+    @BindView(R.id.mark_container)
+    LinearLayout mMarkContainer;
+    @BindView(R.id.download_count)
+    TextView mDownloadCount;
+    @BindView(R.id.download_container)
+    LinearLayout mDownloadContainer;
     @BindView(R.id.description)
     TextView mDescription;
     @BindView(R.id.location)
     TextView mLocation;
+    @BindView(R.id.time)
+    TextView mTime;
     @BindView(R.id.exif_model)
     TextView mExifModel;
-    @BindView(R.id.size)
-    TextView mSize;
-    @BindView(R.id.user_avatar)
-    ImageView mUserAvatar;
-    @BindView(R.id.username)
-    TextView mUsername;
-    @BindView(R.id.exposure_time)
-    TextView mExposureTime;
-    @BindView(R.id.aperture)
-    TextView mAperture;
-    @BindView(R.id.focal_length)
-    TextView mFocalLength;
-    @BindView(R.id.iso)
-    TextView mIso;
-    @BindView(R.id.exif_container)
-    LinearLayout mExifContainer;
-    @BindView(R.id.like_btn)
-    ImageView mLikeBtn;
-    @BindView(R.id.like_container)
-    LinearLayout mLikeContainer;
-    @BindView(R.id.mark_container)
-    LinearLayout mMarkContainer;
-    @BindView(R.id.download_container)
-    LinearLayout mDownloadContainer;
     @BindView(R.id.exif_container_hint)
     ImageView mExifContainerHint;
     @BindView(R.id.show_exif_btn)
     RelativeLayout mShowExifBtn;
     @BindView(R.id.label_exposure_time)
     TextView mLabelExposureTime;
+    @BindView(R.id.exposure_time)
+    TextView mExposureTime;
     @BindView(R.id.label_aperture)
     TextView mLabelAperture;
+    @BindView(R.id.aperture)
+    TextView mAperture;
     @BindView(R.id.label_focal_length)
     TextView mLabelFocalLength;
+    @BindView(R.id.focal_length)
+    TextView mFocalLength;
     @BindView(R.id.label_iso)
     TextView mLabelIso;
-    @BindView(R.id.time)
-    TextView mTime;
-    @BindView(R.id.like_count)
-    TextView mLikeCount;
-    @BindView(R.id.views_count)
-    TextView mViewsCount;
-    @BindView(R.id.download_count)
-    TextView mDownloadCount;
+    @BindView(R.id.iso)
+    TextView mIso;
+    @BindView(R.id.exif_container)
+    LinearLayout mExifContainer;
+    @BindView(R.id.size)
+    TextView mSize;
     @BindView(R.id.color)
     TextView mColor;
+    @BindView(R.id.color_hint)
+    ImageView mColorHint;
+    @BindView(R.id.user_avatar)
+    ImageView mUserAvatar;
+    @BindView(R.id.username)
+    TextView mUsername;
     @BindView(R.id.user_container)
     LinearLayout mUserContainer;
     @BindView(R.id.collect_hint)
@@ -96,8 +91,6 @@ public class PhotoActivity extends BaseActivity {
     ImageView mCollectIcon;
     @BindView(R.id.collect_container)
     LinearLayout mCollectContainer;
-    @BindView(R.id.color_hint)
-    ImageView mColorHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +124,9 @@ public class PhotoActivity extends BaseActivity {
         mLikeCount.setText(mPhoto.likes + "");
 
         String time;
-        if (mPhoto.created_at !=null) {
+        if (mPhoto.created_at != null) {
             time = DateUtil.GmtFormat(mPhoto.created_at);
-        }else {
+        } else {
             time = DateUtil.GmtFormat(mPhoto.updated_at);
         }
         mTime.setText(time);

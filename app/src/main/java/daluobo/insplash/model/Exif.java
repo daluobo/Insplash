@@ -2,11 +2,12 @@ package daluobo.insplash.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 /**
  * Created by daluobo on 2017/11/25.
  */
-
+@Keep
 public class Exif implements Parcelable {
     public String make;
     public String model;

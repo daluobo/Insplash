@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    final List<D> mData = new ArrayList<>();
+    protected final List<D> mData = new ArrayList<>();
 
     @Override
     public void onBindViewHolder(VH holder, int position) {

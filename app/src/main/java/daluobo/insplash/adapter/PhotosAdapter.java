@@ -22,6 +22,7 @@ import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Photo;
+import daluobo.insplash.util.DimensionUtil;
 
 /**
  * Created by daluobo on 2017/11/12.
@@ -44,6 +45,9 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Photo item, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
+        if(item == null){
+            return;
+        }
         holder.mPhoto = item;
 
         if (item.description != null) {
@@ -65,7 +69,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         holder.mUsername.setText(item.user.name);
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
-        lp.width = ViewHelper.getScreenSize(mContext)[0];
+        lp.width = ViewHelper.getScreenSize(mContext)[0]- DimensionUtil.dip2px(mContext, 8);
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 

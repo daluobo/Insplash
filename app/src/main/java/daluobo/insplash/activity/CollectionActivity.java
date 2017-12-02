@@ -14,16 +14,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.fragment.CollectionPhotoFragment;
 import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
 import daluobo.insplash.model.Tag;
 import daluobo.insplash.util.DateUtil;
-import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 public class CollectionActivity extends BaseActivity {
@@ -74,27 +70,6 @@ public class CollectionActivity extends BaseActivity {
 
         mViewModel = new PhotoViewModel();
         mAdapter = new PhotosAdapter(this);
-        mAdapter.setOnLikeClickListener(new PhotosAdapter.OnLikeClickListener() {
-            @Override
-            public void OnLikeClick(final ImageView imageView, final Photo photo) {
-                mViewModel.likePhoto(photo).observe(CollectionActivity.this, new ResourceObserver<Resource<Photo>, Photo>(CollectionActivity.this) {
-                    @Override
-                    protected void onSuccess(Photo newPhoto) {
-                        photo.liked_by_user = newPhoto.liked_by_user;
-
-                        if (newPhoto.liked_by_user) {
-                            ToastUtil.showShort(CollectionActivity.this, "like" + newPhoto.liked_by_user);
-
-                        } else {
-
-                            ToastUtil.showShort(CollectionActivity.this, "unlike" + newPhoto.liked_by_user);
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
     }
 
     @Override

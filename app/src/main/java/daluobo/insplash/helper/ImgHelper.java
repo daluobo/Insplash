@@ -28,4 +28,11 @@ public class ImgHelper {
                 .into(imageView);
     }
 
+    public static void loadImgCC(@NonNull Context context, @NonNull ImageView imageView, Drawable placeholder, @NonNull String url) {
+        GlideApp.with(context)
+                .load(url)
+                .centerCrop()
+                .placeholder(placeholder)
+                .into(imageView);
+    }
 }

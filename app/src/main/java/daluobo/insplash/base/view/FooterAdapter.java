@@ -14,29 +14,25 @@ import daluobo.insplash.R;
 public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerView.ViewHolder> {
     protected boolean isShowFooter = true;
 
-    private static final int NORMAL_TYPE = 0;
-    private static final int FOOTER_TYPE = 1;
-
-    @IntDef({NORMAL_TYPE, FOOTER_TYPE})
-    private @interface ViewType {
+    @IntDef({ItemViewType.NORMAL_TYPE, ItemViewType.FOOTER_TYPE})
+    public @interface ItemViewType {
+        int NORMAL_TYPE = 0;
+        int FOOTER_TYPE = 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
-            return FOOTER_TYPE;
+        if (isShowFooter && position >= 10 && position == getItemCount() - 1) {
+            return ItemViewType.FOOTER_TYPE;
         } else {
-            return NORMAL_TYPE;
+            return ItemViewType.NORMAL_TYPE;
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case FOOTER_TYPE:
-                return onCreateFooterViewHolder(parent, viewType);
-            case NORMAL_TYPE:
-                return onCreateItemViewHolder(parent, viewType);
+        if (viewType == ItemViewType.FOOTER_TYPE) {
+            return onCreateFooterViewHolder(parent, viewType);
         }
         return onCreateItemViewHolder(parent, viewType);
     }
@@ -46,10 +42,10 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
         final D item = getItem(position);
 
         switch (getItemViewType(position)) {
-            case NORMAL_TYPE:
+            case ItemViewType.NORMAL_TYPE:
                 bindDataToItemView(viewHolder, item, position);
                 break;
-            case FOOTER_TYPE:
+            case ItemViewType.FOOTER_TYPE:
                 break;
         }
 
@@ -57,10 +53,14 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
 
     @Override
     public int getItemCount() {
-        if (mData.size() > 0 && isShowFooter) {
-            return mData.size() + 1;
-        } else if (mData.size() < 10) {
+        if (mData.size() == 0) {
+            return 0;
+        }
+        if (mData.size() > 0 && mData.size() < 10) {
+            isShowFooter = false;
             return mData.size();
+        } else if (isShowFooter) {
+            return mData.size() + 1;
         } else {
             return mData.size();
         }
@@ -71,7 +71,7 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
         notifyDataSetChanged();
     }
 
-    ProcessBarViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+    protected ProcessBarViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
         return new ProcessBarViewHolder(inflateItemView(parent, R.layout.item_processbar));
     }
 
