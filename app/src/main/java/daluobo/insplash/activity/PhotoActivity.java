@@ -1,5 +1,8 @@
 package daluobo.insplash.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,7 +20,9 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DateUtil;
@@ -79,8 +84,8 @@ public class PhotoActivity extends BaseActivity {
     TextView mColor;
     @BindView(R.id.color_hint)
     ImageView mColorHint;
-    @BindView(R.id.user_avatar)
-    ImageView mUserAvatar;
+    @BindView(R.id.avatar)
+    ImageView mAvatar;
     @BindView(R.id.username)
     TextView mUsername;
     @BindView(R.id.user_container)
@@ -117,9 +122,19 @@ public class PhotoActivity extends BaseActivity {
         mPhotoView.setLayoutParams(lp);
 
         ColorDrawable photoColor = new ColorDrawable(Color.parseColor(mPhoto.color));
-        //mAppBar.setBackground(bg);
 
         ImgHelper.loadImg(this, mPhotoView, photoColor, mPhoto.urls.small);
+
+        if (mPhoto.description != null) {
+            mDescription.setText(mPhoto.description);
+            mDescription.setVisibility(View.VISIBLE);
+
+            int height = ViewHelper.getViewSize(mDescription)[1];
+            ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
+            animator.setDuration(800).start();
+        } else {
+            mDescription.setVisibility(View.GONE);
+        }
 
         mLikeCount.setText(mPhoto.likes + "");
 
@@ -132,7 +147,7 @@ public class PhotoActivity extends BaseActivity {
         mTime.setText(time);
         mSize.setText(mPhoto.width + " x " + mPhoto.height);
 
-        ImgHelper.loadImg(PhotoActivity.this, mUserAvatar, mPhoto.user.profile_image.medium);
+        ImgHelper.loadImg(PhotoActivity.this, mAvatar, mPhoto.user.profile_image.medium);
         mUsername.setText(mPhoto.user.username);
         mColor.setText(mPhoto.color);
         mColorHint.setImageDrawable(photoColor);
@@ -140,11 +155,6 @@ public class PhotoActivity extends BaseActivity {
         mViewModel.getPhoto(mPhoto.id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
-                if (photo.description != null) {
-                    mDescription.setText(photo.description);
-                } else {
-                    mDescription.setVisibility(View.GONE);
-                }
                 if (photo.location != null) {
                     mLocation.setText(photo.location.title);
                 }
@@ -173,16 +183,31 @@ public class PhotoActivity extends BaseActivity {
             case R.id.download_container:
                 break;
             case R.id.show_exif_btn:
+                int height = ViewHelper.getViewSize(mExifContainer)[1];
+
                 if (mExifContainer.getVisibility() == View.VISIBLE) {
-                    mExifContainer.setVisibility(View.GONE);
                     mExifContainerHint.animate().rotation(0);
+
+                    ValueAnimator animator = AnimHelper.createDropDown(mExifContainer, height, 0);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mExifContainer.setVisibility(View.GONE);
+                        }
+                    });
+                    animator.start();
                 } else {
                     mExifContainer.setVisibility(View.VISIBLE);
                     mExifContainerHint.animate().rotation(180);
+
+                    ValueAnimator animator = AnimHelper.createDropDown(mExifContainer, 0, height);
+                    animator.start();
                 }
 
                 break;
             case R.id.user_container:
+                NavHelper.toUser(this, mPhoto.user, mAvatar);
+
                 break;
             case R.id.collect_container:
                 break;

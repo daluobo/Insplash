@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.SimplePageAdapter;
 import daluobo.insplash.fragment.CollectionsFragment;
 import daluobo.insplash.fragment.PhotosFragment;
+import daluobo.insplash.helper.NavHelper;
 
 public class MainActivity extends BaseActivity {
     private List<Fragment> mFragments = new ArrayList<>();
@@ -60,6 +62,14 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toSetting(MainActivity.this);
+            }
+        });
+
+
         mViewPager.setAdapter(mAdapter);
     }
 

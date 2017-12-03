@@ -116,7 +116,7 @@
             android:paddingTop="8dp">
 
             <ImageView
-                android:id="@+id/user_avatar"
+                android:id="@+id/avatar"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
@@ -144,6 +144,5 @@
                 android:text="@string/large_text"/>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

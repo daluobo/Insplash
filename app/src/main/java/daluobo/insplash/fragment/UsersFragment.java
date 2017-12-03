@@ -75,7 +75,7 @@ public class UsersFragment extends BaseFragment {
     public void initData() {
         mModel = new UserViewModel();
 
-        mModel.getMe().observe(this, new ResourceObserver<Resource<User>, User>(getContext()) {
+        mModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(getContext()) {
             @Override
             protected void onSuccess(User user) {
                 ImgHelper.loadImg(getContext(), mAvatar, user.profile_image.large);

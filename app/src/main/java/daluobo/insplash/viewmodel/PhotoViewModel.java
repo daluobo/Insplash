@@ -20,7 +20,7 @@ public class PhotoViewModel extends ViewModel {
     protected PhotoRepository mRepository;
 
     @PhotoType
-    private int mType = PhotoType.ALL;
+    private int mType = PhotoType.CURATED;
     private int mPage = 1;
 
     @Retention(RetentionPolicy.SOURCE)

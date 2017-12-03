@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBg"
     tools:context="daluobo.insplash.activity.CollectionActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,22 +86,27 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <android.support.v7.widget.Toolbar
+            <LinearLayout
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
                 app:layout_collapseMode="pin">
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="title"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"/>
-
-            </android.support.v7.widget.Toolbar>
+            </LinearLayout>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -118,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
+            android:foreground="?android:selectableItemBackground"
             android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
@@ -125,11 +133,12 @@
             android:paddingTop="8dp">
 
             <ImageView
-                android:id="@+id/user_avatar"
+                android:id="@+id/avatar"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
-                android:tint="@color/colorAccent"/>
+                android:transitionName="avatar"
+                tools:tint="@color/colorAccent"/>
 
             <TextView
                 android:id="@+id/username"

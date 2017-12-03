@@ -20,7 +20,7 @@
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-            <include layout="@layout/toobar"/>
+            <include layout="@layout/toolbar"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 
 

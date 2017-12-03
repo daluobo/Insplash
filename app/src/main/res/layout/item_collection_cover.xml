@@ -49,10 +49,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/profile_image"
+                android:id="@+id/avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="8dp"
+                android:transitionName="avatar"
                 android:src="@drawable/ic_account_box"
                 tools:tint="@color/colorPrimary"/>
 

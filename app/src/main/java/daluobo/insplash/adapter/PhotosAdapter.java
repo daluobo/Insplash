@@ -1,9 +1,6 @@
 package daluobo.insplash.adapter;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
@@ -17,9 +14,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.activity.PhotoActivity;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DimensionUtil;
@@ -45,7 +42,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Photo item, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        if(item == null){
+        if (item == null) {
             return;
         }
         holder.mPhoto = item;
@@ -69,11 +66,11 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         holder.mUsername.setText(item.user.name);
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
-        lp.width = ViewHelper.getScreenSize(mContext)[0]- DimensionUtil.dip2px(mContext, 8);
+        lp.width = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 
-        ImgHelper.loadImg(mContext, holder.mProfileImage, item.user.profile_image.small);
+        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
         ImgHelper.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
     }
 
@@ -93,8 +90,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         ImageView mPhotoView;
         @BindView(R.id.description)
         TextView mDescription;
-        @BindView(R.id.profile_image)
-        ImageView mProfileImage;
+        @BindView(R.id.avatar)
+        ImageView mAvatar;
         @BindView(R.id.username)
         TextView mUsername;
         @BindView(R.id.like_icon)
@@ -112,20 +109,18 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mContainer.setOnClickListener(this);
-            mLikeContainer.setOnClickListener(new View.OnClickListener() {
+            mPhotoView.setOnClickListener(this);
+            mAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnLikeClickListener.OnLikeClick(mLikeIcon, mPhoto);
+                    NavHelper.toUser(mContext, mPhoto.user, mAvatar);
                 }
             });
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mContext, PhotoActivity.class);
-            intent.putExtra(PhotoActivity.ARG_PHOTO, mPhoto);
-            mContext.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, mPhotoView, "transitionImg").toBundle());
+            NavHelper.toPhoto(mContext, mPhoto, mPhotoView);
         }
     }
 }

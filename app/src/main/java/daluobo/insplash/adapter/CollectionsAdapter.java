@@ -19,6 +19,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.util.DimensionUtil;
@@ -127,7 +128,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             holder.mDescription.setVisibility(View.GONE);
         }
 
-        ImgHelper.loadImg(mContext, holder.mProfileImage, item.user.profile_image.small);
+        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
         holder.mUsername.setText(item.user.name);
         holder.mTotalPhotos.setText(item.total_photos + "");
     }
@@ -141,11 +142,11 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         return new PreViewHolder(inflateItemView(parent, R.layout.item_collection_preview));
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.description)
         TextView mDescription;
-        @BindView(R.id.profile_image)
-        ImageView mProfileImage;
+        @BindView(R.id.avatar)
+        ImageView mAvatar;
         @BindView(R.id.username)
         TextView mUsername;
         @BindView(R.id.title)
@@ -161,28 +162,41 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mContainer.setOnClickListener(this);
+            mAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavHelper.toUser(mContext, mCollection.user, mAvatar);
+                }
+            });
         }
 
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(mContext, CollectionActivity.class);
-            intent.putExtra(CollectionActivity.ARG_COLLECTION, mCollection);
-            mContext.startActivity(intent);
-        }
     }
 
     public class CoverViewHolder extends ViewHolder {
         @BindView(R.id.cover_photo)
         ImageView mCoverPhoto;
 
-        Collection mCollection;
-
         public CoverViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mContainer.setOnClickListener(this);
+            mCoverPhoto.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int[] location = new int[2];
+            v.getLocationInWindow(location);
+            int x = location[0];
+            int y = location[1];
+
+            Intent intent = new Intent(mContext, CollectionActivity.class);
+            intent.putExtra(CollectionActivity.ARG_COLLECTION, mCollection);
+
+            intent.putExtra(CollectionActivity.ARG_REVEAL_X, x + v.getWidth() / 2);
+            intent.putExtra(CollectionActivity.ARG_REVEAL_Y, y + mCoverPhoto.getHeight() / 2);
+
+            mContext.startActivity(intent);
         }
     }
 
@@ -201,7 +215,26 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
+            mPreviewContainer.setOnClickListener(this);
         }
 
+        /**
+         * @param v
+         */
+        @Override
+        public void onClick(View v) {
+            int[] location = new int[2];
+            v.getLocationInWindow(location);
+            int x = location[0];
+            int y = location[1];
+
+            Intent intent = new Intent(mContext, CollectionActivity.class);
+            intent.putExtra(CollectionActivity.ARG_COLLECTION, mCollection);
+
+            intent.putExtra(CollectionActivity.ARG_REVEAL_X, x + v.getWidth() / 2);
+            intent.putExtra(CollectionActivity.ARG_REVEAL_Y, y + mPreview0.getHeight() / 2);
+
+            mContext.startActivity(intent);
+        }
     }
 }

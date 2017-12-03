@@ -64,6 +64,7 @@ public class CollectionPhotoFragment extends SwipeListFragment {
 
             }
         });
+
     }
 
     @Override
