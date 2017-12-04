@@ -1,41 +1,55 @@
 package daluobo.insplash.base.view;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.LayoutAnimationController;
+
+import java.util.List;
 
 import butterknife.BindView;
 import daluobo.insplash.R;
+import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.base.arch.ResourceObserver;
+import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.viewmodel.BasePageViewModel;
 
 /**
  * Created by daluobo on 2017/11/10.
  */
 
-public abstract class SwipeListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, LoadingView {
+public abstract class SwipeListFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, LoadingView {
 
     @BindView(R.id.list_view)
     protected RecyclerView mListView;
     @BindView(R.id.swipe_layout)
     protected SwipeRefreshLayout mSwipeLayout;
 
+    protected FooterAdapter mAdapter;
+    protected BasePageViewModel mViewModel;
     protected LinearLayoutManager mLayoutManager;
     protected OnScrollUpListener mOnScrollUpListener;
 
     @CallSuper
-    public void initListView(@NonNull RecyclerView.Adapter adapter) {
+    public void initListView() {
         mSwipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright),
                 ContextCompat.getColor(getContext(), android.R.color.holo_green_light),
                 ContextCompat.getColor(getContext(), android.R.color.holo_orange_light),
                 ContextCompat.getColor(getContext(), android.R.color.holo_red_light));
         mSwipeLayout.setOnRefreshListener(this);
 
+        LayoutAnimationController controller = new LayoutAnimationController(AnimHelper.getAnimationSetFromBottom());
+        controller.setDelay(0.5f);
+        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        mListView.setLayoutAnimation(controller);
+
+
         mLayoutManager = new LinearLayoutManager(getContext());
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(mLayoutManager);
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(mAdapter);
 
         mOnScrollUpListener = new OnScrollUpListener(mSwipeLayout, mLayoutManager) {
             @Override
@@ -68,5 +82,52 @@ public abstract class SwipeListFragment extends BaseFragment implements SwipeRef
         mListView.smoothScrollToPosition(mListView.getAdapter().getItemCount() - 1);
     }
 
-    public abstract void onLoad();
+    @Override
+    public void onRefresh() {
+        mViewModel.onRefresh().observe(this, new ResourceObserver<Resource<List<T>>, List<T>>(getContext()) {
+
+            @Override
+            protected void onSuccess(List<T> photos) {
+                onRefreshSuccess(photos);
+
+                mViewModel.onPageLoad();
+            }
+
+            @Override
+            protected void onFinal() {
+                super.onFinal();
+                onHideRefresh();
+            }
+        });
+    }
+
+    public void onLoad() {
+        mViewModel.onLoad().observe(this, new ResourceObserver<Resource<List<T>>, List<T>>(getContext()) {
+
+            @Override
+            protected void onSuccess(List<T> photos) {
+                onLoadSuccess(photos);
+
+                mViewModel.onPageLoad();
+            }
+
+            @Override
+            protected void onFinal() {
+                super.onFinal();
+                mOnScrollUpListener.setLoading(false);
+            }
+        });
+    }
+
+    protected void onRefreshSuccess(List<T> data){
+        mAdapter.clearItems();
+        mAdapter.addItems(data);
+        mAdapter.notifyDataSetChanged();
+        mListView.scheduleLayoutAnimation();
+    }
+
+    protected void onLoadSuccess(List<T> data){
+        mAdapter.addItems(data);
+        mAdapter.notifyDataSetChanged();
+    }
 }

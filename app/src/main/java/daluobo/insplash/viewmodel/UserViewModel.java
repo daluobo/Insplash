@@ -15,6 +15,8 @@ import daluobo.insplash.repository.UserRepository;
 public class UserViewModel extends ViewModel {
     private MediatorLiveData<User> mUser = new MediatorLiveData<>();
 
+    private User mUserData;
+
     protected UserRepository mRepository;
 
     public UserViewModel() {
@@ -27,10 +29,18 @@ public class UserViewModel extends ViewModel {
 
     public void setUser(User user) {
         mUser.setValue(user);
+        mUserData = user;
     }
 
     public LiveData<User> getUser() {
         return mUser;
     }
 
+    public User getUserData() {
+        return mUserData;
+    }
+
+    public void setUserData(User userData) {
+        mUserData = userData;
+    }
 }

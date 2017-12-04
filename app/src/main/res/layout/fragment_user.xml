@@ -132,8 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_blog"
-                android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
                 tools:text="bio"/>
 

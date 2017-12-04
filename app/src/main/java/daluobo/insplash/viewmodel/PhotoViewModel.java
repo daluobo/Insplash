@@ -1,7 +1,6 @@
 package daluobo.insplash.viewmodel;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -16,12 +15,11 @@ import daluobo.insplash.repository.PhotoRepository;
  * Created by daluobo on 2017/11/12.
  */
 
-public class PhotoViewModel extends ViewModel {
+public class PhotoViewModel extends BasePageViewModel<Photo> {
     protected PhotoRepository mRepository;
 
     @PhotoType
-    private int mType = PhotoType.CURATED;
-    private int mPage = 1;
+    private int mType = PhotoType.ALL;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({PhotoViewModel.PhotoType.ALL, PhotoViewModel.PhotoType.CURATED})
@@ -46,13 +44,8 @@ public class PhotoViewModel extends ViewModel {
         return mRepository.getPhoto(id);
     }
 
-    public LiveData<Resource<List<Photo>>> refresh() {
-        mPage = 1;
-
-        return load(mPage);
-    }
-
-    public LiveData<Resource<List<Photo>>> load(int page) {
+    @Override
+    public LiveData<Resource<List<Photo>>> loadPage(int page) {
         if (mType == PhotoType.ALL) {
             return mRepository.getPhotos(page);
         } else {
@@ -62,7 +55,7 @@ public class PhotoViewModel extends ViewModel {
 
     public LiveData<Resource<Photo>> likePhoto(Photo photo) {
         if(photo.liked_by_user){
-           return mRepository.unlike(photo.id);
+            return mRepository.unlike(photo.id);
         }else {
             return mRepository.like(photo.id);
         }
@@ -77,15 +70,4 @@ public class PhotoViewModel extends ViewModel {
         mPage = 1;
     }
 
-    public int getPage() {
-        return mPage;
-    }
-
-    public void setPage(int page) {
-        mPage = page;
-    }
-
-    public void onPageLoaded() {
-        mPage++;
-    }
 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -129,9 +130,19 @@ public class PhotoActivity extends BaseActivity {
             mDescription.setText(mPhoto.description);
             mDescription.setVisibility(View.VISIBLE);
 
-            int height = ViewHelper.getViewSize(mDescription)[1];
-            ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
-            animator.setDuration(800).start();
+            mDescription.getViewTreeObserver().
+                    addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    //避免重复监听
+                    mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int height = mDescription.getMeasuredHeight();
+
+                    ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
+                    animator.setDuration(800).start();
+                }
+            });
+
         } else {
             mDescription.setVisibility(View.GONE);
         }

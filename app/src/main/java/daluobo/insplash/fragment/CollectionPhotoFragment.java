@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -23,11 +22,11 @@ import daluobo.insplash.viewmodel.CollectionsViewModel;
  * Created by daluobo on 2017/11/29.
  */
 
-public class CollectionPhotoFragment extends SwipeListFragment {
+public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     public static final String ARG_COLLECTION = "collection";
     protected Collection mCollection;
-    protected CollectionsViewModel mViewModel;
-    protected PhotosAdapter mAdapter;
+
+    CollectionsViewModel mCollectionsViewModel;
 
     public CollectionPhotoFragment() {
     }
@@ -58,18 +57,13 @@ public class CollectionPhotoFragment extends SwipeListFragment {
         mCollection = getArguments().getParcelable(ARG_COLLECTION);
         mViewModel = new CollectionsViewModel();
         mAdapter = new PhotosAdapter(getContext());
-        mAdapter.setOnLikeClickListener(new PhotosAdapter.OnLikeClickListener() {
-            @Override
-            public void OnLikeClick(final ImageView imageView, final Photo photo) {
 
-            }
-        });
-
+        mCollectionsViewModel = (CollectionsViewModel) mViewModel;
     }
 
     @Override
     public void initView() {
-        super.initListView(mAdapter);
+        super.initListView();
 
         onShowRefresh();
         onRefresh();
@@ -77,15 +71,13 @@ public class CollectionPhotoFragment extends SwipeListFragment {
 
     @Override
     public void onRefresh() {
-        mViewModel.refreshCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
+        mCollectionsViewModel.refreshCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
 
             @Override
             protected void onSuccess(List<Photo> photos) {
-                mAdapter.clearItems();
-                mAdapter.addItems(photos);
-                mAdapter.notifyDataSetChanged();
+                onRefreshSuccess(photos);
 
-                mViewModel.onPhotoPageLoad();
+                mCollectionsViewModel.onPhotoPageLoad();
             }
 
             @Override
@@ -98,14 +90,13 @@ public class CollectionPhotoFragment extends SwipeListFragment {
 
     @Override
     public void onLoad() {
-        mViewModel.loadCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
+        mCollectionsViewModel.loadCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
 
             @Override
             protected void onSuccess(List<Photo> photos) {
-                mAdapter.addItems(photos);
-                mAdapter.notifyDataSetChanged();
+                onLoadSuccess(photos);
 
-                mViewModel.onPhotoPageLoad();
+                mCollectionsViewModel.onPhotoPageLoad();
             }
 
             @Override

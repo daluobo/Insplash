@@ -12,7 +12,7 @@ import daluobo.insplash.base.arch.Resource;
  */
 
 public abstract class BasePageViewModel<T> extends ViewModel{
-    private int mPage = 1;
+    protected int mPage = 1;
 
     public LiveData<Resource<List<T>>> onRefresh() {
         mPage = 1;
