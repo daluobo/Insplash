@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|snap">
 
             <LinearLayout
                 android:layout_width="match_parent"

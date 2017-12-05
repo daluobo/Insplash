@@ -11,7 +11,7 @@ import daluobo.insplash.base.arch.Resource;
  * Created by daluobo on 2017/11/27.
  */
 
-public abstract class BasePageViewModel<T> extends ViewModel{
+public abstract class BasePageViewModel<T> extends ViewModel {
     protected int mPage = 1;
 
     public LiveData<Resource<List<T>>> onRefresh() {

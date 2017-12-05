@@ -6,17 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.model.Photo;
-import daluobo.insplash.viewmodel.CollectionsViewModel;
+import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
 
 /**
  * Created by daluobo on 2017/11/29.
@@ -26,7 +22,7 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     public static final String ARG_COLLECTION = "collection";
     protected Collection mCollection;
 
-    CollectionsViewModel mCollectionsViewModel;
+    protected CollectionPhotoViewModel mCollectionsViewModel;
 
     public CollectionPhotoFragment() {
     }
@@ -55,10 +51,10 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     @Override
     public void initData() {
         mCollection = getArguments().getParcelable(ARG_COLLECTION);
-        mViewModel = new CollectionsViewModel();
+        mViewModel = new CollectionPhotoViewModel(mCollection);
         mAdapter = new PhotosAdapter(getContext());
 
-        mCollectionsViewModel = (CollectionsViewModel) mViewModel;
+        mCollectionsViewModel = (CollectionPhotoViewModel) mViewModel;
     }
 
     @Override
@@ -69,41 +65,4 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
         onRefresh();
     }
 
-    @Override
-    public void onRefresh() {
-        mCollectionsViewModel.refreshCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
-
-            @Override
-            protected void onSuccess(List<Photo> photos) {
-                onRefreshSuccess(photos);
-
-                mCollectionsViewModel.onPhotoPageLoad();
-            }
-
-            @Override
-            protected void onFinal() {
-                super.onFinal();
-                onHideRefresh();
-            }
-        });
-    }
-
-    @Override
-    public void onLoad() {
-        mCollectionsViewModel.loadCollectionPhoto(mCollection.id + "").observe(this, new ResourceObserver<Resource<List<Photo>>, List<Photo>>(getContext()) {
-
-            @Override
-            protected void onSuccess(List<Photo> photos) {
-                onLoadSuccess(photos);
-
-                mCollectionsViewModel.onPhotoPageLoad();
-            }
-
-            @Override
-            protected void onFinal() {
-                super.onFinal();
-                mOnScrollUpListener.setLoading(false);
-            }
-        });
-    }
 }

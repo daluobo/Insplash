@@ -49,7 +49,7 @@ public class AnimHelper {
                 view.setLayoutParams(lp);
             }
         });
-
+        animator.setDuration(300);
         return animator;
     }
 

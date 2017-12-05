@@ -32,10 +32,13 @@ import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.TabFragmentAdapter;
+import daluobo.insplash.fragment.UserCollectionsFragment;
+import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.model.User;
 import daluobo.insplash.util.DimensionUtil;
+import daluobo.insplash.viewmodel.UserPhotoViewModel;
 import daluobo.insplash.viewmodel.UserViewModel;
 
 public class UserActivity extends BaseActivity {
@@ -128,11 +131,19 @@ public class UserActivity extends BaseActivity {
         titles.add("photos");
         titles.add("collections");
         titles.add("likes");
+
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
+        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
+
+        mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     public void initView() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_left_gray);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_gray);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,8 +3,12 @@ package daluobo.insplash.repository;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.Photo;
 import daluobo.insplash.model.User;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
@@ -17,23 +21,8 @@ import daluobo.insplash.net.api.UserApi;
 public class UserRepository {
     private UserApi mUserService;
 
-    public UserRepository(){
+    public UserRepository() {
         mUserService = RetrofitHelper.buildApi().create(UserApi.class);
-    }
-
-    public LiveData<Resource<User>> getUser() {
-        return new NetworkResource<User, User>() {
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<User>> createCall() {
-                return mUserService.user();
-            }
-
-            @Override
-            protected User convertResult(@NonNull User item) {
-                return item;
-            }
-        }.getAsLiveData();
     }
 
     public LiveData<Resource<User>> getMe() {
@@ -46,6 +35,66 @@ public class UserRepository {
 
             @Override
             protected User convertResult(@NonNull User item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<User>> getUser(final String name) {
+        return new NetworkResource<User, User>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<User>> createCall() {
+                return mUserService.user(name);
+            }
+
+            @Override
+            protected User convertResult(@NonNull User item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Photo>>> photos(final String username, final int page) {
+        return new NetworkResource<List<Photo>, List<Photo>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Photo>>> createCall() {
+                return mUserService.photos(username, page);
+            }
+
+            @Override
+            protected List<Photo> convertResult(@NonNull List<Photo> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Photo>>> likes(final String username, final int page) {
+        return new NetworkResource<List<Photo>, List<Photo>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Photo>>> createCall() {
+                return mUserService.likes(username, page);
+            }
+
+            @Override
+            protected List<Photo> convertResult(@NonNull List<Photo> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Collection>>> collections(final String username, final int page) {
+        return new NetworkResource<List<Collection>, List<Collection>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Collection>>> createCall() {
+                return mUserService.collections(username, page);
+            }
+
+            @Override
+            protected List<Collection> convertResult(@NonNull List<Collection> item) {
                 return item;
             }
         }.getAsLiveData();
