@@ -74,68 +74,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         mPhotoType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View contentView = mInflater.inflate(R.layout.dialog_photo_type, null, false);
-                final TextView all = contentView.findViewById(R.id.all);
-                final TextView curated = contentView.findViewById(R.id.curated);
-
-                int allWidth = ViewHelper.getViewSize(all)[0];
-                int curatedWidth = ViewHelper.getViewSize(curated)[0];
-
-                final PopupWindow window = new PopupWindow(contentView,
-                        allWidth > curatedWidth ? allWidth : curatedWidth,
-                        mPhotoType.getHeight() * 2,
-                        true);
-                window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-                window.setOutsideTouchable(true);
-                window.setTouchable(true);
-                window.setElevation(10);
-                window.setAnimationStyle(R.style.showPopupAnimation);
-                window.showAsDropDown(mPhotoType, 0, -mPhotoType.getHeight());
-
-                all.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ValueAnimator valueAnimator = AnimHelper.createDropDown(contentView, mPhotoType.getHeight() * 2, mPhotoType.getHeight());
-                        valueAnimator.addListener(new AnimatorListenerAdapter() {
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mPhotoType.setText("Photos");
-                                window.dismiss();
-                            }
-
-                        });
-                        valueAnimator.start();
-
-                    }
-                });
-                curated.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ValueAnimator valueAnimator = AnimHelper.createDropDown(all, mPhotoType.getHeight(), 0);
-                        valueAnimator.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                super.onAnimationStart(animation);
-
-                                curated.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mPhotoType.setText("Curated");
-                                window.dismiss();
-                            }
-                        });
-
-                        ValueAnimator rootAnimator = AnimHelper.createDropDown(contentView, mPhotoType.getHeight() * 2, mPhotoType.getHeight());
-                        rootAnimator.setDuration(300);
-
-                        rootAnimator.start();
-                        valueAnimator.start();
-
-                    }
-                });
+                showSelectType();
             }
         });
 
@@ -143,19 +82,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         mOrderBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View contentView = mInflater.inflate(R.layout.dialog_order_by, null, false);
-
-                final PopupWindow window = new PopupWindow(contentView,
-                        ViewHelper.getScreenSize(getContext())[0],
-                        ViewHelper.getScreenSize(getContext())[1],
-                        true);
-                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                window.setOutsideTouchable(true);
-                window.setTouchable(true);
-
-                window.showAsDropDown(mOrderBy, 0, -mPhotoType.getHeight());
-
-
+                showSelectOrderBy();
             }
         });
         mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -164,4 +91,84 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         super.initListView();
     }
 
+
+    private void showSelectType() {
+        final View contentView = mInflater.inflate(R.layout.dialog_photo_type, null, false);
+        final TextView all = contentView.findViewById(R.id.all);
+        final TextView curated = contentView.findViewById(R.id.curated);
+
+        int allWidth = ViewHelper.getViewSize(all)[0];
+        int curatedWidth = ViewHelper.getViewSize(curated)[0];
+
+        final PopupWindow window = new PopupWindow(contentView,
+                allWidth > curatedWidth ? allWidth : curatedWidth,
+                mPhotoType.getHeight() * 2,
+                true);
+        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        window.setOutsideTouchable(true);
+        window.setTouchable(true);
+        window.setElevation(10);
+        window.setAnimationStyle(R.style.showPopupAnimation);
+        window.showAsDropDown(mPhotoType, 0, -mPhotoType.getHeight());
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValueAnimator valueAnimator = AnimHelper.createDropDown(contentView, mPhotoType.getHeight() * 2, mPhotoType.getHeight());
+                valueAnimator.addListener(new AnimatorListenerAdapter() {
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mPhotoType.setText("Photos");
+                        window.dismiss();
+                    }
+
+                });
+                valueAnimator.start();
+
+            }
+        });
+        curated.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValueAnimator valueAnimator = AnimHelper.createDropDown(all, mPhotoType.getHeight(), 0);
+                valueAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+
+                        curated.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mPhotoType.setText("Curated");
+                        window.dismiss();
+                    }
+                });
+
+                ValueAnimator rootAnimator = AnimHelper.createDropDown(contentView, mPhotoType.getHeight() * 2, mPhotoType.getHeight());
+                rootAnimator.setDuration(300);
+
+                rootAnimator.start();
+                valueAnimator.start();
+
+            }
+        });
+    }
+
+    private void showSelectOrderBy() {
+        final View contentView = mInflater.inflate(R.layout.dialog_order_by, null, false);
+
+        final PopupWindow window = new PopupWindow(contentView,
+                ViewHelper.getScreenSize(getContext())[0],
+                ViewHelper.getScreenSize(getContext())[1],
+                true);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.setOutsideTouchable(true);
+        window.setTouchable(true);
+
+        window.showAsDropDown(mOrderBy, 0, -mPhotoType.getHeight());
+
+    }
 }

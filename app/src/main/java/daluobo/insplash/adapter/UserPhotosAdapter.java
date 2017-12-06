@@ -23,26 +23,20 @@ import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DimensionUtil;
 
 /**
- * Created by daluobo on 2017/11/12.
+ * Created by daluobo on 2017/12/6.
  */
 
-public class PhotosAdapter extends FooterAdapter<Photo> {
+public class UserPhotosAdapter extends FooterAdapter<Photo> {
 
     private Context mContext;
 
-    public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
-        mOnLikeClickListener = onLikeClickListener;
-    }
-
-    private OnLikeClickListener mOnLikeClickListener;
-
-    public PhotosAdapter(Context context) {
+    public UserPhotosAdapter(Context context) {
         this.mContext = context;
     }
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Photo item, int position) {
-        ViewHolder holder = (ViewHolder) viewHolder;
+        UserPhotosAdapter.ViewHolder holder = (UserPhotosAdapter.ViewHolder) viewHolder;
 
         if (item == null) {
             return;
@@ -63,24 +57,17 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
         holder.mLikes.setText(item.likes + "");
 
-        holder.mUsername.setText(item.user.name);
-
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
         lp.width = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
         ImgHelper.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
     }
 
     @Override
     protected ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateItemView(parent, R.layout.item_photo));
-    }
-
-    public interface OnLikeClickListener {
-        void OnLikeClick(ImageView imageView, Photo photo);
+        return new ViewHolder(inflateItemView(parent, R.layout.item_user_photo));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -88,16 +75,14 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         ImageView mPhotoView;
         @BindView(R.id.description)
         TextView mDescription;
-        @BindView(R.id.avatar)
-        ImageView mAvatar;
-        @BindView(R.id.username)
-        TextView mUsername;
+        @BindView(R.id.download_btn)
+        ImageView mDownloadBtn;
+        @BindView(R.id.collect_btn)
+        ImageView mCollectBtn;
         @BindView(R.id.like_btn)
         ImageView mLikeBtn;
         @BindView(R.id.likes)
         TextView mLikes;
-        @BindView(R.id.more)
-        ImageView mMore;
         @BindView(R.id.container)
         CardView mContainer;
 
@@ -106,18 +91,18 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
         Drawable mIcFavorite;
+        @BindDrawable(R.drawable.ic_mark)
+        Drawable mIcFavoriteMark;
+        @BindDrawable(R.drawable.ic_mark_border)
+        Drawable mIcFavoriteMarkBorder;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
             mPhotoView.setOnClickListener(this);
-            mAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavHelper.toUser(mContext, mPhoto.user, mAvatar);
-                }
-            });
+
         }
 
         @Override

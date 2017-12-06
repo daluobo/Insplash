@@ -14,6 +14,10 @@ public class SharePrefHelper {
         return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.ACCESS_TOKEN);
     }
 
+    public static void clearAccessToken() {
+        SharePrefUtil.putPreference(MyApplication.getInstance(), AppConstant.SharePref.ACCESS_TOKEN, "");
+    }
+
     public static String getRefreshToken() {
         return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.REFRESH_TOKEN);
     }

@@ -40,10 +40,6 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         return mRepository.getCurated(page);
     }
 
-    public LiveData<Resource<Photo>> getPhoto(String id) {
-        return mRepository.getPhoto(id);
-    }
-
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
         if (mType == PhotoType.ALL) {
@@ -51,6 +47,10 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         } else {
             return mRepository.getCurated(page);
         }
+    }
+
+    public LiveData<Resource<Photo>> getPhoto(String id) {
+        return mRepository.getPhoto(id);
     }
 
     public LiveData<Resource<Photo>> likePhoto(Photo photo) {

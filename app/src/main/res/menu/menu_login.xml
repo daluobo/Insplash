@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/ic_power_off"
+        android:id="@+id/action_login"
+        android:icon="@drawable/ic_accessibility"
         android:orderInCategory="100"
         android:iconTint="@color/colorIcon"
-        android:title="搜索"
+        android:title="Login"
         app:showAsAction="always"/>
 </menu>

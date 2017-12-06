@@ -28,7 +28,6 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> mFragments = new ArrayList<>();
     private SimplePageAdapter mAdapter;
 
-
     @BindView(R.id.title)
     TextView mTitle;
     @BindView(R.id.toolbar)

@@ -17,7 +17,7 @@ public abstract class BasePageViewModel<T> extends ViewModel {
     public LiveData<Resource<List<T>>> onRefresh() {
         mPage = 1;
 
-        return loadPage(mPage);
+        return loadPage(1);
     }
 
     public LiveData<Resource<List<T>>> onLoad() {
@@ -37,5 +37,4 @@ public abstract class BasePageViewModel<T> extends ViewModel {
     public void setPage(int page) {
         mPage = page;
     }
-
 }

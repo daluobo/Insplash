@@ -37,35 +37,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/download_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:transitionName="avatar"
-                tools:src="@drawable/ic_account_box"
-                tools:tint="@color/colorPrimary"/>
+                android:src="@drawable/ic_file_download"
+                android:tint="@color/colorPrimary"/>
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                tools:text="username"/>
-
+            <ImageView
+                android:id="@+id/collect_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_mark_border"/>
 
             <ImageView
                 android:id="@+id/like_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_favorite_border"/>
 
             <TextView
@@ -74,16 +70,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorPrimary"
-                tools:text="likes"/>
-
-            <ImageView
-                android:id="@+id/more"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_more_vert"
-                android:tint="@color/colorPrimary"/>
+                android:textSize="16sp"
+                tools:text="0"/>
         </LinearLayout>
 
     </LinearLayout>
+
 </android.support.v7.widget.CardView>

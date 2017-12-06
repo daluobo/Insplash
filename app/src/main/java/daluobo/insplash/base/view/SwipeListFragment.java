@@ -45,7 +45,6 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
         controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
         mListView.setLayoutAnimation(controller);
 
-
         mLayoutManager = new LinearLayoutManager(getContext());
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(mLayoutManager);

@@ -2,6 +2,7 @@ package daluobo.insplash.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,13 +11,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +36,7 @@ import daluobo.insplash.fragment.UserCollectionsFragment;
 import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.User;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.viewmodel.UserPhotoViewModel;
@@ -83,6 +84,10 @@ public class UserActivity extends BaseActivity {
     TextView mTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.extra_info_hint)
+    ImageView mExtraInfoHint;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,24 +157,8 @@ public class UserActivity extends BaseActivity {
             }
         });
         mTitle.setText(mViewModel.getUserData().username);
+        mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 48), 0);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_more, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_more) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     boolean isA = false;
 
@@ -208,10 +197,24 @@ public class UserActivity extends BaseActivity {
                 }).start();
                 break;
             case R.id.show_more_info_container:
+                int height = ViewHelper.getViewSize(mExtraInfoContainer)[1];
                 if (mExtraInfoContainer.getVisibility() == View.VISIBLE) {
-                    mExtraInfoContainer.setVisibility(View.GONE);
+                    mExtraInfoHint.animate().rotation(0);
+
+                    ValueAnimator animator = AnimHelper.createDropDown(mExtraInfoContainer, height, 0);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mExtraInfoContainer.setVisibility(View.GONE);
+                        }
+                    });
+                    animator.setDuration(800).start();
                 } else {
+                    mExtraInfoHint.animate().rotation(180);
                     mExtraInfoContainer.setVisibility(View.VISIBLE);
+
+                    ValueAnimator animator = AnimHelper.createDropDown(mExtraInfoContainer, 0, height);
+                    animator.setDuration(800).start();
                 }
                 break;
 
