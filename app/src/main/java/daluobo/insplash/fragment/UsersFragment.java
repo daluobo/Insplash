@@ -1,6 +1,5 @@
 package daluobo.insplash.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
-import daluobo.insplash.activity.LoginActivity;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseFragment;
@@ -102,7 +100,6 @@ public class UsersFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar:
-                startActivity(new Intent(getContext(), LoginActivity.class));
                 break;
             case R.id.user_info_container:
                 break;

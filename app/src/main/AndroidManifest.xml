@@ -25,20 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.LoginActivity"
-            android:launchMode="singleInstance">
-            <intent-filter>
-                <data
-                    android:host="insplash-auth-callback"
-                    android:scheme="insplash"/>
 
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activity.PhotoActivity"
             android:label="@string/title_activity_photo"
@@ -62,8 +49,20 @@
         <activity
             android:name=".activity.SettingActivity"
             android:launchMode="singleTask">
+            <intent-filter>
+                <data
+                    android:host="insplash-auth-callback"
+                    android:scheme="insplash"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activity.SearchActivity">
+        </activity>
+        <activity android:name=".activity.ProfileActivity">
         </activity>
     </application>
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.View;
 
 import daluobo.insplash.activity.PhotoActivity;
+import daluobo.insplash.activity.ProfileActivity;
 import daluobo.insplash.activity.SearchActivity;
 import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
@@ -46,6 +47,13 @@ public class NavHelper {
     public static void toSearch(Context context, String query) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(SearchActivity.ARG_QUERY, query);
+        context.startActivity(intent);
+    }
+
+    public static void toProfile(Context context, User user) {
+        Intent intent = new Intent(context, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.ARG_USER, user);
+
         context.startActivity(intent);
     }
 }

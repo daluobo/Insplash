@@ -30,12 +30,18 @@ public class UsersAdapter extends FooterAdapter<User> {
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, User item, int position) {
-        UsersAdapter.ViewHolder holder = (UsersAdapter.ViewHolder) viewHolder;
+        ViewHolder holder = (ViewHolder) viewHolder;
 
         holder.mUser = item;
         holder.mUsername.setText(item.username);
         holder.mName.setText(item.name);
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.profile_image.medium);
+        if (item.location != null) {
+            holder.mLocation.setText(item.location);
+            holder.mLocation.setVisibility(View.VISIBLE);
+        } else {
+            holder.mLocation.setVisibility(View.GONE);
+        }
+        ImgHelper.loadImg(mContext, holder.mAvatar, item.profile_image.large);
     }
 
     @Override
@@ -50,6 +56,8 @@ public class UsersAdapter extends FooterAdapter<User> {
         TextView mUsername;
         @BindView(R.id.name)
         TextView mName;
+        @BindView(R.id.location)
+        TextView mLocation;
         @BindView(R.id.container)
         CardView mContainer;
 

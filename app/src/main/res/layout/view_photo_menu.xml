@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/download_tv"
+        style="@style/InfoText"
+        android:foreground="?android:selectableItemBackground"
+        android:drawableLeft="@drawable/ic_file_download"
+        android:drawableTint="@color/colorPrimary"
+        android:drawablePadding="8dp"
+        android:text="Download"/>
+
+    <TextView
+        android:id="@+id/collect_tv"
+        style="@style/InfoText"
+        android:foreground="?android:selectableItemBackground"
+        android:drawableLeft="@drawable/ic_mark_border"
+        android:drawableTint="@color/colorPrimary"
+        android:drawablePadding="8dp"
+        android:text="Collect"/>
+</LinearLayout>

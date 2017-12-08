@@ -6,9 +6,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import butterknife.BindDrawable;
@@ -27,22 +30,30 @@ import daluobo.insplash.util.DimensionUtil;
  */
 
 public class PhotosAdapter extends FooterAdapter<Photo> {
-
     private Context mContext;
+    private LayoutInflater mInflater;
+    private boolean mIsShowUser = true;
 
-    public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
-        mOnLikeClickListener = onLikeClickListener;
-    }
-
-    private OnLikeClickListener mOnLikeClickListener;
+    private PopupWindow mPopupWindow;
+    private int[] mPopupWindowSize;
+    private TextView mDownloadBtn;
+    private TextView mCollectBtn;
+    private int PopupWindowPhotoPosition = -1;
 
     public PhotosAdapter(Context context) {
         this.mContext = context;
+        mInflater = LayoutInflater.from(mContext);
+    }
+
+    public PhotosAdapter(Context context, boolean isShowUser) {
+        this.mContext = context;
+        this.mIsShowUser = isShowUser;
     }
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Photo item, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
+        holder.mPosition = position;
 
         if (item == null) {
             return;
@@ -63,24 +74,27 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
         holder.mLikes.setText(item.likes + "");
 
-        holder.mUsername.setText(item.user.name);
+        if (mIsShowUser) {
+            holder.mUsername.setText(item.user.name);
+            ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
+            holder.mUsername.setVisibility(View.VISIBLE);
+            holder.mAvatar.setVisibility(View.VISIBLE);
+        } else {
+            holder.mUsername.setVisibility(View.GONE);
+            holder.mAvatar.setVisibility(View.GONE);
+        }
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
         lp.width = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
         ImgHelper.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
     }
 
     @Override
     protected ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(inflateItemView(parent, R.layout.item_photo));
-    }
-
-    public interface OnLikeClickListener {
-        void OnLikeClick(ImageView imageView, Photo photo);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -101,7 +115,9 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         @BindView(R.id.container)
         CardView mContainer;
 
+        int mPosition;
         Photo mPhoto;
+
         @BindDrawable(R.drawable.ic_favorite_border)
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
@@ -112,10 +128,18 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             ButterKnife.bind(this, itemView);
 
             mPhotoView.setOnClickListener(this);
+
             mAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     NavHelper.toUser(mContext, mPhoto.user, mAvatar);
+                }
+            });
+
+            mMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showMoreDialog(v, mPosition);
                 }
             });
         }
@@ -124,5 +148,58 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         public void onClick(View v) {
             NavHelper.toPhoto(mContext, mPhoto, mPhotoView);
         }
+    }
+
+    private void showMoreDialog(View view, final int position) {
+        if (mPopupWindow == null) {
+            initPopupWindow();
+        }
+        PopupWindowPhotoPosition = position;
+
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+
+        mPopupWindow.showAtLocation(view, Gravity.NO_GRAVITY, location[0] - mPopupWindowSize[0], location[1] - mPopupWindowSize[1]);
+    }
+
+    private void initPopupWindow() {
+        final View contentView = mInflater.inflate(R.layout.view_photo_menu, null, false);
+        mPopupWindowSize = ViewHelper.getViewSize(contentView);
+
+        mDownloadBtn = contentView.findViewById(R.id.download_tv);
+        mCollectBtn = contentView.findViewById(R.id.collect_tv);
+
+        mDownloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDownloadClick();
+            }
+        });
+
+        mCollectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCollectClick();
+            }
+        });
+
+
+        mPopupWindow = new PopupWindow(contentView,
+                mPopupWindowSize[0],
+                mPopupWindowSize[1],
+                true);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setElevation(10);
+        mPopupWindow.setAnimationStyle(R.style.showPopupAnimation);
+    }
+
+    public void onDownloadClick() {
+
+    }
+
+    public void onCollectClick() {
+
     }
 }

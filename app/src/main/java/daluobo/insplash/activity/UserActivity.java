@@ -57,6 +57,8 @@ public class UserActivity extends BaseActivity {
     TextView mUsername;
     @BindView(R.id.location)
     TextView mLocation;
+    @BindView(R.id.badge)
+    TextView mBadge;
     @BindView(R.id.user_info_container)
     RelativeLayout mUserInfoContainer;
     @BindView(R.id.show_more_info_container)
@@ -120,6 +122,14 @@ public class UserActivity extends BaseActivity {
             @Override
             public void onChanged(@Nullable User user) {
                 ImgHelper.loadImg(UserActivity.this, mAvatar, user.profile_image.large);
+
+                mLocation.setText(user.location);
+                if (user.badge != null) {
+                    mBadge.setText(user.badge);
+                    mBadge.setVisibility(View.VISIBLE);
+                } else {
+                    mBadge.setVisibility(View.GONE);
+                }
 
                 mUsername.setText(user.name);
                 if (user.bio != null) {
@@ -207,13 +217,13 @@ public class UserActivity extends BaseActivity {
                             mExtraInfoContainer.setVisibility(View.GONE);
                         }
                     });
-                    animator.setDuration(800).start();
+                    animator.start();
                 } else {
                     mExtraInfoHint.animate().rotation(180);
                     mExtraInfoContainer.setVisibility(View.VISIBLE);
 
                     ValueAnimator animator = AnimHelper.createDropDown(mExtraInfoContainer, 0, height);
-                    animator.setDuration(800).start();
+                    animator.start();
                 }
                 break;
 

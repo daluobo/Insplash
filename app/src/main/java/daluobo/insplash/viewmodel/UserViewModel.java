@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import java.util.Map;
+
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.User;
 import daluobo.insplash.repository.UserRepository;
@@ -14,7 +16,6 @@ import daluobo.insplash.repository.UserRepository;
 
 public class UserViewModel extends ViewModel {
     private MediatorLiveData<User> mUser = new MediatorLiveData<>();
-
     private User mUserData;
 
     protected UserRepository mRepository;
@@ -25,6 +26,10 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<Resource<User>> getMyProfile() {
         return mRepository.getMe();
+    }
+
+    public LiveData<Resource<User>> updateProfile(Map<String, String> user) {
+        return mRepository.updateProfile(user);
     }
 
     public void setUser(User user) {
@@ -40,7 +45,4 @@ public class UserViewModel extends ViewModel {
         return mUserData;
     }
 
-    public void setUserData(User userData) {
-        mUserData = userData;
-    }
 }

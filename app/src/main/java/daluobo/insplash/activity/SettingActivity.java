@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,15 +22,21 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.model.Token;
 import daluobo.insplash.model.User;
+import daluobo.insplash.util.SharePrefUtil;
+import daluobo.insplash.viewmodel.OauthViewModel;
 import daluobo.insplash.viewmodel.UserViewModel;
 
 public class SettingActivity extends BaseActivity {
-    protected UserViewModel mModel;
+    protected UserViewModel mViewModel;
+    protected OauthViewModel mOauthViewModel;
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -67,6 +75,28 @@ public class SettingActivity extends BaseActivity {
         initView();
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent != null
+                && intent.getData() != null
+                && !TextUtils.isEmpty(intent.getData().getAuthority())
+                && AppConstant.APP_CALLBACK_URL.equals(intent.getData().getAuthority())) {
+
+            mOauthViewModel.getToken(intent.getData().getQueryParameter("code")).observe(this, new ResourceObserver<Resource<Token>, Token>(this) {
+                @Override
+                protected void onSuccess(Token token) {
+                    SharePrefUtil.putPreference(SettingActivity.this,AppConstant.SharePref.ACCESS_TOKEN, token.access_token);
+                    SharePrefUtil.putPreference(SettingActivity.this,AppConstant.SharePref.REFRESH_TOKEN, token.refresh_token);
+
+                    NavHelper.toSetting(SettingActivity.this);
+                }
+            });
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -82,7 +112,8 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mModel = new UserViewModel();
+        mViewModel = new UserViewModel();
+        mOauthViewModel = new OauthViewModel();
     }
 
     @Override
@@ -108,11 +139,11 @@ public class SettingActivity extends BaseActivity {
 
         int userHeight = ViewHelper.getViewSize(mUserContainer)[1];
         ValueAnimator userAnimator = AnimHelper.createDropDown(mUserContainer, 0, userHeight);
-        userAnimator.setDuration(800).start();
+        userAnimator.start();
 
         int countHeight = ViewHelper.getViewSize(mTotalPhotosContainer)[1];
         ValueAnimator countAnimator = AnimHelper.createDropDown(mUserCountContainer, 0, countHeight);
-        countAnimator.setDuration(800).start();
+        countAnimator.start();
     }
 
     private void hideUserProfile() {
@@ -122,7 +153,7 @@ public class SettingActivity extends BaseActivity {
 
         int userHeight = ViewHelper.getViewSize(mUserContainer)[1];
         ValueAnimator userAnimator = AnimHelper.createDropDown(mUserContainer, userHeight, 0);
-        userAnimator.setDuration(800).addListener(new AnimatorListenerAdapter() {
+        userAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -134,7 +165,6 @@ public class SettingActivity extends BaseActivity {
         int countHeight = ViewHelper.getViewSize(mTotalPhotosContainer)[1];
         ValueAnimator countAnimator = AnimHelper.createDropDown(mUserCountContainer, countHeight, 0);
         countAnimator
-                .setDuration(800)
                 .addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -146,16 +176,17 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initUserProfile() {
-        mModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
+        mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
             @Override
             protected void onSuccess(User user) {
-                ImgHelper.loadImg(SettingActivity.this, mAvatar, user.profile_image.large);
+                mViewModel.setUser(user);
 
                 mUsername.setText(user.username);
                 mName.setText(user.name);
                 mTotalLikes.setText(user.total_likes + "");
                 mTotalPhotos.setText(user.total_photos + "");
                 mTotalCollections.setText(user.total_collections + "");
+                ImgHelper.loadImg(SettingActivity.this, mAvatar, user.profile_image.medium);
             }
         });
     }
@@ -181,7 +212,8 @@ public class SettingActivity extends BaseActivity {
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_login) {
-            startActivity(new Intent(this, LoginActivity.class));
+
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstant.getLoginUrl())));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,6 +222,7 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
+                NavHelper.toProfile(this, mViewModel.getUserData());
                 break;
             case R.id.total_photos_container:
                 break;

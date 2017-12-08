@@ -4,13 +4,14 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
+import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.model.User;
-import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.UserApi;
 
@@ -95,6 +96,21 @@ public class UserRepository {
 
             @Override
             protected List<Collection> convertResult(@NonNull List<Collection> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<User>> updateProfile(final Map<String, String> user) {
+        return new NetworkResource<User, User>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<User>> createCall() {
+                return mUserService.updateMe(user);
+            }
+
+            @Override
+            protected User convertResult(@NonNull User item) {
                 return item;
             }
         }.getAsLiveData();

@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Photo;
+import daluobo.insplash.view.PhotoContextMenuManager;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -89,8 +91,15 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         super.initListView();
-    }
+        mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
+                PhotoContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
+            }
+        });
+    }
 
     private void showSelectType() {
         final View contentView = mInflater.inflate(R.layout.dialog_photo_type, null, false);

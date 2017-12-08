@@ -105,6 +105,19 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/badge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:drawableLeft="@drawable/ic_label_outline"
+                        android:drawableTint="@color/colorPrimary"
+                        android:gravity="center_vertical"
+                        android:padding="4dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        tools:text="badge"/>
+
+                    <TextView
                         android:id="@+id/bio"
                         style="@style/InfoText"
                         android:layout_marginTop="1dp"
