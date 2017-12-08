@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_more_vert"
         android:orderInCategory="100"
         android:iconTint="@color/colorIcon"
-        android:title="搜索"
+        android:title="more"
         app:showAsAction="always"/>
 </menu>

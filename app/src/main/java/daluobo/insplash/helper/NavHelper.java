@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.View;
 
 import daluobo.insplash.activity.PhotoActivity;
+import daluobo.insplash.activity.SearchActivity;
 import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
 import daluobo.insplash.model.Photo;
@@ -42,5 +43,9 @@ public class NavHelper {
 
     }
 
-
+    public static void toSearch(Context context, String query) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra(SearchActivity.ARG_QUERY, query);
+        context.startActivity(intent);
+    }
 }

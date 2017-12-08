@@ -15,6 +15,7 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.Token;
 import daluobo.insplash.util.SharePrefUtil;
 import daluobo.insplash.viewmodel.OauthViewModel;
@@ -54,6 +55,7 @@ public class LoginActivity extends BaseActivity {
                     Log.e("LoginActivity accessT", token.access_token);
                     Log.e("LoginActivity refreshT", token.refresh_token);
 
+                    NavHelper.toSetting(LoginActivity.this);
                     finish();
                 }
             });

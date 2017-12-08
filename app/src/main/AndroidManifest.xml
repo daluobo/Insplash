@@ -59,7 +59,11 @@
             android:launchMode="singleTask"
             android:theme="@style/noAnimTheme">
         </activity>
-        <activity android:name=".activity.SettingActivity">
+        <activity
+            android:name=".activity.SettingActivity"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".activity.SearchActivity">
         </activity>
     </application>
 

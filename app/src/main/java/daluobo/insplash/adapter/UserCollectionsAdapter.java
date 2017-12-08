@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.IntDef;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,81 +16,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.CollectionActivity;
-import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ImgHelper;
-import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.util.DimensionUtil;
 
 /**
- * Created by daluobo on 2017/11/27.
+ * Created by daluobo on 2017/12/7.
  */
 
-public class CollectionsAdapter extends FooterAdapter<Collection> {
+public class UserCollectionsAdapter extends CollectionsAdapter {
 
-    @IntDef({CollectionViewType.COLLECTION_NORMAL, CollectionViewType.COLLECTION_PREVIEW})
-    private @interface CollectionViewType {
-        int COLLECTION_NORMAL = 10;
-        int COLLECTION_PREVIEW = 11;
-    }
-
-    protected Context mContext;
-
-    public CollectionsAdapter(Context context) {
-        this.mContext = context;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isShowFooter && position == getItemCount() - 1) {
-            return ItemViewType.FOOTER_TYPE;
-        } else {
-            if (mData.get(position).preview_photos.size() >= 3) {
-                return CollectionViewType.COLLECTION_PREVIEW;
-            }
-            return CollectionViewType.COLLECTION_NORMAL;
-        }
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case ItemViewType.FOOTER_TYPE:
-                return onCreateFooterViewHolder(parent, viewType);
-            case CollectionViewType.COLLECTION_NORMAL:
-                return onCreateItemViewHolder(parent, viewType);
-            case CollectionViewType.COLLECTION_PREVIEW:
-                return onCreatePreViewHolder(parent, viewType);
-            default:
-                return onCreateItemViewHolder(parent, viewType);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        final Collection item = getItem(position);
-
-        switch (getItemViewType(position)) {
-            case CollectionViewType.COLLECTION_NORMAL:
-                bindDataToItemView(viewHolder, item, position);
-                break;
-            case CollectionViewType.COLLECTION_PREVIEW:
-                bindDataToItemView(viewHolder, item, position);
-                break;
-            case ItemViewType.FOOTER_TYPE:
-                break;
-        }
-
+    public UserCollectionsAdapter(Context context) {
+        super(context);
     }
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Collection item, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        if (viewHolder instanceof CoverViewHolder) {
+        if (viewHolder instanceof UserCollectionsAdapter.CoverViewHolder) {
             if (item.cover_photo != null) {
-                CoverViewHolder cvh = (CoverViewHolder) viewHolder;
+                UserCollectionsAdapter.CoverViewHolder cvh = (UserCollectionsAdapter.CoverViewHolder) viewHolder;
 
                 ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
                 lp.width = ViewHelper.getScreenSize(mContext)[0];
@@ -100,8 +46,8 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
 
                 ImgHelper.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
             }
-        } else if (viewHolder instanceof PreViewHolder) {
-            PreViewHolder pvh = (PreViewHolder) viewHolder;
+        } else if (viewHolder instanceof UserCollectionsAdapter.PreViewHolder) {
+            UserCollectionsAdapter.PreViewHolder pvh = (UserCollectionsAdapter.PreViewHolder) viewHolder;
 
             ViewGroup.LayoutParams containerLp = pvh.mPreviewContainer.getLayoutParams();
 
@@ -129,27 +75,22 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             holder.mDescription.setVisibility(View.GONE);
         }
 
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
-        holder.mUsername.setText(item.user.name);
         holder.mTotalPhotos.setText(item.total_photos + "");
     }
 
     @Override
     protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return new CoverViewHolder(inflateItemView(parent, R.layout.item_collection_cover));
+        return new UserCollectionsAdapter.CoverViewHolder(inflateItemView(parent, R.layout.item_user_collection_cover));
     }
 
+    @Override
     protected RecyclerView.ViewHolder onCreatePreViewHolder(ViewGroup parent, int viewType) {
-        return new PreViewHolder(inflateItemView(parent, R.layout.item_collection_preview));
+        return new UserCollectionsAdapter.PreViewHolder(inflateItemView(parent, R.layout.item_user_collection_priview));
     }
 
     public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.description)
         TextView mDescription;
-        @BindView(R.id.avatar)
-        ImageView mAvatar;
-        @BindView(R.id.username)
-        TextView mUsername;
         @BindView(R.id.title)
         TextView mTitle;
         @BindView(R.id.total_photos)
@@ -162,13 +103,6 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            mAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavHelper.toUser(mContext, mCollection.user, mAvatar);
-                }
-            });
         }
 
     }
@@ -210,7 +144,6 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         ImageView mPreview1;
         @BindView(R.id.preview_2)
         ImageView mPreview2;
-
 
         public PreViewHolder(View itemView) {
             super(itemView);

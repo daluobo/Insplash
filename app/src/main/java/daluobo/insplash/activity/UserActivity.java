@@ -49,6 +49,7 @@ public class UserActivity extends BaseActivity {
     protected TabFragmentAdapter mAdapter;
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
+    private boolean isShowUserInfo = false;
 
     @BindView(R.id.avatar)
     ImageView mAvatar;
@@ -157,10 +158,8 @@ public class UserActivity extends BaseActivity {
             }
         });
         mTitle.setText(mViewModel.getUserData().username);
-        mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 48), 0);
+        mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 72), 0);
     }
-
-    boolean isA = false;
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
     public void onViewClicked(View view) {
@@ -168,10 +167,10 @@ public class UserActivity extends BaseActivity {
             case R.id.avatar:
                 break;
             case R.id.user_info_container:
-                if (isA) {
+                if (isShowUserInfo) {
                     return;
                 }
-                isA = true;
+                isShowUserInfo = true;
 
                 final int distanceX = DimensionUtil.dip2px(UserActivity.this, 40);
 
@@ -186,7 +185,7 @@ public class UserActivity extends BaseActivity {
 
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
-                                        isA = false;
+                                        isShowUserInfo = false;
                                     }
 
                                 }).start();
@@ -219,7 +218,9 @@ public class UserActivity extends BaseActivity {
                 break;
 
             case R.id.bio:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.getUserData().portfolio_url)));
+                if (mViewModel.getUserData().portfolio_url != null) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.getUserData().portfolio_url)));
+                }
                 break;
         }
     }
