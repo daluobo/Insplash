@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  */
 
 public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    protected final List<D> mData = new ArrayList<>();
+    protected List<D> mData;
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
@@ -43,11 +42,11 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     }
 
     public void addItem(D item) {
-        mData.add(item); // 需要自己通知更新
+        mData.add(item);
     }
 
     public void addItems(List<D> items) {
-        mData.addAll(items); // 需要自己通知更新
+        mData.addAll(items);
     }
 
     public void clearItems(){

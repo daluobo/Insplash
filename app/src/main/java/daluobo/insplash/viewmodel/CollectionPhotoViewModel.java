@@ -1,6 +1,7 @@
 package daluobo.insplash.viewmodel;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 
 import java.util.List;
 
@@ -14,18 +15,25 @@ import daluobo.insplash.repository.CollectionsRepository;
  */
 
 public class CollectionPhotoViewModel extends PhotoViewModel {
-    protected CollectionsRepository mRepository;
-    protected Collection mCollection;
-
-    public CollectionPhotoViewModel(Collection collection){
-        super();
-
-        this.mCollection = collection;
-        mRepository = new CollectionsRepository();
-    }
+    protected CollectionsRepository mRepository = new CollectionsRepository();
+    protected MediatorLiveData<Collection> mCollection = new MediatorLiveData<>();
+    protected Collection mCollectionData;
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        return mRepository.loadPhotoPage(mCollection.id + "", page);
+        return mRepository.loadPhotoPage(mCollectionData.id + "", page);
+    }
+
+    public MediatorLiveData<Collection> getCollection() {
+        return mCollection;
+    }
+
+    public void setCollection(Collection collection) {
+        mCollection.setValue(collection);
+        mCollectionData = collection;
+    }
+
+    public Collection getCollectionData() {
+        return mCollectionData;
     }
 }

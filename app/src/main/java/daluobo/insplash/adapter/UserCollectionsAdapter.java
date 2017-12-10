@@ -12,12 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.CollectionActivity;
-import daluobo.insplash.helper.ImgHelper;
-import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.util.DimensionUtil;
 
@@ -27,8 +29,8 @@ import daluobo.insplash.util.DimensionUtil;
 
 public class UserCollectionsAdapter extends CollectionsAdapter {
 
-    public UserCollectionsAdapter(Context context) {
-        super(context);
+    public UserCollectionsAdapter(Context context, List<Collection> data) {
+        super(context, data);
     }
 
     @Override
@@ -40,18 +42,18 @@ public class UserCollectionsAdapter extends CollectionsAdapter {
                 UserCollectionsAdapter.CoverViewHolder cvh = (UserCollectionsAdapter.CoverViewHolder) viewHolder;
 
                 ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
-                lp.width = ViewHelper.getScreenSize(mContext)[0];
+                lp.width = ViewUtil.getScreenSize(mContext)[0];
                 lp.height = lp.width * item.cover_photo.height / item.cover_photo.width;
                 cvh.mCoverPhoto.setLayoutParams(lp);
 
-                ImgHelper.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
+                ImgUtil.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
             }
         } else if (viewHolder instanceof UserCollectionsAdapter.PreViewHolder) {
             UserCollectionsAdapter.PreViewHolder pvh = (UserCollectionsAdapter.PreViewHolder) viewHolder;
 
             ViewGroup.LayoutParams containerLp = pvh.mPreviewContainer.getLayoutParams();
 
-            int containerWidth = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
+            int containerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
             int width = containerWidth / 3;
 
             containerLp.height = width;
@@ -59,9 +61,9 @@ public class UserCollectionsAdapter extends CollectionsAdapter {
 
             ColorDrawable bg = new ColorDrawable(Color.parseColor(item.cover_photo.color));
 
-            ImgHelper.loadImgCC(mContext, pvh.mPreview0, bg, item.preview_photos.get(0).urls.thumb);
-            ImgHelper.loadImgCC(mContext, pvh.mPreview1, bg, item.preview_photos.get(1).urls.thumb);
-            ImgHelper.loadImgCC(mContext, pvh.mPreview2, bg, item.preview_photos.get(2).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview0, bg, item.preview_photos.get(0).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview1, bg, item.preview_photos.get(1).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview2, bg, item.preview_photos.get(2).urls.thumb);
         }
 
 

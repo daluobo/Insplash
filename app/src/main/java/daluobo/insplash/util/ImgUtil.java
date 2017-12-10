@@ -1,4 +1,4 @@
-package daluobo.insplash.helper;
+package daluobo.insplash.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,7 +13,7 @@ import daluobo.insplash.common.GlideApp;
  * Created by daluobo on 2017/11/12.
  */
 
-public class ImgHelper {
+public class ImgUtil {
 
     public static void loadImg(@NonNull Context context, @NonNull ImageView imageView, @NonNull String url) {
         Glide.with(context)

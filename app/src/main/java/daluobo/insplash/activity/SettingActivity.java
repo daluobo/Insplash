@@ -25,9 +25,9 @@ import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
-import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Token;
 import daluobo.insplash.model.User;
 import daluobo.insplash.util.SharePrefUtil;
@@ -137,11 +137,11 @@ public class SettingActivity extends BaseActivity {
         mUserContainer.setVisibility(View.VISIBLE);
         mUserCountContainer.setVisibility(View.VISIBLE);
 
-        int userHeight = ViewHelper.getViewSize(mUserContainer)[1];
+        int userHeight = ViewUtil.getViewSize(mUserContainer)[1];
         ValueAnimator userAnimator = AnimHelper.createDropDown(mUserContainer, 0, userHeight);
         userAnimator.start();
 
-        int countHeight = ViewHelper.getViewSize(mTotalPhotosContainer)[1];
+        int countHeight = ViewUtil.getViewSize(mTotalPhotosContainer)[1];
         ValueAnimator countAnimator = AnimHelper.createDropDown(mUserCountContainer, 0, countHeight);
         countAnimator.start();
     }
@@ -151,7 +151,7 @@ public class SettingActivity extends BaseActivity {
             return;
         }
 
-        int userHeight = ViewHelper.getViewSize(mUserContainer)[1];
+        int userHeight = ViewUtil.getViewSize(mUserContainer)[1];
         ValueAnimator userAnimator = AnimHelper.createDropDown(mUserContainer, userHeight, 0);
         userAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -162,7 +162,7 @@ public class SettingActivity extends BaseActivity {
         });
         userAnimator.start();
 
-        int countHeight = ViewHelper.getViewSize(mTotalPhotosContainer)[1];
+        int countHeight = ViewUtil.getViewSize(mTotalPhotosContainer)[1];
         ValueAnimator countAnimator = AnimHelper.createDropDown(mUserCountContainer, countHeight, 0);
         countAnimator
                 .addListener(new AnimatorListenerAdapter() {
@@ -186,7 +186,7 @@ public class SettingActivity extends BaseActivity {
                 mTotalLikes.setText(user.total_likes + "");
                 mTotalPhotos.setText(user.total_photos + "");
                 mTotalCollections.setText(user.total_collections + "");
-                ImgHelper.loadImg(SettingActivity.this, mAvatar, user.profile_image.medium);
+                ImgUtil.loadImg(SettingActivity.this, mAvatar, user.profile_image.medium);
             }
         });
     }

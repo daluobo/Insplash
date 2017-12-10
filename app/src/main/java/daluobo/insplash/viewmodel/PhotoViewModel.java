@@ -16,7 +16,7 @@ import daluobo.insplash.repository.PhotoRepository;
  */
 
 public class PhotoViewModel extends BasePageViewModel<Photo> {
-    protected PhotoRepository mRepository;
+    protected PhotoRepository mRepository = new PhotoRepository();
 
     @PhotoType
     private int mType = PhotoType.ALL;
@@ -29,7 +29,15 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     }
 
     public PhotoViewModel() {
-        mRepository = new PhotoRepository();
+    }
+
+    @Override
+    public LiveData<Resource<List<Photo>>> loadPage(int page) {
+        if (mType == PhotoType.ALL) {
+            return getPhotos(page);
+        } else {
+            return getCurated(page);
+        }
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(int page) {
@@ -40,23 +48,14 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         return mRepository.getCurated(page);
     }
 
-    @Override
-    public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        if (mType == PhotoType.ALL) {
-            return mRepository.getPhotos(page);
-        } else {
-            return mRepository.getCurated(page);
-        }
-    }
-
     public LiveData<Resource<Photo>> getPhoto(String id) {
         return mRepository.getPhoto(id);
     }
 
     public LiveData<Resource<Photo>> likePhoto(Photo photo) {
-        if(photo.liked_by_user){
+        if (photo.liked_by_user) {
             return mRepository.unlike(photo.id);
-        }else {
+        } else {
             return mRepository.like(photo.id);
         }
     }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/latest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:text="Latest"
+        android:gravity="end"
+        android:background="?android:selectableItemBackground"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/oldest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:background="?android:selectableItemBackground"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:text="Oldest"
+        android:gravity="end"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/popular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:background="?android:selectableItemBackground"
+        android:paddingTop="8dp"
+        android:gravity="end"
+        android:text="Popular"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"/>
+</LinearLayout>

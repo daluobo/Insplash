@@ -3,8 +3,10 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,35 +25,56 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DateUtil;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 public class PhotoActivity extends BaseActivity {
     public static final String ARG_PHOTO = "photo";
     protected Photo mPhoto;
     protected PhotoViewModel mViewModel;
+    protected ColorDrawable mPhotoColor;
+    protected int mPhotoColorId;
+
+    @BindDrawable(R.drawable.ic_favorite_border)
+    Drawable mIcFavoriteBorder;
+    @BindDrawable(R.drawable.ic_favorite)
+    Drawable mIcFavorite;
+    @BindDrawable(R.drawable.ic_visibility)
+    Drawable mIcVisibility;
+    @BindDrawable(R.drawable.ic_file_download)
+    Drawable mIcDownload;
+    @BindDrawable(R.drawable.ic_place)
+    Drawable mIcPlace;
+    @BindDrawable(R.drawable.ic_time)
+    Drawable mIcTime;
+    @BindDrawable(R.drawable.ic_camera)
+    Drawable mIcCamera;
+    @BindDrawable(R.drawable.ic_arrow_down)
+    Drawable mIcArrowDown;
+    @BindDrawable(R.drawable.ic_straighten)
+    Drawable mIcStraighten;
+    @BindDrawable(R.drawable.ic_palette)
+    Drawable mIcPalette;
+    @BindDrawable(R.drawable.ic_person_outline)
+    Drawable mIcPersonOutline;
+    @BindDrawable(R.drawable.ic_mark_border)
+    Drawable mIcMarkBorder;
+    @BindDrawable(R.drawable.ic_mark)
+    Drawable mIcMark;
     @BindView(R.id.photo_view)
     ImageView mPhotoView;
-    @BindView(R.id.like_btn)
-    ImageView mLikeBtn;
-    @BindView(R.id.like_count)
-    TextView mLikeCount;
-    @BindView(R.id.like_container)
-    LinearLayout mLikeContainer;
-    @BindView(R.id.views_count)
-    TextView mViewsCount;
-    @BindView(R.id.mark_container)
-    LinearLayout mMarkContainer;
-    @BindView(R.id.download_count)
-    TextView mDownloadCount;
-    @BindView(R.id.download_container)
-    LinearLayout mDownloadContainer;
     @BindView(R.id.description)
     TextView mDescription;
+    @BindView(R.id.like_count)
+    TextView mLikeCount;
+    @BindView(R.id.views_count)
+    TextView mViewsCount;
+    @BindView(R.id.download_count)
+    TextView mDownloadCount;
     @BindView(R.id.location)
     TextView mLocation;
     @BindView(R.id.time)
@@ -83,20 +107,15 @@ public class PhotoActivity extends BaseActivity {
     TextView mSize;
     @BindView(R.id.color)
     TextView mColor;
-    @BindView(R.id.color_hint)
-    ImageView mColorHint;
     @BindView(R.id.avatar)
     ImageView mAvatar;
     @BindView(R.id.username)
     TextView mUsername;
     @BindView(R.id.user_container)
     LinearLayout mUserContainer;
-    @BindView(R.id.collect_hint)
-    TextView mCollectHint;
-    @BindView(R.id.collect_icon)
-    ImageView mCollectIcon;
-    @BindView(R.id.collect_container)
-    LinearLayout mCollectContainer;
+    @BindView(R.id.collect)
+    TextView mCollect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,19 +131,20 @@ public class PhotoActivity extends BaseActivity {
     public void initData() {
         mPhoto = getIntent().getParcelableExtra(ARG_PHOTO);
 
-        mViewModel = new PhotoViewModel();
+        mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
     }
 
     @Override
     public void initView() {
         ViewGroup.LayoutParams lp = mPhotoView.getLayoutParams();
-        lp.width = ViewHelper.getScreenSize(this)[0];
+        lp.width = ViewUtil.getScreenSize(this)[0];
         lp.height = lp.width * mPhoto.height / mPhoto.width;
         mPhotoView.setLayoutParams(lp);
 
-        ColorDrawable photoColor = new ColorDrawable(Color.parseColor(mPhoto.color));
+        mPhotoColorId = Color.parseColor(mPhoto.color);
+        mPhotoColor = new ColorDrawable(mPhotoColorId);
 
-        ImgHelper.loadImg(this, mPhotoView, photoColor, mPhoto.urls.small);
+        ImgUtil.loadImg(this, mPhotoView, mPhotoColor, mPhoto.urls.small);
 
         if (mPhoto.description != null) {
             mDescription.setText(mPhoto.description);
@@ -132,16 +152,16 @@ public class PhotoActivity extends BaseActivity {
 
             mDescription.getViewTreeObserver().
                     addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    //避免重复监听
-                    mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    int height = mDescription.getMeasuredHeight();
+                        @Override
+                        public void onGlobalLayout() {
+                            //避免重复监听
+                            mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int height = mDescription.getMeasuredHeight();
 
-                    ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
-                    animator.setDuration(800).start();
-                }
-            });
+                            ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
+                            animator.setDuration(800).start();
+                        }
+                    });
 
         } else {
             mDescription.setVisibility(View.GONE);
@@ -158,10 +178,11 @@ public class PhotoActivity extends BaseActivity {
         mTime.setText(time);
         mSize.setText(mPhoto.width + " x " + mPhoto.height);
 
-        ImgHelper.loadImg(PhotoActivity.this, mAvatar, mPhoto.user.profile_image.medium);
+        ImgUtil.loadImg(PhotoActivity.this, mAvatar, mPhoto.user.profile_image.medium);
         mUsername.setText(mPhoto.user.username);
         mColor.setText(mPhoto.color);
-        mColorHint.setImageDrawable(photoColor);
+
+        initIcon();
 
         mViewModel.getPhoto(mPhoto.id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
@@ -184,17 +205,33 @@ public class PhotoActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.like_container, R.id.mark_container, R.id.download_container, R.id.show_exif_btn, R.id.collect_container, R.id.user_container})
+    private void initIcon() {
+        ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+        ViewUtil.setDrawableTop(mViewsCount, ViewUtil.tintDrawable(mIcVisibility, mPhotoColorId));
+        ViewUtil.setDrawableTop(mDownloadCount, ViewUtil.tintDrawable(mIcDownload, mPhotoColorId));
+
+        ViewUtil.setDrawableStart(mLocation, ViewUtil.tintDrawable(mIcPlace, mPhotoColorId));
+        ViewUtil.setDrawableStart(mTime, ViewUtil.tintDrawable(mIcTime, mPhotoColorId));
+        ViewUtil.setDrawableStart(mExifModel, ViewUtil.tintDrawable(mIcCamera, mPhotoColorId));
+
+        mExifContainerHint.setImageDrawable(ViewUtil.tintDrawable(mIcArrowDown, mPhotoColorId));
+
+        ViewUtil.setDrawableStart(mSize, ViewUtil.tintDrawable(mIcStraighten, mPhotoColorId));
+        ViewUtil.setDrawableStart(mColor, ViewUtil.tintDrawable(mIcPalette, mPhotoColorId));
+
+        ViewUtil.setDrawableEnd(mUsername, ViewUtil.tintDrawable(mIcPersonOutline, mPhotoColorId));
+        ViewUtil.setDrawableEnd(mCollect, ViewUtil.tintDrawable(mIcMarkBorder, mPhotoColorId));
+    }
+
+    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.like_container:
+            case R.id.like_count:
                 break;
-            case R.id.mark_container:
-                break;
-            case R.id.download_container:
+            case R.id.download_count:
                 break;
             case R.id.show_exif_btn:
-                int height = ViewHelper.getViewSize(mExifContainer)[1];
+                int height = ViewUtil.getViewSize(mExifContainer)[1];
 
                 if (mExifContainer.getVisibility() == View.VISIBLE) {
                     mExifContainerHint.animate().rotation(0);
@@ -220,7 +257,8 @@ public class PhotoActivity extends BaseActivity {
                 NavHelper.toUser(this, mPhoto.user, mAvatar);
 
                 break;
-            case R.id.collect_container:
+            case R.id.collect:
+
                 break;
         }
     }

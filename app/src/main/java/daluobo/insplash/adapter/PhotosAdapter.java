@@ -14,14 +14,16 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DimensionUtil;
 
@@ -40,13 +42,15 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     private TextView mCollectBtn;
     private int PopupWindowPhotoPosition = -1;
 
-    public PhotosAdapter(Context context) {
+    public PhotosAdapter(Context context, List<Photo> data) {
         this.mContext = context;
+        super.mData = data;
+
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public PhotosAdapter(Context context, boolean isShowUser) {
-        this.mContext = context;
+    public PhotosAdapter(Context context, List<Photo> data, boolean isShowUser) {
+        this(context, data);
         this.mIsShowUser = isShowUser;
     }
 
@@ -76,7 +80,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
         if (mIsShowUser) {
             holder.mUsername.setText(item.user.name);
-            ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
+            ImgUtil.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
             holder.mUsername.setVisibility(View.VISIBLE);
             holder.mAvatar.setVisibility(View.VISIBLE);
         } else {
@@ -85,11 +89,11 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
-        lp.width = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
+        lp.width = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 
-        ImgHelper.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
+        ImgUtil.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
     }
 
     @Override
@@ -136,6 +140,13 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
                 }
             });
 
+            mUsername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavHelper.toUser(mContext, mPhoto.user, mAvatar);
+                }
+            });
+
             mMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -163,8 +174,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     }
 
     private void initPopupWindow() {
-        final View contentView = mInflater.inflate(R.layout.view_photo_menu, null, false);
-        mPopupWindowSize = ViewHelper.getViewSize(contentView);
+        final View contentView = mInflater.inflate(R.layout.menu_view_photo, null, false);
+        mPopupWindowSize = ViewUtil.getViewSize(contentView);
 
         mDownloadBtn = contentView.findViewById(R.id.download_tv);
         mCollectBtn = contentView.findViewById(R.id.collect_tv);
@@ -192,7 +203,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setElevation(10);
-        mPopupWindow.setAnimationStyle(R.style.showPopupAnimation);
+        mPopupWindow.setAnimationStyle(R.style.ScaleAnimation);
     }
 
     public void onDownloadClick() {

@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseFragment;
-import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.model.User;
 import daluobo.insplash.viewmodel.UserViewModel;
 
@@ -71,12 +72,12 @@ public class UsersFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        mModel = new UserViewModel();
+        mModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         mModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(getContext()) {
             @Override
             protected void onSuccess(User user) {
-                ImgHelper.loadImg(getContext(), mAvatar, user.profile_image.large);
+                ImgUtil.loadImg(getContext(), mAvatar, user.profile_image.large);
 
                 mUsername.setText(user.name);
                 mTotalLikes.setText(user.total_likes + "");

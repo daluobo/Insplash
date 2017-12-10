@@ -17,12 +17,7 @@ import daluobo.insplash.repository.SearchRepository;
 
 public class SearchPhotoViewModel extends BasePageViewModel<Photo>{
     private String mQuery;
-    private SearchRepository mRepository;
-
-    public SearchPhotoViewModel(String query){
-        this.mQuery = query;
-        mRepository = new SearchRepository();
-    }
+    private SearchRepository mRepository = new SearchRepository();
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
@@ -32,5 +27,13 @@ public class SearchPhotoViewModel extends BasePageViewModel<Photo>{
                 return new Resource(input.status, input.data.results, input.message);
             }
         });
+    }
+
+    public String getQuery() {
+        return mQuery;
+    }
+
+    public void setQuery(String query) {
+        mQuery = query;
     }
 }

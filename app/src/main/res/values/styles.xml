@@ -47,8 +47,13 @@
         <item name="android:background">@color/colorWhite</item>
     </style>
 
-    <style name="showPopupAnimation" parent="android:Animation">
+    <style name="AlphaAnimation" parent="android:Animation">
         <item name="android:windowExitAnimation">@anim/alpha_exit</item>
         <item name="android:windowEnterAnimation">@anim/alpha_in</item>
+    </style>
+
+    <style name="ScaleAnimation" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/scale_exit</item>
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
     </style>
 </resources>

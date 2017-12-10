@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,9 +21,6 @@ import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
 
 public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     public static final String ARG_COLLECTION = "collection";
-    protected Collection mCollection;
-
-    protected CollectionPhotoViewModel mCollectionsViewModel;
 
     public CollectionPhotoFragment() {
     }
@@ -50,11 +48,12 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
 
     @Override
     public void initData() {
-        mCollection = getArguments().getParcelable(ARG_COLLECTION);
-        mViewModel = new CollectionPhotoViewModel(mCollection);
-        mAdapter = new PhotosAdapter(getContext());
+        Collection collection = getArguments().getParcelable(ARG_COLLECTION);
+        mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
+        ((CollectionPhotoViewModel)mViewModel).setCollection(collection);
 
-        mCollectionsViewModel = (CollectionPhotoViewModel) mViewModel;
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+
     }
 
     @Override

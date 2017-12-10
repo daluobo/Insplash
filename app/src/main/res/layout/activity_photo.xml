@@ -35,7 +35,6 @@
             tools:text="description"
             tools:visibility="visible"/>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,84 +42,43 @@
             android:background="@color/colorWhite"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/like_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
+                android:drawableTint="@color/colorPrimary"
+                android:drawableTop="@drawable/ic_favorite_border"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:padding="8dp"
+                android:text="0"
+                android:textColor="@color/colorBlack"/>
 
-                <ImageView
-                    android:id="@+id/like_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_favorite_border"
-                    android:tint="@color/colorIcon"/>
-
-                <TextView
-                    android:id="@+id/like_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/colorIcon"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/mark_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/views_count"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
+                android:drawableTint="@color/colorPrimary"
+                android:drawableTop="@drawable/ic_visibility"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:padding="8dp"
+                android:text="0"
+                android:textColor="@color/colorBlack"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_visibility"
-                    android:tint="@color/colorIcon"/>
-
-                <TextView
-                    android:id="@+id/views_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/colorIcon"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/download_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/download_count"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
+                android:drawableTint="@color/colorPrimary"
+                android:drawableTop="@drawable/ic_file_download"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_file_download"
-                    android:tint="@color/colorIcon"/>
-
-                <TextView
-                    android:id="@+id/download_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/colorIcon"/>
-            </LinearLayout>
+                android:padding="8dp"
+                android:text="0"
+                android:textColor="@color/colorBlack"/>
 
         </LinearLayout>
 
@@ -134,18 +92,18 @@
             <TextView
                 android:id="@+id/location"
                 style="@style/InfoText"
-                android:drawableLeft="@drawable/ic_place"
                 android:drawablePadding="16dp"
-                android:drawableTint="@color/colorIcon"
                 android:text="···"
+                tools:drawableLeft="@drawable/ic_place"
+                tools:drawableTint="@color/colorPrimary"
                 tools:text="location"/>
 
             <TextView
                 android:id="@+id/time"
                 style="@style/InfoText"
-                android:drawableLeft="@drawable/ic_time"
                 android:drawablePadding="16dp"
-                android:drawableTint="@color/colorIcon"
+                tools:drawableLeft="@drawable/ic_time"
+                tools:drawableTint="@color/colorPrimary"
                 tools:text="time"/>
 
             <RelativeLayout
@@ -159,10 +117,10 @@
                     android:id="@+id/exif_model"
                     style="@style/InfoText"
                     android:background="?android:selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_camera"
                     android:drawablePadding="16dp"
-                    android:drawableTint="@color/colorIcon"
                     android:text="···"
+                    tools:drawableLeft="@drawable/ic_camera"
+                    tools:drawableTint="@color/colorPrimary"
                     tools:text="exif_model"/>
 
                 <ImageView
@@ -172,8 +130,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_arrow_down"
-                    android:tint="@color/colorIcon"/>
+                    tools:src="@drawable/ic_arrow_down"
+                    tools:tint="@color/colorPrimary"/>
             </RelativeLayout>
 
 
@@ -280,32 +238,20 @@
             <TextView
                 android:id="@+id/size"
                 style="@style/InfoText"
-                android:drawableLeft="@drawable/ic_straighten"
                 android:drawablePadding="16dp"
-                android:drawableTint="@color/colorIcon"
+                tools:drawableLeft="@drawable/ic_straighten"
+                tools:drawableTint="@color/colorPrimary"
                 tools:text="size x size"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/color"
-                    style="@style/InfoText"
-                    android:layout_width="wrap_content"
-                    android:drawableLeft="@drawable/ic_palette"
-                    android:drawablePadding="16dp"
-                    android:drawableTint="@color/colorIcon"
-                    tools:text="color"/>
-
-                <ImageView
-                    android:id="@+id/color_hint"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/color"
+                style="@style/InfoText"
+                android:layout_width="wrap_content"
+                android:drawablePadding="16dp"
+                tools:drawableLeft="@drawable/ic_palette"
+                tools:drawableTint="@color/colorPrimary"
+                tools:text="color"/>
 
         </LinearLayout>
 
@@ -335,44 +281,28 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_person_outline"
-                android:drawableTint="@color/colorIcon"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
+                tools:drawableRight="@drawable/ic_person_outline"
+                tools:drawableTint="@color/colorPrimary"
                 tools:text="username"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/collect_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <TextView
+            android:id="@+id/collect"
+            style="@style/InfoText"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@color/colorWhite"
+            android:drawableEnd="@drawable/ic_mark_border"
             android:foreground="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="8dp">
+            android:gravity="center"
+            android:textColor="@color/colorBlack"
+            android:text="UnCollect"/>
 
-            <TextView
-                android:id="@+id/collect_hint"
-                style="@style/InfoText"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="54dp"
-                android:text="UnCollect"/>
-
-            <ImageView
-                android:id="@+id/collect_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:src="@drawable/ic_mark_border"
-                android:tint="@color/colorIcon"/>
-        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

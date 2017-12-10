@@ -1,6 +1,5 @@
 package daluobo.insplash.base.view;
 
-import android.support.annotation.CallSuper;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +31,6 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
     protected LinearLayoutManager mLayoutManager;
     protected OnScrollUpListener mOnScrollUpListener;
 
-    @CallSuper
     public void initListView() {
         mSwipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright),
                 ContextCompat.getColor(getContext(), android.R.color.holo_green_light),
@@ -122,6 +120,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
         mAdapter.clearItems();
         mAdapter.addItems(data);
         mAdapter.notifyDataSetChanged();
+
         mListView.scheduleLayoutAnimation();
     }
 

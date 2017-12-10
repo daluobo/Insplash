@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment.search;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
 import java.util.List;
@@ -30,7 +31,9 @@ public class SearchCollectionFragment extends SearchFragment<List<Collection>> {
     @Override
     public void initData() {
         String query = getArguments().getString(ARG_QUERY);
-        mViewModel = new SearchCollectionViewModel(query);
-        mAdapter = new CollectionsAdapter(getContext());
+        mViewModel = ViewModelProviders.of(this).get(SearchCollectionViewModel.class);
+        ((SearchCollectionViewModel) mViewModel).setQuery(query);
+
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
     }
 }

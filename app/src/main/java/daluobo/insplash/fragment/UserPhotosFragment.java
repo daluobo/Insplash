@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
 import java.util.List;
@@ -37,12 +38,14 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
     public void initData() {
         User user = getArguments().getParcelable(ARG_USER);
         int type = getArguments().getInt(ARG_TYPE);
-        mViewModel = new UserPhotoViewModel(user, type);
+        mViewModel = ViewModelProviders.of(this).get(UserPhotoViewModel.class);
+        ((UserPhotoViewModel)mViewModel).setUser(user);
+        ((UserPhotoViewModel)mViewModel).setType(type);
 
         if (type == UserPhotoViewModel.UserPhotosType.OWN) {
-            mAdapter = new PhotosAdapter(getContext(), false);
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), false);
         } else {
-            mAdapter = new PhotosAdapter(getContext());
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
         }
     }
 }

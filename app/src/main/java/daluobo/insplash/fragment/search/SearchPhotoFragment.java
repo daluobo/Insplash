@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment.search;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
 import java.util.List;
@@ -30,8 +31,10 @@ public class SearchPhotoFragment extends SearchFragment<List<Photo>> {
     @Override
     public void initData() {
         String query = getArguments().getString(ARG_QUERY);
-        mViewModel = new SearchPhotoViewModel(query);
-        mAdapter = new PhotosAdapter(getContext());
+        mViewModel = ViewModelProviders.of(this).get(SearchPhotoViewModel.class);
+        ((SearchPhotoViewModel)mViewModel).setQuery(query);
+
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
     }
 
 }

@@ -15,17 +15,18 @@ import daluobo.insplash.repository.UserRepository;
 
 public class UserCollectionViewModel extends CollectionsViewModel {
     private User mUser;
-    private UserRepository mRepository;
-
-    public UserCollectionViewModel(User user) {
-        super();
-
-        this.mUser = user;
-        mRepository = new UserRepository();
-    }
+    private UserRepository mRepository= new UserRepository();
 
     @Override
     public LiveData<Resource<List<Collection>>> loadPage(int page) {
         return mRepository.collections(mUser.username, page);
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
     }
 }

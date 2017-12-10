@@ -27,7 +27,7 @@ public class PhotoContextMenu extends LinearLayout {
     }
 
     private void initView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_photo_menu, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.menu_view_photo, this, true);
         setBackground(new ColorDrawable(Color.parseColor("#000000")));
         setOrientation(VERTICAL);
         setElevation(10);

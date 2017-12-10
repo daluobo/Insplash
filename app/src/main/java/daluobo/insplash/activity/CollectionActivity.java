@@ -2,12 +2,16 @@ package daluobo.insplash.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,39 +26,24 @@ import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.fragment.CollectionPhotoFragment;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.helper.ImgHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.model.Tag;
 import daluobo.insplash.util.DateUtil;
-import daluobo.insplash.viewmodel.PhotoViewModel;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
 
 public class CollectionActivity extends BaseActivity {
     public static final String ARG_COLLECTION = "Collection";
     public static final String ARG_REVEAL_X = "revealX";
     public static final String ARG_REVEAL_Y = "revealY";
 
-    protected PhotoViewModel mViewModel;
+    protected CollectionPhotoViewModel mViewModel;
     protected PhotosAdapter mAdapter;
     protected int revealX;
     protected int revealY;
-
-    protected Collection mCollection;
-    @BindView(R.id.avatar)
-    ImageView mAvatar;
-
     @BindView(R.id.description)
     TextView mDescription;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mToolbarLayout;
-    @BindView(R.id.app_bar)
-    AppBarLayout mAppBar;
-    @BindView(R.id.toolbar)
-    LinearLayout mToolbar;
-    @BindView(R.id.fragment_container)
-    FrameLayout mFragmentContainer;
-    @BindView(R.id.username)
-    TextView mUsername;
     @BindView(R.id.tags)
     TextView mTags;
     @BindView(R.id.published_at)
@@ -63,10 +52,23 @@ public class CollectionActivity extends BaseActivity {
     TextView mUpdatedAt;
     @BindView(R.id.title)
     TextView mTitle;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
+    @BindView(R.id.app_bar)
+    AppBarLayout mAppBar;
+    @BindView(R.id.avatar)
+    ImageView mAvatar;
+    @BindView(R.id.username)
+    TextView mUsername;
     @BindView(R.id.user_container)
     LinearLayout mUserContainer;
+    @BindView(R.id.fragment_container)
+    FrameLayout mFragmentContainer;
     @BindView(R.id.root_container)
     CoordinatorLayout mRootContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,45 +93,52 @@ public class CollectionActivity extends BaseActivity {
         });
     }
 
-
     @Override
     public void initData() {
-        mCollection = getIntent().getParcelableExtra(ARG_COLLECTION);
+        Collection collection = getIntent().getParcelableExtra(ARG_COLLECTION);
         revealX = getIntent().getIntExtra(ARG_REVEAL_X, 0);
         revealY = getIntent().getIntExtra(ARG_REVEAL_Y, 0);
 
-        mViewModel = new PhotoViewModel();
-        mAdapter = new PhotosAdapter(this);
+        mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
+        mViewModel.setCollection(collection);
+
+        mAdapter = new PhotosAdapter(this, mViewModel.getData());
     }
 
     @Override
     public void initView() {
+        setSupportActionBar(mToolbar);
 
-        mTitle.setText(mCollection.title);
+        mViewModel.getCollection().observe(this, new Observer<Collection>() {
+            @Override
+            public void onChanged(@Nullable Collection collection) {
+                mTitle.setText(collection.title);
 
-        if (mCollection.description != null) {
-            mDescription.setText(mCollection.description);
-            mDescription.setVisibility(View.VISIBLE);
-        } else {
-            mDescription.setVisibility(View.GONE);
-        }
+                if (collection.description != null) {
+                    mDescription.setText(collection.description);
+                    mDescription.setVisibility(View.VISIBLE);
+                } else {
+                    mDescription.setVisibility(View.GONE);
+                }
 
-        StringBuffer sb = new StringBuffer();
-        for (Tag tag : mCollection.tags) {
-            sb.append(tag.title + "、 ");
-        }
-        mTags.setText(sb);
+                StringBuffer sb = new StringBuffer();
+                for (Tag tag : collection.tags) {
+                    sb.append(tag.title + "、 ");
+                }
+                mTags.setText(sb);
 
-        mPublishedAt.setText(DateUtil.GmtFormatDay(mCollection.published_at));
-        mUpdatedAt.setText(DateUtil.GmtFormatDay(mCollection.updated_at));
+                mPublishedAt.setText(DateUtil.GmtFormatDay(collection.published_at));
+                mUpdatedAt.setText(DateUtil.GmtFormatDay(collection.updated_at));
 
-        mUsername.setText(mCollection.user.username);
-        ImgHelper.loadImg(this, mAvatar, mCollection.user.profile_image.medium);
+                mUsername.setText(collection.user.username);
+                ImgUtil.loadImg(CollectionActivity.this, mAvatar, collection.user.profile_image.medium);
 
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .add(R.id.fragment_container, CollectionPhotoFragment.newInstance(mCollection))
-                .commit();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction()
+                        .add(R.id.fragment_container, CollectionPhotoFragment.newInstance(collection))
+                        .commit();
+            }
+        });
     }
 
     @Override
@@ -157,6 +166,6 @@ public class CollectionActivity extends BaseActivity {
 
     @OnClick(R.id.user_container)
     public void onViewClicked() {
-        NavHelper.toUser(this, mCollection.user, mAvatar);
+        NavHelper.toUser(this, mViewModel.getCollectionData().user, mAvatar);
     }
 }

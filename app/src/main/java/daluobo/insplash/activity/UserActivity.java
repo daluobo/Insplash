@@ -35,10 +35,10 @@ import daluobo.insplash.base.view.TabFragmentAdapter;
 import daluobo.insplash.fragment.UserCollectionsFragment;
 import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.helper.ImgHelper;
-import daluobo.insplash.helper.ViewHelper;
 import daluobo.insplash.model.User;
 import daluobo.insplash.util.DimensionUtil;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.viewmodel.UserPhotoViewModel;
 import daluobo.insplash.viewmodel.UserViewModel;
 
@@ -47,6 +47,7 @@ public class UserActivity extends BaseActivity {
 
     protected UserViewModel mViewModel;
     protected TabFragmentAdapter mAdapter;
+
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     private boolean isShowUserInfo = false;
@@ -121,7 +122,7 @@ public class UserActivity extends BaseActivity {
         mViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                ImgHelper.loadImg(UserActivity.this, mAvatar, user.profile_image.large);
+                ImgUtil.loadImg(UserActivity.this, mAvatar, user.profile_image.large);
 
                 mLocation.setText(user.location);
                 if (user.badge != null) {
@@ -159,7 +160,6 @@ public class UserActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_gray);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +168,7 @@ public class UserActivity extends BaseActivity {
             }
         });
         mTitle.setText(mViewModel.getUserData().username);
-        mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 72), 0);
+        //mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 72), 0);
     }
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
@@ -206,7 +206,7 @@ public class UserActivity extends BaseActivity {
                 }).start();
                 break;
             case R.id.show_more_info_container:
-                int height = ViewHelper.getViewSize(mExtraInfoContainer)[1];
+                int height = ViewUtil.getViewSize(mExtraInfoContainer)[1];
                 if (mExtraInfoContainer.getVisibility() == View.VISIBLE) {
                     mExtraInfoHint.animate().rotation(0);
 

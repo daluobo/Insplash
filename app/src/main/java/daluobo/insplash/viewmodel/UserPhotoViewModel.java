@@ -18,7 +18,7 @@ import daluobo.insplash.repository.UserRepository;
 
 public class UserPhotoViewModel extends PhotoViewModel {
     private User mUser;
-    private UserRepository mRepository;
+    private UserRepository mRepository= new UserRepository();;
 
     @UserPhotosType
     private int mType;
@@ -29,15 +29,6 @@ public class UserPhotoViewModel extends PhotoViewModel {
         int OWN = 0;
         int LIKE = 1;
     }
-
-    public UserPhotoViewModel(User user, @UserPhotosType int type) {
-        super();
-
-        this.mUser = user;
-        this.mType = type;
-        mRepository = new UserRepository();
-    }
-
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
         if (mType == UserPhotosType.OWN) {
@@ -45,5 +36,23 @@ public class UserPhotoViewModel extends PhotoViewModel {
         } else {
             return mRepository.likes(mUser.username, page);
         }
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
+    }
+
+    @Override
+    public int getType() {
+        return mType;
+    }
+
+    @Override
+    public void setType(int type) {
+        mType = type;
     }
 }

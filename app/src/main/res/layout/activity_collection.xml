@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,28 +88,25 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
                 app:layout_collapseMode="pin">
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="title"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"/>
-            </LinearLayout>
 
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

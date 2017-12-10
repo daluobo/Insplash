@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -52,8 +53,8 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
     public void initData() {
         mInflater = LayoutInflater.from(getContext());
 
-        mViewModel = new CollectionsViewModel();
-        mAdapter = new CollectionsAdapter(getContext());
+        mViewModel = ViewModelProviders.of(this).get(CollectionsViewModel.class);
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
 
     }
 

@@ -3,6 +3,7 @@ package daluobo.insplash.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
@@ -13,6 +14,8 @@ import daluobo.insplash.base.arch.Resource;
 
 public abstract class BasePageViewModel<T> extends ViewModel {
     protected int mPage = 1;
+
+    protected final List<T> mData = new ArrayList<>();
 
     public LiveData<Resource<List<T>>> onRefresh() {
         mPage = 1;
@@ -36,5 +39,9 @@ public abstract class BasePageViewModel<T> extends ViewModel {
 
     public void setPage(int page) {
         mPage = page;
+    }
+
+    public List<T> getData() {
+        return mData;
     }
 }

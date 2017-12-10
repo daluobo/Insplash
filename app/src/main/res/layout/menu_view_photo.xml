@@ -2,11 +2,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:background="@color/colorWhite">
+    android:paddingBottom="4dp">
 
     <TextView
         android:id="@+id/download_tv"
@@ -15,6 +14,8 @@
         android:drawableLeft="@drawable/ic_file_download"
         android:drawableTint="@color/colorPrimary"
         android:drawablePadding="8dp"
+        android:paddingEnd="36dp"
+        android:textColor="@color/colorBlack"
         android:text="Download"/>
 
     <TextView
@@ -23,6 +24,19 @@
         android:foreground="?android:selectableItemBackground"
         android:drawableLeft="@drawable/ic_mark_border"
         android:drawableTint="@color/colorPrimary"
+        android:textColor="@color/colorBlack"
+        android:paddingEnd="36dp"
         android:drawablePadding="8dp"
         android:text="Collect"/>
+
+    <TextView
+        android:id="@+id/delete"
+        style="@style/InfoText"
+        android:foreground="?android:selectableItemBackground"
+        android:drawableLeft="@drawable/ic_delete"
+        android:drawableTint="@color/colorPrimary"
+        android:textColor="@color/colorBlack"
+        android:paddingEnd="36dp"
+        android:drawablePadding="8dp"
+        android:text="Delete"/>
 </LinearLayout>

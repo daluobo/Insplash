@@ -13,14 +13,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.util.DimensionUtil;
 
@@ -38,8 +40,9 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
 
     protected Context mContext;
 
-    public CollectionsAdapter(Context context) {
+    public CollectionsAdapter(Context context, List<Collection> data) {
         this.mContext = context;
+        super.mData = data;
     }
 
     @Override
@@ -94,18 +97,18 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
                 CoverViewHolder cvh = (CoverViewHolder) viewHolder;
 
                 ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
-                lp.width = ViewHelper.getScreenSize(mContext)[0];
+                lp.width = ViewUtil.getScreenSize(mContext)[0];
                 lp.height = lp.width * item.cover_photo.height / item.cover_photo.width;
                 cvh.mCoverPhoto.setLayoutParams(lp);
 
-                ImgHelper.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
+                ImgUtil.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
             }
         } else if (viewHolder instanceof PreViewHolder) {
             PreViewHolder pvh = (PreViewHolder) viewHolder;
 
             ViewGroup.LayoutParams containerLp = pvh.mPreviewContainer.getLayoutParams();
 
-            int containerWidth = ViewHelper.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
+            int containerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
             int width = containerWidth / 3;
 
             containerLp.height = width;
@@ -113,9 +116,9 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
 
             ColorDrawable bg = new ColorDrawable(Color.parseColor(item.cover_photo.color));
 
-            ImgHelper.loadImgCC(mContext, pvh.mPreview0, bg, item.preview_photos.get(0).urls.thumb);
-            ImgHelper.loadImgCC(mContext, pvh.mPreview1, bg, item.preview_photos.get(1).urls.thumb);
-            ImgHelper.loadImgCC(mContext, pvh.mPreview2, bg, item.preview_photos.get(2).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview0, bg, item.preview_photos.get(0).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview1, bg, item.preview_photos.get(1).urls.thumb);
+            ImgUtil.loadImgCC(mContext, pvh.mPreview2, bg, item.preview_photos.get(2).urls.thumb);
         }
 
 
@@ -129,7 +132,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             holder.mDescription.setVisibility(View.GONE);
         }
 
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
+        ImgUtil.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
         holder.mUsername.setText(item.user.name);
         holder.mTotalPhotos.setText(item.total_photos + "");
     }

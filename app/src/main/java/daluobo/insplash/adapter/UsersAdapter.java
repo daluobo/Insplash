@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.helper.ImgHelper;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.User;
 
@@ -41,7 +41,7 @@ public class UsersAdapter extends FooterAdapter<User> {
         } else {
             holder.mLocation.setVisibility(View.GONE);
         }
-        ImgHelper.loadImg(mContext, holder.mAvatar, item.profile_image.large);
+        ImgUtil.loadImg(mContext, holder.mAvatar, item.profile_image.large);
     }
 
     @Override

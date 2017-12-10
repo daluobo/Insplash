@@ -3,6 +3,7 @@ package daluobo.insplash.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -24,7 +25,8 @@ import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.helper.ViewHelper;
+import daluobo.insplash.util.DimensionUtil;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.view.PhotoContextMenuManager;
 import daluobo.insplash.viewmodel.PhotoViewModel;
@@ -65,8 +67,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     public void initData() {
         mInflater = LayoutInflater.from(getContext());
 
-        mViewModel = new PhotoViewModel();
-        mAdapter = new PhotosAdapter(getContext());
+        mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
     }
 
     @Override
@@ -90,7 +92,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        super.initListView();
+        initListView();
         mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -102,12 +104,12 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     }
 
     private void showSelectType() {
-        final View contentView = mInflater.inflate(R.layout.dialog_photo_type, null, false);
+        final View contentView = mInflater.inflate(R.layout.menu_photo_type, null, false);
         final TextView all = contentView.findViewById(R.id.all);
         final TextView curated = contentView.findViewById(R.id.curated);
 
-        int allWidth = ViewHelper.getViewSize(all)[0];
-        int curatedWidth = ViewHelper.getViewSize(curated)[0];
+        int allWidth = ViewUtil.getViewSize(all)[0];
+        int curatedWidth = ViewUtil.getViewSize(curated)[0];
 
         final PopupWindow window = new PopupWindow(contentView,
                 allWidth > curatedWidth ? allWidth : curatedWidth,
@@ -117,7 +119,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         window.setOutsideTouchable(true);
         window.setTouchable(true);
         window.setElevation(10);
-        window.setAnimationStyle(R.style.showPopupAnimation);
+        window.setAnimationStyle(R.style.AlphaAnimation);
         window.showAsDropDown(mPhotoType, 0, -mPhotoType.getHeight());
 
         all.setOnClickListener(new View.OnClickListener() {
@@ -167,17 +169,48 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     }
 
     private void showSelectOrderBy() {
-        final View contentView = mInflater.inflate(R.layout.dialog_order_by, null, false);
+        final View contentView = mInflater.inflate(R.layout.menu_order_by, null, false);
+        final TextView latest = contentView.findViewById(R.id.latest);
+        final TextView oldest = contentView.findViewById(R.id.oldest);
+        final TextView popular = contentView.findViewById(R.id.popular);
+
+        latest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        oldest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        popular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        int latestWidth = ViewUtil.getViewSize(latest)[0];
+        int oldestWidth = ViewUtil.getViewSize(oldest)[0];
+        int popularWidth = ViewUtil.getViewSize(popular)[0];
+
 
         final PopupWindow window = new PopupWindow(contentView,
-                ViewHelper.getScreenSize(getContext())[0],
-                ViewHelper.getScreenSize(getContext())[1],
+                popularWidth,
+                mOrderBy.getHeight() * 3,
                 true);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         window.setOutsideTouchable(true);
         window.setTouchable(true);
+        window.setElevation(10);
+        window.setAnimationStyle(R.style.AlphaAnimation);
 
-        window.showAsDropDown(mOrderBy, 0, -mPhotoType.getHeight());
+        window.showAsDropDown(mOrderBy, -DimensionUtil.dip2px(getContext(), 8), -mOrderBy.getHeight());
 
     }
 }
