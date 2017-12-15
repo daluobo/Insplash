@@ -25,6 +25,7 @@ import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
+import daluobo.insplash.helper.SharePrefHelper;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.util.ViewUtil;
@@ -179,6 +180,8 @@ public class SettingActivity extends BaseActivity {
         mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
             @Override
             protected void onSuccess(User user) {
+                SharePrefHelper.setUsername(user.username);
+
                 mViewModel.setUser(user);
 
                 mUsername.setText(user.username);

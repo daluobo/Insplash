@@ -30,7 +30,7 @@
         android:text="Collect"/>
 
     <TextView
-        android:id="@+id/delete"
+        android:id="@+id/delete_tv"
         style="@style/InfoText"
         android:foreground="?android:selectableItemBackground"
         android:drawableLeft="@drawable/ic_delete"

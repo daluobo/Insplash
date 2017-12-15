@@ -21,4 +21,12 @@ public class SharePrefHelper {
     public static String getRefreshToken() {
         return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.REFRESH_TOKEN);
     }
+
+    public static String getUsername() {
+        return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.USER_NAME);
+    }
+
+    public static void setUsername(String username) {
+        SharePrefUtil.putPreference(MyApplication.getInstance(), AppConstant.SharePref.USER_NAME, username);
+    }
 }

@@ -44,9 +44,8 @@ public class NavHelper {
 
     }
 
-    public static void toSearch(Context context, String query) {
+    public static void toSearch(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra(SearchActivity.ARG_QUERY, query);
         context.startActivity(intent);
     }
 

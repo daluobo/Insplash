@@ -19,16 +19,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ViewUtil;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.view.PhotoContextMenuManager;
+import daluobo.insplash.view.SetCollectDialog;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -37,12 +38,15 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
 
 public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
+
     protected LayoutInflater mInflater;
     private TextView mPhotoType;
     private TextView mOrderBy;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
+    @BindColor(R.color.colorBg)
+    int mColorBg;
 
     public PhotosFragment() {
     }
@@ -69,6 +73,13 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
         mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
         mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+        ((PhotosAdapter) mAdapter).setOnMenuClickListener(new PhotosAdapter.OnMenuClickListener() {
+            @Override
+            public void onCollectClick() {
+                SetCollectDialog setCollectDialog = new SetCollectDialog();
+                setCollectDialog.show(getFragmentManager(), "SetCollectDialog");
+            }
+        });
     }
 
     @Override
@@ -98,7 +109,6 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                PhotoContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
             }
         });
     }

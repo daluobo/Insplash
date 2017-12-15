@@ -36,7 +36,6 @@ public class AnimHelper {
         return animator;
     }
 
-
     public static ValueAnimator createDropDown(final View view, int start, int end) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
 
@@ -46,6 +45,22 @@ public class AnimHelper {
                 int value = (int) animation.getAnimatedValue();
                 ViewGroup.LayoutParams lp = view.getLayoutParams();
                 lp.height = value;
+                view.setLayoutParams(lp);
+            }
+        });
+        animator.setDuration(300);
+        return animator;
+    }
+
+    public static ValueAnimator createScrollRight(final View view, int start, int end) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                ViewGroup.LayoutParams lp = view.getLayoutParams();
+                lp.width = value;
                 view.setLayoutParams(lp);
             }
         });

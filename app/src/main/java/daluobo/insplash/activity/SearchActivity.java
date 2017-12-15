@@ -1,10 +1,15 @@
 package daluobo.insplash.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +24,17 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.TabFragmentAdapter;
 import daluobo.insplash.fragment.search.SearchCollectionFragment;
+import daluobo.insplash.fragment.search.SearchFragment;
 import daluobo.insplash.fragment.search.SearchPhotoFragment;
 import daluobo.insplash.fragment.search.SearchUserFragment;
+import daluobo.insplash.viewmodel.SearchViewModel;
 
 public class SearchActivity extends BaseActivity {
-    public static final String ARG_QUERY = "query";
 
     protected TabFragmentAdapter mAdapter;
-    private List<Fragment> mFragments = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
+    protected List<Fragment> mFragments = new ArrayList<>();
+    protected List<String> titles = new ArrayList<>();
+    protected SearchViewModel mViewModel;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -51,16 +58,15 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        String query = getIntent().getStringExtra(ARG_QUERY);
-        mQuery.setText(query);
+        mViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
 
         titles.add("photos");
         titles.add("collections");
         titles.add("users");
 
-        mFragments.add(SearchPhotoFragment.newInstance(query));
-        mFragments.add(SearchCollectionFragment.newInstance(query));
-        mFragments.add(SearchUserFragment.newInstance(query));
+        mFragments.add(SearchPhotoFragment.newInstance());
+        mFragments.add(SearchCollectionFragment.newInstance());
+        mFragments.add(SearchUserFragment.newInstance());
 
         mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
     }
@@ -77,6 +83,60 @@ public class SearchActivity extends BaseActivity {
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mQuery.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                doSearch(s.toString());
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                SearchFragment sf = ((SearchFragment) mFragments.get(mViewPager.getCurrentItem()));
+                if (mViewModel.getQueryData() != null && !mViewModel.getQueryData().equals(sf.getQuery())) {
+                    sf.setQuery(mViewModel.getQueryData());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mViewModel.getQuery().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                SearchFragment sf = ((SearchFragment) mFragments.get(mViewPager.getCurrentItem()));
+                sf.setQuery(s);
+            }
+        });
+    }
+
+    private void doSearch(String query) {
+        SearchFragment sf = ((SearchFragment) (mFragments.get(mViewPager.getCurrentItem())));
+        if (query.length() == 0 || query.equals(sf.getQuery())) {
+            return;
+        }
+
+        mViewModel.setQuery(query);
     }
 
     @Override
@@ -91,7 +151,7 @@ public class SearchActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_clear) {
-
+            mQuery.setText("");
             return true;
         }
         return super.onOptionsItemSelected(item);

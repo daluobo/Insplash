@@ -38,10 +38,10 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
                 ContextCompat.getColor(getContext(), android.R.color.holo_red_light));
         mSwipeLayout.setOnRefreshListener(this);
 
-        LayoutAnimationController controller = new LayoutAnimationController(AnimHelper.getAnimationSetFromBottom());
-        controller.setDelay(0.5f);
-        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
-        mListView.setLayoutAnimation(controller);
+        LayoutAnimationController layoutAnimation = new LayoutAnimationController(AnimHelper.getAnimationSetFromBottom());
+        layoutAnimation.setDelay(0.5f);
+        layoutAnimation.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        mListView.setLayoutAnimation(layoutAnimation);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mListView.setHasFixedSize(true);

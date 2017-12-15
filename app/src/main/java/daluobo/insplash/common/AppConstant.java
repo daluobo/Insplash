@@ -25,8 +25,10 @@ public class AppConstant {
 
     public static final String SHARE_PREF_KEY = "turboz_set";
 
-    public static class SharePref{
+    public static class SharePref {
         public static String ACCESS_TOKEN = "access_token";
         public static String REFRESH_TOKEN = "refresh_token";
+        public static String USER_NAME = "user_name";
+
     }
 }

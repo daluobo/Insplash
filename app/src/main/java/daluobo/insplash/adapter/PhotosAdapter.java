@@ -10,6 +10,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -21,11 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Photo;
 import daluobo.insplash.util.DimensionUtil;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 
 /**
  * Created by daluobo on 2017/11/12.
@@ -40,7 +43,14 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     private int[] mPopupWindowSize;
     private TextView mDownloadBtn;
     private TextView mCollectBtn;
+    private TextView mDeleteBtn;
     private int PopupWindowPhotoPosition = -1;
+
+    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
+        mOnMenuClickListener = onMenuClickListener;
+    }
+
+    private OnMenuClickListener mOnMenuClickListener;
 
     public PhotosAdapter(Context context, List<Photo> data) {
         this.mContext = context;
@@ -126,6 +136,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
         Drawable mIcFavorite;
+        @BindDrawable(R.drawable.ic_loop)
+        Drawable mIcLoop;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -151,6 +163,21 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
                 @Override
                 public void onClick(View v) {
                     showMoreDialog(v, mPosition);
+                }
+            });
+
+            mLikeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mLikeBtn.setImageDrawable(mIcLoop);
+
+                    RotateAnimation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
+                            0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    animation.setDuration(800);
+                    animation.setRepeatCount(Animation.INFINITE);
+                    animation.setRepeatMode(Animation.RESTART);
+                    animation.setInterpolator(new LinearInterpolator());
+                    mLikeBtn.startAnimation(animation);
                 }
             });
         }
@@ -179,6 +206,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
         mDownloadBtn = contentView.findViewById(R.id.download_tv);
         mCollectBtn = contentView.findViewById(R.id.collect_tv);
+        mDeleteBtn = contentView.findViewById(R.id.delete_tv);
 
         mDownloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +222,13 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             }
         });
 
+        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteClick();
+            }
+        });
+
 
         mPopupWindow = new PopupWindow(contentView,
                 mPopupWindowSize[0],
@@ -206,11 +241,24 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mPopupWindow.setAnimationStyle(R.style.ScaleAnimation);
     }
 
+
     public void onDownloadClick() {
 
     }
 
     public void onCollectClick() {
+        mPopupWindow.dismiss();
+        mOnMenuClickListener.onCollectClick();
+    }
+
+    public void onDeleteClick() {
 
     }
+
+    public interface OnMenuClickListener {
+        void onCollectClick();
+
+    }
+
+
 }

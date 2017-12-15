@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -81,41 +79,16 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.search_view);
-
-        mSearchView = (SearchView) searchItem.getActionView();
-        mSearchAutoComplete = mSearchView.findViewById(R.id.search_src_text);
-        //mSearchAutoComplete.setHintTextColor(ContextCompat.getColor(this, R.color.colorHint));
-        //mSearchAutoComplete.setTextColor(ContextCompat.getColor(this, android.R.color.background_light));
-        mSearchAutoComplete.setTextSize(16);
-
-        LinearLayout search_edit_frame = mSearchView.findViewById(R.id.search_edit_frame);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) search_edit_frame.getLayoutParams();
-        params.leftMargin = 0;
-        params.rightMargin = 0;
-        search_edit_frame.setLayoutParams(params);
-
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                NavHelper.toSearch(MainActivity.this, s);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-
-                return false;
-            }
-        });
-
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+            NavHelper.toSearch(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

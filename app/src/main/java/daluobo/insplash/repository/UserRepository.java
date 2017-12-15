@@ -115,4 +115,19 @@ public class UserRepository {
             }
         }.getAsLiveData();
     }
+
+    public LiveData<Resource<List<Collection>>> getCollections(final String name, final int page) {
+        return new NetworkResource<List<Collection>, List<Collection>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Collection>>> createCall() {
+                return mUserService.collections(name, page);
+            }
+
+            @Override
+            protected List<Collection> convertResult(@NonNull List<Collection> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
 }

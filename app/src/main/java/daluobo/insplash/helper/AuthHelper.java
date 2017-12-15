@@ -20,4 +20,8 @@ public class AuthHelper {
     public static void logout() {
         SharePrefHelper.clearAccessToken();
     }
+
+    public static String getUsername(){
+        return SharePrefHelper.getUsername();
+    }
 }

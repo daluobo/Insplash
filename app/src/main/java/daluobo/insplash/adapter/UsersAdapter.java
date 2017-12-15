@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -24,8 +26,9 @@ public class UsersAdapter extends FooterAdapter<User> {
 
     private Context mContext;
 
-    public UsersAdapter(Context context) {
+    public UsersAdapter(Context context, List<User> data) {
         this.mContext = context;
+        super.mData = data;
     }
 
     @Override
