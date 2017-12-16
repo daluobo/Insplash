@@ -44,6 +44,17 @@ public class NavHelper {
 
     }
 
+    public static void toUser(Context context, User user, View avatarView, int showIndex) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(UserActivity.ARG_USER, user);
+        intent.putExtra(UserActivity.ARG_SHOW_INDEX, showIndex);
+        context.startActivity(intent,
+                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                        avatarView,
+                        "avatar").toBundle());
+
+    }
+
     public static void toSearch(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
         context.startActivity(intent);

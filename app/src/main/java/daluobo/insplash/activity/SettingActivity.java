@@ -104,7 +104,7 @@ public class SettingActivity extends BaseActivity {
 
         if (AuthHelper.isLogin()) {
             initUserProfile();
-            showUserProfile();
+
         } else {
             hideUserProfile();
         }
@@ -181,6 +181,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             protected void onSuccess(User user) {
                 SharePrefHelper.setUsername(user.username);
+                showUserProfile();
 
                 mViewModel.setUser(user);
 
@@ -228,10 +229,13 @@ public class SettingActivity extends BaseActivity {
                 NavHelper.toProfile(this, mViewModel.getUserData());
                 break;
             case R.id.total_photos_container:
+                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 0);
                 break;
             case R.id.total_collections_container:
+                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 1);
                 break;
             case R.id.total_likes_container:
+                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
                 break;
         }
     }

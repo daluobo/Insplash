@@ -38,10 +38,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="280dp"
         android:layout_marginBottom="1dp"
         android:layout_marginTop="1dp"
-        android:layout_weight="1"
         android:background="@color/colorWhite">
 
         <ScrollView
@@ -58,12 +57,12 @@
                 tools:visibility="visible">
 
                 <EditText
-                    android:id="@+id/new_collection"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:inputType="text"
-                    android:hint="name"/>
+                    android:hint="title"/>
 
                 <EditText
                     android:id="@+id/description"
@@ -86,6 +85,12 @@
             android:layout_height="wrap_content"
             tools:visibility="invisible">
         </android.support.v7.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </FrameLayout>
 
     <RelativeLayout

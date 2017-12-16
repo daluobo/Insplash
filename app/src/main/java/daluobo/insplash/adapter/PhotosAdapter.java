@@ -35,16 +35,15 @@ import daluobo.insplash.util.ViewUtil;
  */
 
 public class PhotosAdapter extends FooterAdapter<Photo> {
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private boolean mIsShowUser = true;
+    protected Context mContext;
+    protected LayoutInflater mInflater;
+    protected boolean mIsShowUser = true;
 
     private PopupWindow mPopupWindow;
     private int[] mPopupWindowSize;
     private TextView mDownloadBtn;
     private TextView mCollectBtn;
-    private TextView mDeleteBtn;
-    private int PopupWindowPhotoPosition = -1;
+    private int mPopupWindowPhotoPosition = -1;
 
     public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
         mOnMenuClickListener = onMenuClickListener;
@@ -99,7 +98,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
-        lp.width = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
+        lp.width = holder.mContainerWidth;
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
 
@@ -131,6 +130,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
         int mPosition;
         Photo mPhoto;
+        int mContainerWidth;
 
         @BindDrawable(R.drawable.ic_favorite_border)
         Drawable mIcFavoriteBorder;
@@ -143,6 +143,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
+            mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
             mPhotoView.setOnClickListener(this);
 
             mAvatar.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +193,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         if (mPopupWindow == null) {
             initPopupWindow();
         }
-        PopupWindowPhotoPosition = position;
+        mPopupWindowPhotoPosition = position;
 
         int[] location = new int[2];
         view.getLocationInWindow(location);
@@ -206,7 +207,6 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
         mDownloadBtn = contentView.findViewById(R.id.download_tv);
         mCollectBtn = contentView.findViewById(R.id.collect_tv);
-        mDeleteBtn = contentView.findViewById(R.id.delete_tv);
 
         mDownloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,17 +218,9 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mCollectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCollectClick();
+                onCollectClick(mData.get(mPopupWindowPhotoPosition));
             }
         });
-
-        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDeleteClick();
-            }
-        });
-
 
         mPopupWindow = new PopupWindow(contentView,
                 mPopupWindowSize[0],
@@ -246,9 +238,9 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
     }
 
-    public void onCollectClick() {
+    public void onCollectClick(Photo photo) {
         mPopupWindow.dismiss();
-        mOnMenuClickListener.onCollectClick();
+        mOnMenuClickListener.onCollectClick(photo);
     }
 
     public void onDeleteClick() {
@@ -256,8 +248,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     }
 
     public interface OnMenuClickListener {
-        void onCollectClick();
-
+        void onCollectClick(Photo photo);
     }
 
 

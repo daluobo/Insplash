@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import daluobo.insplash.adapter.UserCollectionsAdapter;
+import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.model.User;
@@ -37,7 +37,7 @@ public class UserCollectionsFragment extends SimpleSwipeListFragment<List<Collec
 
         mViewModel = ViewModelProviders.of(this).get(UserCollectionViewModel.class);
         ((UserCollectionViewModel) mViewModel).setUser(user);
-        mAdapter = new UserCollectionsAdapter(getContext(), mViewModel.getData());
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData(), false);
     }
 
 }

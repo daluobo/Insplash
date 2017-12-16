@@ -20,17 +20,19 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.model.Collection;
 import daluobo.insplash.util.DimensionUtil;
+import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 
 /**
  * Created by daluobo on 2017/11/27.
  */
 
 public class CollectionsAdapter extends FooterAdapter<Collection> {
+    protected Context mContext;
+    protected boolean mIsShowUser = true;
 
     @IntDef({CollectionViewType.COLLECTION_NORMAL, CollectionViewType.COLLECTION_PREVIEW})
     private @interface CollectionViewType {
@@ -38,11 +40,15 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         int COLLECTION_PREVIEW = 11;
     }
 
-    protected Context mContext;
 
     public CollectionsAdapter(Context context, List<Collection> data) {
         this.mContext = context;
         super.mData = data;
+    }
+
+    public CollectionsAdapter(Context context, List<Collection> data, boolean isShowUser) {
+        this(context, data);
+        this.mIsShowUser = isShowUser;
     }
 
     @Override
@@ -93,23 +99,25 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         ViewHolder holder = (ViewHolder) viewHolder;
 
         if (viewHolder instanceof CoverViewHolder) {
+            CoverViewHolder cvh = (CoverViewHolder) viewHolder;
+            ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
+            lp.width = cvh.mContainerWidth;
             if (item.cover_photo != null) {
-                CoverViewHolder cvh = (CoverViewHolder) viewHolder;
-
-                ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
-                lp.width = ViewUtil.getScreenSize(mContext)[0];
                 lp.height = lp.width * item.cover_photo.height / item.cover_photo.width;
                 cvh.mCoverPhoto.setLayoutParams(lp);
 
                 ImgUtil.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
+            } else {
+                lp.height = 0;
+                cvh.mCoverPhoto.setLayoutParams(lp);
+                cvh.mCoverPhoto.setImageDrawable(null);
             }
         } else if (viewHolder instanceof PreViewHolder) {
             PreViewHolder pvh = (PreViewHolder) viewHolder;
 
             ViewGroup.LayoutParams containerLp = pvh.mPreviewContainer.getLayoutParams();
 
-            int containerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
-            int width = containerWidth / 3;
+            int width = pvh.mContainerWidth / 3;
 
             containerLp.height = width;
             pvh.mPreviewContainer.setLayoutParams(containerLp);
@@ -132,8 +140,17 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             holder.mDescription.setVisibility(View.GONE);
         }
 
-        ImgUtil.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
-        holder.mUsername.setText(item.user.name);
+        if (mIsShowUser) {
+            holder.mUsername.setText(item.user.name);
+            ImgUtil.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
+
+            holder.mUsername.setVisibility(View.VISIBLE);
+            holder.mAvatar.setVisibility(View.VISIBLE);
+        } else {
+            holder.mUsername.setVisibility(View.GONE);
+            holder.mAvatar.setVisibility(View.GONE);
+        }
+
         holder.mTotalPhotos.setText(item.total_photos + "");
     }
 
@@ -161,6 +178,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         CardView mContainer;
 
         Collection mCollection;
+        int mContainerWidth;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -172,6 +190,8 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
                     NavHelper.toUser(mContext, mCollection.user, mAvatar);
                 }
             });
+
+            mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         }
 
     }

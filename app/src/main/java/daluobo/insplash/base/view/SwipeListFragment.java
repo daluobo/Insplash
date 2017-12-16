@@ -13,6 +13,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.BasePageViewModel;
 
 /**
@@ -105,6 +106,11 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
             protected void onSuccess(List<T> photos) {
                 onLoadSuccess(photos);
 
+                if (photos.size() == 0) {
+                    mAdapter.setShowFooter(false);
+                    ToastUtil.showShort(getContext(), "Nothing more!");
+                    return;
+                }
                 mViewModel.onPageLoad();
             }
 
@@ -116,7 +122,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
         });
     }
 
-    protected void onRefreshSuccess(List<T> data){
+    protected void onRefreshSuccess(List<T> data) {
         mAdapter.clearItems();
         mAdapter.addItems(data);
         mAdapter.notifyDataSetChanged();
@@ -124,7 +130,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
         mListView.scheduleLayoutAnimation();
     }
 
-    protected void onLoadSuccess(List<T> data){
+    protected void onLoadSuccess(List<T> data) {
         mAdapter.addItems(data);
         mAdapter.notifyDataSetChanged();
     }

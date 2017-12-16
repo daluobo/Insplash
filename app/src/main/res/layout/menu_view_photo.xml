@@ -28,15 +28,4 @@
         android:paddingEnd="36dp"
         android:drawablePadding="8dp"
         android:text="Collect"/>
-
-    <TextView
-        android:id="@+id/delete_tv"
-        style="@style/InfoText"
-        android:foreground="?android:selectableItemBackground"
-        android:drawableLeft="@drawable/ic_delete"
-        android:drawableTint="@color/colorPrimary"
-        android:textColor="@color/colorBlack"
-        android:paddingEnd="36dp"
-        android:drawablePadding="8dp"
-        android:text="Delete"/>
 </LinearLayout>

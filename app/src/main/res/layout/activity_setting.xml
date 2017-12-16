@@ -36,6 +36,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_centerVertical="true"
+                android:transitionName="avatar"
                 tools:src="@drawable/ic_account_box"
                 tools:tint="@color/colorPrimaryDark"/>
 

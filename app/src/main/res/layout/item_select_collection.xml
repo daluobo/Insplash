@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:id="@+id/title"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="?android:selectableItemBackground"
-          android:padding="16dp"
-          tools:text="title"
-          android:singleLine="true"
-          android:ellipsize="end"
-          android:textColor="@color/colorBlack"/>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorBlack"
+        tools:text="title"/>
+
+    <TextView
+        android:id="@+id/total_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:paddingEnd="8dp"
+        android:textSize="10sp"
+        tools:text="0 Photo"/>
+
+    <ImageView
+        android:id="@+id/is_private"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_below="@id/title"
+        android:layout_toEndOf="@id/total_photos"
+        android:src="@drawable/ic_lock_outline"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</RelativeLayout>
+

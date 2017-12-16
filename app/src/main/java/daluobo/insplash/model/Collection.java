@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Keep
 public class Collection implements Parcelable {
-    public int id;
+    public String id;
     public String title;
     public String description;
     public String published_at;
@@ -39,9 +39,9 @@ public class Collection implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.title);
-        dest.writeString(this.description == null ? this.description : this.description.replaceAll(": ", ":"));
+        dest.writeString(this.description);
         dest.writeString(this.published_at);
         dest.writeString(this.updated_at);
         dest.writeByte(this.curated ? (byte) 1 : (byte) 0);
@@ -61,7 +61,7 @@ public class Collection implements Parcelable {
     }
 
     protected Collection(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.title = in.readString();
         this.description = in.readString();
         this.published_at = in.readString();

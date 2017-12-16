@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
@@ -84,7 +85,7 @@ public class CollectionsRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<List<Photo>>> loadPhotoPage(final String collectionId, final int page) {
+    public LiveData<Resource<List<Photo>>> loadPhoto(final String collectionId, final int page) {
         return new NetworkResource<List<Photo>, List<Photo>>() {
             @NonNull
             @Override
@@ -94,6 +95,36 @@ public class CollectionsRepository {
 
             @Override
             protected List<Photo> convertResult(@NonNull List<Photo> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Collection>> createCollection(final Map<String, Object> param) {
+        return new NetworkResource<Collection, Collection>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Collection>> createCall() {
+                return mCollectsService.createCollection(param);
+            }
+
+            @Override
+            protected Collection convertResult(@NonNull Collection item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Photo>> addToCollection(final String collectionId, final String photoId) {
+        return new NetworkResource<Photo, Photo>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Photo>> createCall() {
+                return mCollectsService.addToCollection(collectionId, collectionId, photoId);
+            }
+
+            @Override
+            protected Photo convertResult(@NonNull Photo item) {
                 return item;
             }
         }.getAsLiveData();

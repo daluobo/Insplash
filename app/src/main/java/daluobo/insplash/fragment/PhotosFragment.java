@@ -75,8 +75,11 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
         ((PhotosAdapter) mAdapter).setOnMenuClickListener(new PhotosAdapter.OnMenuClickListener() {
             @Override
-            public void onCollectClick() {
+            public void onCollectClick(Photo photo) {
                 SetCollectDialog setCollectDialog = new SetCollectDialog();
+                Bundle args = new Bundle();
+                args.putParcelable(SetCollectDialog.ARG_PHOTO, photo);
+                setCollectDialog.setArguments(args);
                 setCollectDialog.show(getFragmentManager(), "SetCollectDialog");
             }
         });

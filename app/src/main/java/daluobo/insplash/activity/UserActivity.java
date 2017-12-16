@@ -44,6 +44,7 @@ import daluobo.insplash.viewmodel.UserViewModel;
 
 public class UserActivity extends BaseActivity {
     public static final String ARG_USER = "user";
+    public static final String ARG_SHOW_INDEX = "show_index";
 
     protected UserViewModel mViewModel;
     protected TabFragmentAdapter mAdapter;
@@ -115,6 +116,14 @@ public class UserActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        int index = getIntent().getIntExtra(ARG_SHOW_INDEX, 0);
+        mViewPager.setCurrentItem(index, true);
+    }
+
+    @Override
     public void initData() {
         mViewModel = new UserViewModel();
         User user = getIntent().getParcelableExtra(ARG_USER);
@@ -168,7 +177,6 @@ public class UserActivity extends BaseActivity {
             }
         });
         mTitle.setText(mViewModel.getUserData().username);
-        //mTitle.setPadding(0, 0, DimensionUtil.dip2px(this, 72), 0);
     }
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
