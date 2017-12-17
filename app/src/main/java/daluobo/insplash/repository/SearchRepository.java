@@ -9,10 +9,10 @@ import java.util.List;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.model.Search;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.Search;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.SearchApi;
 

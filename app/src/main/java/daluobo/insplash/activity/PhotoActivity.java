@@ -26,7 +26,7 @@ import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;

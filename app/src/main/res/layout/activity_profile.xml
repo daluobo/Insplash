@@ -13,9 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginTop="1dp"
         android:background="@color/colorWhite"
-        android:orientation="vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp">
 
@@ -29,7 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_account_box"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -42,7 +45,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="First name"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_person_outline"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -55,7 +61,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Last name"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_person"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -79,7 +88,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:drawablePadding="8dp"
+                android:inputType="textEmailAddress"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -92,7 +104,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Location"
-                android:inputType="text"/>
+                android:drawablePadding="8dp"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_place"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -116,7 +131,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Portfolio/personal URL"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_link"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -129,7 +147,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="About/bio"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_description"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -142,7 +163,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Instagram username"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_instagram"
+                android:drawableTint="@color/colorPrimary"/>
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

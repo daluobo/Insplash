@@ -1,14 +1,17 @@
 package daluobo.insplash.viewmodel;
 
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.IntDef;
+import android.arch.lifecycle.MediatorLiveData;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.helper.PopupMenuHelper;
+import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.repository.PhotoRepository;
 
 /**
@@ -17,23 +20,27 @@ import daluobo.insplash.repository.PhotoRepository;
 
 public class PhotoViewModel extends BasePageViewModel<Photo> {
     protected PhotoRepository mRepository = new PhotoRepository();
+    protected MediatorLiveData<MenuItem> mCurrentType = new MediatorLiveData<>();
+    protected MediatorLiveData<MenuItem> mOrderByType = new MediatorLiveData<>();
 
     @PhotoType
-    private int mType = PhotoType.ALL;
+    private String mType = PhotoType.ALL;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({PhotoViewModel.PhotoType.ALL, PhotoViewModel.PhotoType.CURATED})
+    @StringDef({PhotoViewModel.PhotoType.ALL, PhotoViewModel.PhotoType.CURATED})
     public @interface PhotoType {
-        int ALL = 0;
-        int CURATED = 1;
+        String ALL = "all";
+        String CURATED = "curated";
     }
 
     public PhotoViewModel() {
+        mCurrentType.setValue(PopupMenuHelper.mPhotoType.get(0));
+        mOrderByType.setValue(PopupMenuHelper.mOrderBy.get(0));
     }
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        if (mType == PhotoType.ALL) {
+        if (mType.equals(PhotoType.ALL)) {
             return getPhotos(page);
         } else {
             return getCurated(page);
@@ -41,7 +48,7 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(int page) {
-        return mRepository.getPhotos(page);
+        return mRepository.getPhotos(page, mOrderBy);
     }
 
     public LiveData<Resource<List<Photo>>> getCurated(int page) {
@@ -60,13 +67,38 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         }
     }
 
-    public int getType() {
+    public String getType() {
         return mType;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         mType = type;
         mPage = 1;
     }
+
+    public void setCurrentType(MenuItem type) {
+        mCurrentType.setValue(type);
+    }
+
+    public void setOrderByType(MenuItem orderBy) {
+        mOrderByType.setValue(orderBy);
+    }
+
+    public LiveData<MenuItem> getCurrentType() {
+        return mCurrentType;
+    }
+
+    public LiveData<MenuItem> getOrderByType() {
+        return mOrderByType;
+    }
+
+    public MenuItem getCurrentTypeData() {
+        return mCurrentType.getValue();
+    }
+
+    public MenuItem getOrderByTypeData() {
+        return mOrderByType.getValue();
+    }
+
 
 }

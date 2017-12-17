@@ -8,8 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.repository.UserRepository;
 
 /**
@@ -21,7 +21,7 @@ public class UserPhotoViewModel extends PhotoViewModel {
     private UserRepository mRepository= new UserRepository();;
 
     @UserPhotosType
-    private int mType;
+    private int mUserPhotoType;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({UserPhotosType.OWN, UserPhotosType.LIKE})
@@ -31,7 +31,7 @@ public class UserPhotoViewModel extends PhotoViewModel {
     }
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        if (mType == UserPhotosType.OWN) {
+        if (mUserPhotoType == UserPhotosType.OWN) {
             return mRepository.photos(mUser.username, page);
         } else {
             return mRepository.likes(mUser.username, page);
@@ -46,13 +46,11 @@ public class UserPhotoViewModel extends PhotoViewModel {
         mUser = user;
     }
 
-    @Override
-    public int getType() {
-        return mType;
+    public int getUserPhotoTyp() {
+        return mUserPhotoType;
     }
 
-    @Override
-    public void setType(int type) {
-        mType = type;
+    public void setUserPhotoTyp(int type) {
+        mUserPhotoType = type;
     }
 }

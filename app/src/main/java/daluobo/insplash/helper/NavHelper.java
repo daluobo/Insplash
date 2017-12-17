@@ -11,8 +11,8 @@ import daluobo.insplash.activity.ProfileActivity;
 import daluobo.insplash.activity.SearchActivity;
 import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.User;
 
 /**
  * Created by daluobo on 2017/12/2.

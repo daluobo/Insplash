@@ -2,8 +2,8 @@ package daluobo.insplash.net.api;
 
 import android.arch.lifecycle.LiveData;
 
-import daluobo.insplash.model.MonthStats;
-import daluobo.insplash.model.TotalStats;
+import daluobo.insplash.model.net.MonthStats;
+import daluobo.insplash.model.net.TotalStats;
 import daluobo.insplash.base.arch.ApiResponse;
 import retrofit2.http.GET;
 

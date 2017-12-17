@@ -1,4 +1,4 @@
-package daluobo.insplash.model;
+package daluobo.insplash.model.net;
 
 import com.google.gson.annotations.SerializedName;
 

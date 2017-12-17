@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**

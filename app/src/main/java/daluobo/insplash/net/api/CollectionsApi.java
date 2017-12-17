@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;

@@ -19,7 +19,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.viewmodel.UserViewModel;
 
 public class ProfileActivity extends BaseActivity {

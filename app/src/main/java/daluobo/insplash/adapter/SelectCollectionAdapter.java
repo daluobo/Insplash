@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseRecyclerAdapter;
-import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.net.Collection;
 
 /**
  * Created by daluobo on 2017/12/14.

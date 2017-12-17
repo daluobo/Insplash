@@ -1,4 +1,4 @@
-package daluobo.insplash.model;
+package daluobo.insplash.model.net;
 
 import android.support.annotation.Keep;
 

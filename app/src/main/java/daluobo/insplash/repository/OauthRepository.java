@@ -9,7 +9,7 @@ import java.util.Map;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.common.AppConstant;
-import daluobo.insplash.model.Token;
+import daluobo.insplash.model.net.Token;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.OauthApi;

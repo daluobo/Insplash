@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import java.util.List;
 
 import daluobo.insplash.adapter.CollectionsAdapter;
-import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.viewmodel.SearchCollectionViewModel;
 
 /**

@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import java.util.List;
 
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.viewmodel.SearchPhotoViewModel;
 
 /**

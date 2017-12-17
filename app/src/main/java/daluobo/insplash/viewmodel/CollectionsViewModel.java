@@ -1,13 +1,19 @@
 package daluobo.insplash.viewmodel;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.support.annotation.StringDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.helper.PopupMenuHelper;
+import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.repository.CollectionsRepository;
 
 /**
@@ -16,9 +22,33 @@ import daluobo.insplash.repository.CollectionsRepository;
 
 public class CollectionsViewModel extends BasePageViewModel<Collection> {
     protected CollectionsRepository mRepository = new CollectionsRepository();
+    protected MediatorLiveData<MenuItem> mCurrentType = new MediatorLiveData<>();
+
+    @CollectionType
+    private String mType = CollectionType.ALL;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({CollectionType.ALL, CollectionType.FEATURED, CollectionType.CURATED})
+    public @interface CollectionType {
+        String ALL = "all";
+        String FEATURED = "featured";
+        String CURATED = "curated";
+    }
+
+    public CollectionsViewModel() {
+        mCurrentType.setValue(PopupMenuHelper.mCollectionType.get(0));
+    }
 
     @Override
     public LiveData<Resource<List<Collection>>> loadPage(int page) {
+        if (mType.equals(CollectionType.ALL)) {
+            return mRepository.collections(page);
+        } else if (mType.equals(CollectionType.FEATURED)) {
+
+            return mRepository.featured(page);
+        } else if (mType.equals(CollectionType.CURATED)) {
+            return mRepository.curated(page);
+        }
         return mRepository.collections(page);
     }
 
@@ -28,5 +58,26 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
 
     public LiveData<Resource<Photo>> addToCollection(String collectionId, String photoId) {
         return mRepository.addToCollection(collectionId, photoId);
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String type) {
+        mType = type;
+        mPage = 1;
+    }
+
+    public void setCurrentType(MenuItem type) {
+        mCurrentType.setValue(type);
+    }
+
+    public LiveData<MenuItem> getCurrentType() {
+        return mCurrentType;
+    }
+
+    public MenuItem getCurrentTypeData() {
+        return mCurrentType.getValue();
     }
 }

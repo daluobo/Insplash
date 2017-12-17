@@ -1,5 +1,6 @@
 package daluobo.insplash.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,17 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
-import java.util.List;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
-import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.model.Collection;
+import daluobo.insplash.helper.PopupMenuHelper;
+import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.viewmodel.CollectionsViewModel;
 
 /**
@@ -26,9 +26,18 @@ import daluobo.insplash.viewmodel.CollectionsViewModel;
 
 public class CollectionsFragment extends SwipeListFragment<Collection> {
     protected LayoutInflater mInflater;
+    private TextView mCollectionType;
+    private CollectionsViewModel mCollectionsViewModel;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
+
+    protected PopupMenuHelper.OnMenuItemClickListener mTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
+        @Override
+        public void onItemClick(MenuItem menuItem) {
+            mCollectionsViewModel.setCurrentType(menuItem);
+        }
+    };
 
     public CollectionsFragment() {
     }
@@ -54,6 +63,18 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
         mInflater = LayoutInflater.from(getContext());
 
         mViewModel = ViewModelProviders.of(this).get(CollectionsViewModel.class);
+        mCollectionsViewModel = (CollectionsViewModel) mViewModel;
+        mCollectionsViewModel.getCurrentType().observe(this, new Observer<MenuItem>() {
+            @Override
+            public void onChanged(@Nullable MenuItem menuItem) {
+                mCollectionType.setText(menuItem.title);
+                ((CollectionsViewModel) mViewModel).setType(menuItem.value);
+
+                onShowRefresh();
+                onRefresh();
+            }
+        });
+
         mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
 
     }
@@ -63,49 +84,21 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
         View titleView = mInflater.inflate(R.layout.header_collections, null);
         mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+        mCollectionType = titleView.findViewById(R.id.collection_type);
+        mCollectionType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSelectType();
+            }
+        });
+
 
         super.initListView();
 
     }
 
-    @Override
-    public void onRefresh() {
-        mViewModel.onRefresh().observe(this, new ResourceObserver<Resource<List<Collection>>, List<Collection>>(getContext()) {
-            @Override
-            protected void onSuccess(List< Collection > photos) {
-                mAdapter.clearItems();
-                mAdapter.addItems(photos);
-                mAdapter.notifyDataSetChanged();
-                mListView.scheduleLayoutAnimation();
-
-                mViewModel.onPageLoad();
-            }
-
-            @Override
-            protected void onFinal() {
-                super.onFinal();
-                onHideRefresh();
-            }
-        });
-    }
-
-    @Override
-    public void onLoad() {
-        mViewModel.onLoad().observe(this, new ResourceObserver<Resource<List<Collection>>, List<Collection>>(getContext()) {
-            @Override
-            protected void onSuccess(List<Collection> collections) {
-                mAdapter.addItems(collections);
-                mAdapter.notifyDataSetChanged();
-
-                mViewModel.onPageLoad();
-            }
-
-            @Override
-            protected void onFinal() {
-                super.onFinal();
-                mOnScrollUpListener.setLoading(false);
-            }
-        });
+    private void showSelectType() {
+        PopupMenuHelper.showCollectionTypeMenu(getContext(), mCollectionType, mCollectionsViewModel.getCurrentTypeData(), mTypeClickListener);
     }
 
 }

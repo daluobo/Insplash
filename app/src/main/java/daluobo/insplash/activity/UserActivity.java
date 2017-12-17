@@ -35,7 +35,7 @@ import daluobo.insplash.base.view.TabFragmentAdapter;
 import daluobo.insplash.fragment.UserCollectionsFragment;
 import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;

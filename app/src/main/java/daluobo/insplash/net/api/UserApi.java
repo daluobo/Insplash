@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.User;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;

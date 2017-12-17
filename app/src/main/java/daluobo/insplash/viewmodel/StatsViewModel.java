@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.TotalStats;
+import daluobo.insplash.model.net.TotalStats;
 import daluobo.insplash.repository.StatsRepository;
 
 /**

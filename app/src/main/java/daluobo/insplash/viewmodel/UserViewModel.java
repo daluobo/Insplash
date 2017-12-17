@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.repository.UserRepository;
 
 /**

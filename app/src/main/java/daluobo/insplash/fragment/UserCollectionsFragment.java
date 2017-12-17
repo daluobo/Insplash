@@ -7,8 +7,8 @@ import java.util.List;
 
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.viewmodel.UserCollectionViewModel;
 
 /**

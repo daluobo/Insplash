@@ -7,7 +7,7 @@ import java.util.List;
 
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.PhotosApi;
@@ -17,19 +17,18 @@ import daluobo.insplash.net.api.PhotosApi;
  */
 
 public class PhotoRepository {
-
     private PhotosApi mPhotoService;
 
     public PhotoRepository() {
         mPhotoService = RetrofitHelper.buildApi().create(PhotosApi.class);
     }
 
-    public LiveData<Resource<List<Photo>>> getPhotos(final int page) {
+    public LiveData<Resource<List<Photo>>> getPhotos(final int page, final String order_by) {
         return new NetworkResource<List<Photo>, List<Photo>>() {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mPhotoService.photos(page);
+                return mPhotoService.photos(page, order_by);
             }
 
             @Override

@@ -5,8 +5,8 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.User;
 import daluobo.insplash.repository.UserRepository;
 
 /**

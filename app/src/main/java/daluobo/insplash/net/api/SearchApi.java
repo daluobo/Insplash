@@ -3,10 +3,10 @@ package daluobo.insplash.net.api;
 import android.arch.lifecycle.LiveData;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
-import daluobo.insplash.model.Search;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.Search;
+import daluobo.insplash.model.net.User;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

@@ -16,7 +16,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.User;
+import daluobo.insplash.model.net.User;
 
 /**
  * Created by daluobo on 2017/12/7.

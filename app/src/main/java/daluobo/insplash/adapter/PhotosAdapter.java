@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;

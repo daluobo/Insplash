@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Collection;
+import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.repository.SearchRepository;
 
 /**

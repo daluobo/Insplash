@@ -1,4 +1,4 @@
-package daluobo.insplash.model;
+package daluobo.insplash.model.net;
 
 /**
  * Created by daluobo on 2017/11/15.

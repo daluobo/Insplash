@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.view.BaseFragment;
-import daluobo.insplash.model.TotalStats;
+import daluobo.insplash.model.net.TotalStats;
 import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.StatsViewModel;
 

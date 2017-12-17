@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.Token;
+import daluobo.insplash.model.net.Token;
 import daluobo.insplash.repository.OauthRepository;
 
 /**

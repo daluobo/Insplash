@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Photo;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public interface PhotosApi {
     @GET("/photos")
-    LiveData<ApiResponse<List<Photo>>> photos(@Query("page") int page);
+    LiveData<ApiResponse<List<Photo>>> photos(@Query("page") int page, @Query("order_by") String order_by);
 
     @GET("/photos/curated")
     LiveData<ApiResponse<List<Photo>>> curated(@Query("page") int page);

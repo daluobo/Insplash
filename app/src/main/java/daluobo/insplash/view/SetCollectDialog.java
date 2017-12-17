@@ -25,8 +25,8 @@ import daluobo.insplash.R;
 import daluobo.insplash.adapter.SelectCollectionAdapter;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
-import daluobo.insplash.model.Collection;
-import daluobo.insplash.model.Photo;
+import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.MeCollectionsViewModel;
 
