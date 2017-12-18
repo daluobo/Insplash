@@ -3,11 +3,13 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,17 +27,17 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;
-import daluobo.insplash.viewmodel.PhotoViewModel;
+import daluobo.insplash.viewmodel.PhotoDetailViewModel;
 
 public class PhotoActivity extends BaseActivity {
     public static final String ARG_PHOTO = "photo";
-    protected Photo mPhoto;
-    protected PhotoViewModel mViewModel;
+    protected PhotoDetailViewModel mViewModel;
     protected ColorDrawable mPhotoColor;
     protected int mPhotoColorId;
 
@@ -113,9 +115,10 @@ public class PhotoActivity extends BaseActivity {
     TextView mUsername;
     @BindView(R.id.user_container)
     LinearLayout mUserContainer;
-    @BindView(R.id.collect)
-    TextView mCollect;
-
+    @BindView(R.id.collect_btn)
+    TextView mCollectBtn;
+    @BindView(R.id.delete_btn)
+    TextView mDeleteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,62 +132,21 @@ public class PhotoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mPhoto = getIntent().getParcelableExtra(ARG_PHOTO);
+        Photo photo = getIntent().getParcelableExtra(ARG_PHOTO);
 
-        mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(PhotoDetailViewModel.class);
+        mViewModel.setPhoto(photo);
+        mViewModel.getPhoto().observe(this, new Observer<Photo>() {
+            @Override
+            public void onChanged(@Nullable Photo photo) {
+                initContent(photo);
+            }
+        });
     }
 
     @Override
     public void initView() {
-        ViewGroup.LayoutParams lp = mPhotoView.getLayoutParams();
-        lp.width = ViewUtil.getScreenSize(this)[0];
-        lp.height = lp.width * mPhoto.height / mPhoto.width;
-        mPhotoView.setLayoutParams(lp);
-
-        mPhotoColorId = Color.parseColor(mPhoto.color);
-        mPhotoColor = new ColorDrawable(mPhotoColorId);
-
-        ImgUtil.loadImg(this, mPhotoView, mPhotoColor, mPhoto.urls.small);
-
-        if (mPhoto.description != null) {
-            mDescription.setText(mPhoto.description);
-            mDescription.setVisibility(View.VISIBLE);
-
-            mDescription.getViewTreeObserver().
-                    addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            //避免重复监听
-                            mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            int height = mDescription.getMeasuredHeight();
-
-                            ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
-                            animator.setDuration(800).start();
-                        }
-                    });
-
-        } else {
-            mDescription.setVisibility(View.GONE);
-        }
-
-        mLikeCount.setText(mPhoto.likes + "");
-
-        String time;
-        if (mPhoto.created_at != null) {
-            time = DateUtil.GmtFormat(mPhoto.created_at);
-        } else {
-            time = DateUtil.GmtFormat(mPhoto.updated_at);
-        }
-        mTime.setText(time);
-        mSize.setText(mPhoto.width + " x " + mPhoto.height);
-
-        ImgUtil.loadImg(PhotoActivity.this, mAvatar, mPhoto.user.profile_image.medium);
-        mUsername.setText(mPhoto.user.username);
-        mColor.setText(mPhoto.color);
-
-        initIcon();
-
-        mViewModel.getPhoto(mPhoto.id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
+        mViewModel.getPhoto(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
                 if (photo.location != null) {
@@ -205,6 +167,66 @@ public class PhotoActivity extends BaseActivity {
         });
     }
 
+    private void initContent(Photo photo) {
+        ViewGroup.LayoutParams lp = mPhotoView.getLayoutParams();
+        lp.width = ViewUtil.getScreenSize(this)[0];
+        lp.height = lp.width * photo.height / photo.width;
+        mPhotoView.setLayoutParams(lp);
+
+        mPhotoColorId = Color.parseColor(photo.color);
+        mPhotoColor = new ColorDrawable(mPhotoColorId);
+
+        ImgUtil.loadImg(this, mPhotoView, mPhotoColor, photo.urls.small);
+
+        if (photo.description != null) {
+            mDescription.setText(photo.description);
+            mDescription.setVisibility(View.VISIBLE);
+
+            mDescription.getViewTreeObserver().
+                    addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            //避免重复监听
+                            mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int height = mDescription.getMeasuredHeight();
+
+                            ValueAnimator animator = AnimHelper.createDropDown(mDescription, 0, height);
+                            animator.setDuration(800).start();
+                        }
+                    });
+
+        } else {
+            mDescription.setVisibility(View.GONE);
+        }
+
+        mLikeCount.setText(photo.likes + "");
+
+        String time;
+        if (photo.created_at != null) {
+            time = DateUtil.GmtFormat(photo.created_at);
+        } else {
+            time = DateUtil.GmtFormat(photo.updated_at);
+        }
+        mTime.setText(time);
+        mSize.setText(photo.width + " x " + photo.height);
+
+        ImgUtil.loadImg(PhotoActivity.this, mAvatar, photo.user.profile_image.medium);
+        mUsername.setText(photo.user.username);
+        mColor.setText(photo.color);
+
+        if (photo.current_user_collections.size() > 0) {
+            mCollectBtn.setText("Collected");
+        }
+
+        if (AuthHelper.getUsername().equals(photo.user.username)) {
+            mDeleteBtn.setVisibility(View.VISIBLE);
+        } else {
+            mDeleteBtn.setVisibility(View.GONE);
+        }
+
+        initIcon();
+    }
+
     private void initIcon() {
         ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
         ViewUtil.setDrawableTop(mViewsCount, ViewUtil.tintDrawable(mIcVisibility, mPhotoColorId));
@@ -220,10 +242,9 @@ public class PhotoActivity extends BaseActivity {
         ViewUtil.setDrawableStart(mColor, ViewUtil.tintDrawable(mIcPalette, mPhotoColorId));
 
         ViewUtil.setDrawableEnd(mUsername, ViewUtil.tintDrawable(mIcPersonOutline, mPhotoColorId));
-        ViewUtil.setDrawableEnd(mCollect, ViewUtil.tintDrawable(mIcMarkBorder, mPhotoColorId));
     }
 
-    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect})
+    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn, R.id.delete_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_count:
@@ -254,10 +275,13 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.user_container:
-                NavHelper.toUser(this, mPhoto.user, mAvatar);
+                NavHelper.toUser(this, mViewModel.getPhotoData().user, mAvatar);
 
                 break;
-            case R.id.collect:
+            case R.id.collect_btn:
+
+                break;
+            case R.id.delete_btn:
 
                 break;
         }

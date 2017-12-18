@@ -48,12 +48,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
-                android:drawableTint="@color/colorPrimary"
-                android:drawableTop="@drawable/ic_favorite_border"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="0"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                tools:drawableTint="@color/colorPrimary"
+                tools:drawableTop="@drawable/ic_favorite_border"/>
 
             <TextView
                 android:id="@+id/views_count"
@@ -61,24 +61,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
-                android:drawableTint="@color/colorPrimary"
-                android:drawableTop="@drawable/ic_visibility"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="0"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                tools:drawableTint="@color/colorPrimary"
+                tools:drawableTop="@drawable/ic_visibility"/>
 
             <TextView
                 android:id="@+id/download_count"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableTint="@color/colorPrimary"
-                android:drawableTop="@drawable/ic_file_download"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="0"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                tools:drawableTint="@color/colorPrimary"
+                tools:drawableTop="@drawable/ic_file_download"/>
 
         </LinearLayout>
 
@@ -291,17 +291,47 @@
 
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/collect"
-            style="@style/InfoText"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:drawableEnd="@drawable/ic_mark_border"
-            android:foreground="?android:selectableItemBackground"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:text="UnCollect"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/collect_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorWhite"
+                android:drawableLeft="@drawable/ic_mark_border"
+                android:foreground="?android:selectableItemBackground"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="UnCollect"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/delete_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorWhite"
+                android:drawableRight="@drawable/ic_delete"
+                android:drawableTint="@color/colorAccent"
+                android:foreground="?android:selectableItemBackground"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="Delete"
+                android:textColor="@color/colorAccent"/>
+        </LinearLayout>
 
     </LinearLayout>
 

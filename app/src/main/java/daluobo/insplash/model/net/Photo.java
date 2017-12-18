@@ -31,7 +31,6 @@ public class Photo implements Parcelable {
     public List<Collection> current_user_collections;
     public List<Category> categories;
 
-
     @Override
     public int describeContents() {
         return 0;

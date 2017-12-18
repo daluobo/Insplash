@@ -10,11 +10,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -73,19 +71,18 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
         holder.mPhoto = item;
 
+        ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
+        lp.width = holder.mContainerWidth;
+        lp.height = lp.width * item.height / item.width;
+        holder.mPhotoView.setLayoutParams(lp);
+        ImgUtil.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
+
         if (item.description != null) {
             holder.mDescription.setText(item.description);
             holder.mDescription.setVisibility(View.VISIBLE);
         } else {
             holder.mDescription.setVisibility(View.GONE);
         }
-
-        if (item.liked_by_user) {
-            holder.mLikeBtn.setImageDrawable(holder.mIcFavorite);
-        } else {
-            holder.mLikeBtn.setImageDrawable(holder.mIcFavoriteBorder);
-        }
-        holder.mLikes.setText(item.likes + "");
 
         if (mIsShowUser) {
             holder.mUsername.setText(item.user.name);
@@ -97,12 +94,14 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             holder.mAvatar.setVisibility(View.GONE);
         }
 
-        ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
-        lp.width = holder.mContainerWidth;
-        lp.height = lp.width * item.height / item.width;
-        holder.mPhotoView.setLayoutParams(lp);
-
-        ImgUtil.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
+        holder.mLikeBtn.setVisibility(View.VISIBLE);
+        holder.mProgressBar.setVisibility(View.GONE);
+        if (item.liked_by_user) {
+            holder.mLikeBtn.setImageDrawable(holder.mIcFavorite);
+        } else {
+            holder.mLikeBtn.setImageDrawable(holder.mIcFavoriteBorder);
+        }
+        holder.mLikes.setText(item.likes + "");
     }
 
     @Override
@@ -127,6 +126,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         ImageView mMore;
         @BindView(R.id.container)
         CardView mContainer;
+        @BindView(R.id.progress_bar)
+        ProgressBar mProgressBar;
 
         int mPosition;
         Photo mPhoto;
@@ -136,8 +137,6 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
         Drawable mIcFavorite;
-        @BindDrawable(R.drawable.ic_loop)
-        Drawable mIcLoop;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -170,15 +169,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             mLikeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mLikeBtn.setImageDrawable(mIcLoop);
-
-                    RotateAnimation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
-                            0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    animation.setDuration(800);
-                    animation.setRepeatCount(Animation.INFINITE);
-                    animation.setRepeatMode(Animation.RESTART);
-                    animation.setInterpolator(new LinearInterpolator());
-                    mLikeBtn.startAnimation(animation);
+                    mLikeBtn.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -243,13 +235,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mOnMenuClickListener.onCollectClick(photo);
     }
 
-    public void onDeleteClick() {
-
-    }
-
     public interface OnMenuClickListener {
         void onCollectClick(Photo photo);
     }
-
 
 }

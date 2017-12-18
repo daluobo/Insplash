@@ -94,8 +94,11 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             public void onChanged(@Nullable MenuItem menuItem) {
                 mOrderBy.setText(menuItem.title);
                 mViewModel.setOrderBy(menuItem.value);
-                onShowRefresh();
-                onRefresh();
+
+                if (!mSwipeLayout.isRefreshing()) {
+                    onShowRefresh();
+                    onRefresh();
+                }
             }
         });
 
