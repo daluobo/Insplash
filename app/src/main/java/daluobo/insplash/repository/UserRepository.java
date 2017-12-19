@@ -86,12 +86,12 @@ public class UserRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<List<Collection>>> collections(final String username, final int page) {
+    public LiveData<Resource<List<Collection>>> collections(final String username, final int page, final int per_page) {
         return new NetworkResource<List<Collection>, List<Collection>>() {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Collection>>> createCall() {
-                return mUserService.collections(username, page);
+                return mUserService.collections(username, page, per_page);
             }
 
             @Override
@@ -116,12 +116,12 @@ public class UserRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<List<Collection>>> getCollections(final String name, final int page) {
+    public LiveData<Resource<List<Collection>>> getCollections(final String name, final int page, final int per_page) {
         return new NetworkResource<List<Collection>, List<Collection>>() {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Collection>>> createCall() {
-                return mUserService.collections(name, page);
+                return mUserService.collections(name, page, per_page);
             }
 
             @Override

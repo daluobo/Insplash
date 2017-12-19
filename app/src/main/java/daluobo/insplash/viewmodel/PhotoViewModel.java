@@ -10,6 +10,7 @@ import java.util.List;
 
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.helper.PopupMenuHelper;
+import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.MenuItem;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.repository.PhotoRepository;
@@ -59,7 +60,7 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         return mRepository.getPhoto(id);
     }
 
-    public LiveData<Resource<Photo>> likePhoto(Photo photo) {
+    public LiveData<Resource<LikePhoto>> likePhoto(Photo photo) {
         if (photo.liked_by_user) {
             return mRepository.unlike(photo.id);
         } else {

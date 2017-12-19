@@ -12,8 +12,8 @@ import java.util.Map;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
-import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.repository.CollectionsRepository;
 
 /**
@@ -56,8 +56,12 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
         return mRepository.createCollection(param);
     }
 
-    public LiveData<Resource<Photo>> addToCollection(String collectionId, String photoId) {
+    public LiveData<Resource<CollectPhoto>> addToCollection(String collectionId, String photoId) {
         return mRepository.addToCollection(collectionId, photoId);
+    }
+
+    public LiveData<Resource<CollectPhoto>> removeFromCollection(String collectionId, String photoId) {
+        return mRepository.removeFromCollection(collectionId, photoId);
     }
 
     public String getType() {

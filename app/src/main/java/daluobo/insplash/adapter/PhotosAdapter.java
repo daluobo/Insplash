@@ -109,6 +109,17 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         return new ViewHolder(inflateItemView(parent, R.layout.item_photo));
     }
 
+    public void onPhotoLikeChange(Photo photo) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).id.equals(photo.id)) {
+                mData.get(i).liked_by_user = photo.liked_by_user;
+                mData.get(i).likes = photo.likes;
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.photo_view)
         ImageView mPhotoView;
@@ -169,6 +180,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             mLikeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mOnMenuClickListener.onLikeClick(mPhoto);
+
                     mLikeBtn.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
                 }
@@ -225,7 +238,6 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mPopupWindow.setAnimationStyle(R.style.ScaleAnimation);
     }
 
-
     public void onDownloadClick() {
 
     }
@@ -236,6 +248,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     }
 
     public interface OnMenuClickListener {
+        void onLikeClick(Photo photo);
+
         void onCollectClick(Photo photo);
     }
 

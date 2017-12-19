@@ -9,6 +9,7 @@ import java.util.Map;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.net.RetrofitHelper;
@@ -115,16 +116,31 @@ public class CollectionsRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<Photo>> addToCollection(final String collectionId, final String photoId) {
-        return new NetworkResource<Photo, Photo>() {
+    public LiveData<Resource<CollectPhoto>> addToCollection(final String collectionId, final String photoId) {
+        return new NetworkResource<CollectPhoto, CollectPhoto>() {
             @NonNull
             @Override
-            protected LiveData<ApiResponse<Photo>> createCall() {
+            protected LiveData<ApiResponse<CollectPhoto>> createCall() {
                 return mCollectsService.addToCollection(collectionId, collectionId, photoId);
             }
 
             @Override
-            protected Photo convertResult(@NonNull Photo item) {
+            protected CollectPhoto convertResult(@NonNull CollectPhoto item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<CollectPhoto>> removeFromCollection(final String collectionId, final String photoId) {
+        return new NetworkResource<CollectPhoto, CollectPhoto>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<CollectPhoto>> createCall() {
+                return mCollectsService.removeFromCollection(collectionId, collectionId, photoId);
+            }
+
+            @Override
+            protected CollectPhoto convertResult(@NonNull CollectPhoto item) {
                 return item;
             }
         }.getAsLiveData();

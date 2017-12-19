@@ -1,5 +1,7 @@
 package daluobo.insplash.net.interceptor;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import daluobo.insplash.common.AppConstant;
@@ -29,6 +31,8 @@ public class AuthInterceptor implements Interceptor {
                     .addHeader("Authorization", "Client-ID " + AppConstant.APP_API_ID)
                     .build();
         }
+
+        Log.e("AccessToken", AuthHelper.getAccessToken());
 
         return chain.proceed(request);
     }

@@ -19,7 +19,7 @@ public class UserCollectionViewModel extends CollectionsViewModel {
 
     @Override
     public LiveData<Resource<List<Collection>>> loadPage(int page) {
-        return mRepository.collections(mUser.username, page);
+        return mRepository.collections(mUser.username, page, mPerPage);
     }
 
     public User getUser() {

@@ -27,7 +27,7 @@
             tools:tint="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/username"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/avatar"
@@ -38,10 +38,10 @@
             tools:text="username"/>
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
+            android:layout_below="@id/name"
             android:layout_toEndOf="@id/avatar"
             android:gravity="center"
             android:padding="4dp"
@@ -51,8 +51,8 @@
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/name"
             android:layout_alignParentEnd="true"
+            android:layout_below="@id/username"
             android:drawableLeft="@drawable/ic_place"
             android:drawableTint="@color/colorPrimary"
             android:gravity="center"

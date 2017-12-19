@@ -28,7 +28,7 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
         return LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
     }
 
-    protected D getItem(int position) {
+    public D getItem(int position) {
         if (position < mData.size()) {
             return mData.get(position);
         } else {
@@ -45,11 +45,15 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
         mData.add(item);
     }
 
+    public void putItem(D item, int index) {
+        mData.add(index, item);
+    }
+
     public void addItems(List<D> items) {
         mData.addAll(items);
     }
 
-    public void clearItems(){
+    public void clearItems() {
         mData.clear();
     }
 }

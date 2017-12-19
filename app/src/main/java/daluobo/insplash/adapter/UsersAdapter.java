@@ -36,8 +36,8 @@ public class UsersAdapter extends FooterAdapter<User> {
         ViewHolder holder = (ViewHolder) viewHolder;
 
         holder.mUser = item;
-        holder.mUsername.setText(item.username);
         holder.mName.setText(item.name);
+        holder.mUsername.setText("@ " + item.username);
         if (item.location != null) {
             holder.mLocation.setText(item.location);
             holder.mLocation.setVisibility(View.VISIBLE);

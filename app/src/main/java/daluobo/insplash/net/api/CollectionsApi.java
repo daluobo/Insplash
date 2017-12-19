@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
+import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -43,5 +45,8 @@ public interface CollectionsApi {
 
     @FormUrlEncoded
     @POST("/collections/{collection_id}/add")
-    LiveData<ApiResponse<Photo>> addToCollection(@Path("collection_id") String id, @Field("photo_id") String collectionId, @Field("photo_id") String photoId);
+    LiveData<ApiResponse<CollectPhoto>> addToCollection(@Path("collection_id") String id, @Field("collection_id") String collectionId, @Field("photo_id") String photoId);
+
+    @DELETE("/collections/{collection_id}/remove")
+    LiveData<ApiResponse<CollectPhoto>> removeFromCollection(@Path("collection_id") String id, @Query("collection_id") String collectionId, @Query("photo_id") String photoId);
 }

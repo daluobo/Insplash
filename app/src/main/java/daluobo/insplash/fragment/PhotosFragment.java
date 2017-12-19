@@ -18,11 +18,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
+import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
-import daluobo.insplash.view.SetCollectDialog;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -105,12 +108,18 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
         ((PhotosAdapter) mAdapter).setOnMenuClickListener(new PhotosAdapter.OnMenuClickListener() {
             @Override
+            public void onLikeClick(Photo photo) {
+                ((PhotoViewModel) mViewModel).likePhoto(photo).observe(PhotosFragment.this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(getContext()) {
+                    @Override
+                    protected void onSuccess(LikePhoto likePhoto) {
+                        ((PhotosAdapter) mAdapter).onPhotoLikeChange(likePhoto.photo);
+                    }
+                });
+            }
+
+            @Override
             public void onCollectClick(Photo photo) {
-                SetCollectDialog setCollectDialog = new SetCollectDialog();
-                Bundle args = new Bundle();
-                args.putParcelable(SetCollectDialog.ARG_PHOTO, photo);
-                setCollectDialog.setArguments(args);
-                setCollectDialog.show(getFragmentManager(), "SetCollectDialog");
+                NavHelper.collectPhoto(getFragmentManager(), photo);
             }
         });
     }

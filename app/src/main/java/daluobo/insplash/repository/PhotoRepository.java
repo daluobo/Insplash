@@ -6,9 +6,10 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.base.arch.NetworkResource;
+import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.model.net.LikePhoto;
+import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.PhotosApi;
 
@@ -68,31 +69,31 @@ public class PhotoRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<Photo>> unlike(final String id) {
-        return new NetworkResource<Photo, Photo>() {
+    public LiveData<Resource<LikePhoto>> unlike(final String id) {
+        return new NetworkResource<LikePhoto, LikePhoto>() {
             @NonNull
             @Override
-            protected LiveData<ApiResponse<Photo>> createCall() {
+            protected LiveData<ApiResponse<LikePhoto>> createCall() {
                 return mPhotoService.unlike(id);
             }
 
             @Override
-            protected Photo convertResult(@NonNull Photo item) {
+            protected LikePhoto convertResult(@NonNull LikePhoto item) {
                 return item;
             }
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<Photo>> like(final String id) {
-        return new NetworkResource<Photo, Photo>() {
+    public LiveData<Resource<LikePhoto>> like(final String id) {
+        return new NetworkResource<LikePhoto, LikePhoto>() {
             @NonNull
             @Override
-            protected LiveData<ApiResponse<Photo>> createCall() {
+            protected LiveData<ApiResponse<LikePhoto>> createCall() {
                 return mPhotoService.like(id);
             }
 
             @Override
-            protected Photo convertResult(@NonNull Photo item) {
+            protected LikePhoto convertResult(@NonNull LikePhoto item) {
                 return item;
             }
         }.getAsLiveData();

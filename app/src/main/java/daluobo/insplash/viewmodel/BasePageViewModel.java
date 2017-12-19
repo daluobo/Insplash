@@ -18,6 +18,7 @@ import daluobo.insplash.base.arch.Resource;
 public abstract class BasePageViewModel<T> extends ViewModel {
     protected final List<T> mData = new ArrayList<>();
     protected int mPage = 1;
+    protected int mPerPage = 10;
 
     @OrderBy
     protected String mOrderBy = OrderBy.LATEST;

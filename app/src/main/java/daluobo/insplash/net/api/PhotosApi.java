@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import daluobo.insplash.base.arch.ApiResponse;
+import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -27,8 +28,8 @@ public interface PhotosApi {
     LiveData<ApiResponse<Photo>> photo(@Path("id") String id);
 
     @POST("/photos/{id}/like")
-    LiveData<ApiResponse<Photo>> like(@Path("id") String id);
+    LiveData<ApiResponse<LikePhoto>> like(@Path("id") String id);
 
     @DELETE("/photos/{id}/like")
-    LiveData<ApiResponse<Photo>> unlike(@Path("id") String id);
+    LiveData<ApiResponse<LikePhoto>> unlike(@Path("id") String id);
 }

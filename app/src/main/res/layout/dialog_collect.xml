@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/add_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="360dp"
+        android:paddingBottom="8dp">
 
         <TextView
+            android:id="@+id/add_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -21,106 +22,112 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:text="Collection"
+            android:text="Add to collection"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"/>
-
-        <ImageView
-            android:id="@+id/dismiss_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:foreground="?android:selectableItemBackground"
-            android:padding="8dp"
-            android:src="@drawable/ic_clear"/>
-    </RelativeLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/new_collection_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:visibility="invisible"
-                tools:visibility="visible">
-
-                <EditText
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:hint="title"/>
-
-                <EditText
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="6"
-                    android:hint="description"/>
-
-                <CheckBox
-                    android:id="@+id/isPrivate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="private"/>
-            </LinearLayout>
-        </ScrollView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:visibility="invisible">
+            android:layout_below="@id/add_title">
         </android.support.v7.widget.RecyclerView>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+    </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/create_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="360dp"
         android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/create_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:text="Create new collection"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"/>
+
+        <LinearLayout
+            android:id="@+id/create_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_title"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="name"
+                android:inputType="text"
+                android:maxLength="60"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description (optional)"
+                android:maxLength="250"
+                android:maxLines="7"/>
+
+            <CheckBox
+                android:id="@+id/isPrivate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_lock_small"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/colorBlack"
+                android:text="Make collection private"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_margin="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:padding="8dp"
             android:text="Cancel"
-            android:textColor="@color/colorAccent"
-            android:visibility="gone"
-            tools:visibility="visible"/>
+            android:textColor="@color/colorAccent"/>
 
         <TextView
-            android:id="@+id/add_btn"
+            android:id="@+id/create_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:padding="8dp"
-            android:text="Create New"
+            android:text="Create collection"
             android:textColor="@color/colorPrimary"/>
     </RelativeLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:id="@+id/dismiss_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:foreground="?android:selectableItemBackground"
+        android:padding="12dp"
+        android:src="@drawable/ic_clear"/>
+</RelativeLayout>

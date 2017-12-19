@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import daluobo.insplash.activity.PhotoActivity;
@@ -13,6 +15,7 @@ import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
+import daluobo.insplash.view.AddToCollectionDialog;
 
 /**
  * Created by daluobo on 2017/12/2.
@@ -65,5 +68,13 @@ public class NavHelper {
         intent.putExtra(ProfileActivity.ARG_USER, user);
 
         context.startActivity(intent);
+    }
+
+    public static void collectPhoto(FragmentManager manager, Photo photo){
+        AddToCollectionDialog setCollectDialog = new AddToCollectionDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(AddToCollectionDialog.ARG_PHOTO, photo);
+        setCollectDialog.setArguments(args);
+        setCollectDialog.show(manager, "AddToCollectionDialog");
     }
 }

@@ -36,7 +36,7 @@ public interface UserApi {
     LiveData<ApiResponse<List<Photo>>> likes(@Path("username") String username, @Query("page") int page);
 
     @GET("/users/{username}/collections")
-    LiveData<ApiResponse<List<Collection>>> collections(@Path("username") String username, @Query("page") int page);
+    LiveData<ApiResponse<List<Collection>>> collections(@Path("username") String username, @Query("page") int page, @Query("per_page") int per_page);
 
 
 }

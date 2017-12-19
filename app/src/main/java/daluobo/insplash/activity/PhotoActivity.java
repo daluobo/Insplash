@@ -27,8 +27,8 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
-import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ImgUtil;
@@ -117,8 +117,6 @@ public class PhotoActivity extends BaseActivity {
     LinearLayout mUserContainer;
     @BindView(R.id.collect_btn)
     TextView mCollectBtn;
-    @BindView(R.id.delete_btn)
-    TextView mDeleteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,28 +144,17 @@ public class PhotoActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        loadPhoto(mViewModel.getPhotoData());
+
         mViewModel.getPhoto(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
-                if (photo.location != null) {
-                    mLocation.setText(photo.location.title);
-                }
-                if (photo.exif != null) {
-                    mExifModel.setText(photo.exif.model);
-
-                    mExposureTime.setText(photo.exif.exposure_time);
-                    mAperture.setText(photo.exif.aperture);
-                    mFocalLength.setText(photo.exif.focal_length);
-                    mIso.setText(photo.exif.iso + "");
-                }
-
-                mViewsCount.setText(photo.views + "");
-                mDownloadCount.setText(photo.downloads + "");
+                mViewModel.setPhoto(photo);
             }
         });
     }
 
-    private void initContent(Photo photo) {
+    private void loadPhoto(Photo photo) {
         ViewGroup.LayoutParams lp = mPhotoView.getLayoutParams();
         lp.width = ViewUtil.getScreenSize(this)[0];
         lp.height = lp.width * photo.height / photo.width;
@@ -177,6 +164,12 @@ public class PhotoActivity extends BaseActivity {
         mPhotoColor = new ColorDrawable(mPhotoColorId);
 
         ImgUtil.loadImg(this, mPhotoView, mPhotoColor, photo.urls.small);
+    }
+
+    private void initContent(Photo photo) {
+        mLikeCount.setText(photo.likes + "");
+        mViewsCount.setText(photo.views + "");
+        mDownloadCount.setText(photo.downloads + "");
 
         if (photo.description != null) {
             mDescription.setText(photo.description);
@@ -186,7 +179,6 @@ public class PhotoActivity extends BaseActivity {
                     addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
-                            //避免重复监听
                             mDescription.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                             int height = mDescription.getMeasuredHeight();
 
@@ -199,7 +191,17 @@ public class PhotoActivity extends BaseActivity {
             mDescription.setVisibility(View.GONE);
         }
 
-        mLikeCount.setText(photo.likes + "");
+        if (photo.location != null) {
+            mLocation.setText(photo.location.title);
+        }
+        if (photo.exif != null) {
+            mExifModel.setText(photo.exif.model);
+
+            mExposureTime.setText(photo.exif.exposure_time);
+            mAperture.setText(photo.exif.aperture);
+            mFocalLength.setText(photo.exif.focal_length);
+            mIso.setText(photo.exif.iso + "");
+        }
 
         String time;
         if (photo.created_at != null) {
@@ -218,17 +220,15 @@ public class PhotoActivity extends BaseActivity {
             mCollectBtn.setText("Collected");
         }
 
-        if (AuthHelper.getUsername().equals(photo.user.username)) {
-            mDeleteBtn.setVisibility(View.VISIBLE);
-        } else {
-            mDeleteBtn.setVisibility(View.GONE);
-        }
-
-        initIcon();
+        initIcon(photo);
     }
 
-    private void initIcon() {
-        ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+    private void initIcon(Photo photo) {
+        if (photo.liked_by_user) {
+            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
+        } else {
+            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+        }
         ViewUtil.setDrawableTop(mViewsCount, ViewUtil.tintDrawable(mIcVisibility, mPhotoColorId));
         ViewUtil.setDrawableTop(mDownloadCount, ViewUtil.tintDrawable(mIcDownload, mPhotoColorId));
 
@@ -242,12 +242,24 @@ public class PhotoActivity extends BaseActivity {
         ViewUtil.setDrawableStart(mColor, ViewUtil.tintDrawable(mIcPalette, mPhotoColorId));
 
         ViewUtil.setDrawableEnd(mUsername, ViewUtil.tintDrawable(mIcPersonOutline, mPhotoColorId));
+
+        ViewUtil.setDrawableStart(mCollectBtn, mIcMark);
     }
 
-    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn, R.id.delete_btn})
+    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_count:
+                mViewModel.likePhoto(mViewModel.getPhotoData()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
+                    @Override
+                    protected void onSuccess(LikePhoto likePhoto) {
+                        if (likePhoto.photo.liked_by_user) {
+                            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
+                        } else {
+                            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+                        }
+                    }
+                });
                 break;
             case R.id.download_count:
                 break;
@@ -279,10 +291,7 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.collect_btn:
-
-                break;
-            case R.id.delete_btn:
-
+                NavHelper.collectPhoto(getSupportFragmentManager(), mViewModel.getPhotoData());
                 break;
         }
     }

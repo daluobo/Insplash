@@ -18,9 +18,8 @@ public class MeCollectionsViewModel extends CollectionsViewModel {
     protected UserRepository mRepository = new UserRepository();
     private Photo mPhoto;
 
-    @Override
-    public LiveData<Resource<List<Collection>>> loadPage(int page) {
-        return mRepository.getCollections(AuthHelper.getUsername(), mPage);
+    public LiveData<Resource<List<Collection>>> getMyCollections() {
+        return mRepository.getCollections(AuthHelper.getUsername(), 1, 999);
     }
 
     public Photo getPhoto() {
