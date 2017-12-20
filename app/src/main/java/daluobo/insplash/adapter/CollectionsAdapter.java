@@ -103,7 +103,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
             lp.width = cvh.mContainerWidth;
             if (item.cover_photo != null) {
-                lp.height = lp.width * item.cover_photo.height / item.cover_photo.width;
+                lp.height = lp.width * 2 / 3;
                 cvh.mCoverPhoto.setLayoutParams(lp);
 
                 ImgUtil.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);

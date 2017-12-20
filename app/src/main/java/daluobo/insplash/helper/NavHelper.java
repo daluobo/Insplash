@@ -8,14 +8,17 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import daluobo.insplash.activity.AboutActivity;
 import daluobo.insplash.activity.PhotoActivity;
 import daluobo.insplash.activity.ProfileActivity;
 import daluobo.insplash.activity.SearchActivity;
 import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
+import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.view.AddToCollectionDialog;
+import daluobo.insplash.view.EditCollectionDialog;
 
 /**
  * Created by daluobo on 2017/12/2.
@@ -70,11 +73,23 @@ public class NavHelper {
         context.startActivity(intent);
     }
 
-    public static void collectPhoto(FragmentManager manager, Photo photo){
+    public static void collectPhoto(FragmentManager manager, Photo photo) {
         AddToCollectionDialog setCollectDialog = new AddToCollectionDialog();
         Bundle args = new Bundle();
         args.putParcelable(AddToCollectionDialog.ARG_PHOTO, photo);
         setCollectDialog.setArguments(args);
         setCollectDialog.show(manager, "AddToCollectionDialog");
+    }
+
+    public static void editCollection(FragmentManager manager, Collection collection) {
+        EditCollectionDialog editCollectDialog = new EditCollectionDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(EditCollectionDialog.ARG_COLLECTION, collection);
+        editCollectDialog.setArguments(args);
+        editCollectDialog.show(manager, "EditCollectionDialog");
+    }
+
+    public static void toAbout(Context context) {
+        context.startActivity(new Intent(context, AboutActivity.class));
     }
 }

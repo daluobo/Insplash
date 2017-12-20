@@ -89,8 +89,8 @@ public class SettingActivity extends BaseActivity {
             mOauthViewModel.getToken(intent.getData().getQueryParameter("code")).observe(this, new ResourceObserver<Resource<Token>, Token>(this) {
                 @Override
                 protected void onSuccess(Token token) {
-                    SharePrefUtil.putPreference(SettingActivity.this,AppConstant.SharePref.ACCESS_TOKEN, token.access_token);
-                    SharePrefUtil.putPreference(SettingActivity.this,AppConstant.SharePref.REFRESH_TOKEN, token.refresh_token);
+                    SharePrefUtil.putPreference(SettingActivity.this, AppConstant.SharePref.ACCESS_TOKEN, token.access_token);
+                    SharePrefUtil.putPreference(SettingActivity.this, AppConstant.SharePref.REFRESH_TOKEN, token.refresh_token);
 
                     NavHelper.toSetting(SettingActivity.this);
                 }
@@ -222,7 +222,7 @@ public class SettingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.user_container, R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container})
+    @OnClick({R.id.user_container, R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container, R.id.about_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
@@ -236,6 +236,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.total_likes_container:
                 NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
+                break;
+            case R.id.about_btn:
+                NavHelper.toAbout(this);
                 break;
         }
     }

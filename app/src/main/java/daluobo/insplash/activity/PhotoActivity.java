@@ -3,16 +3,16 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -117,6 +117,22 @@ public class PhotoActivity extends BaseActivity {
     LinearLayout mUserContainer;
     @BindView(R.id.collect_btn)
     TextView mCollectBtn;
+    @BindView(R.id.like_count_hint)
+    ImageView mLikeCountHint;
+    @BindView(R.id.like_count_container)
+    LinearLayout mLikeCountContainer;
+    @BindView(R.id.views_count_hint)
+    ImageView mViewsCountHint;
+    @BindView(R.id.views_count_container)
+    LinearLayout mViewsCountContainer;
+    @BindView(R.id.download_count_hint)
+    ImageView mDownloadCountHint;
+    @BindView(R.id.download_count_container)
+    LinearLayout mDownloadCountContainer;
+    @BindView(R.id.location_hint)
+    ImageView mLocationHint;
+    @BindView(R.id.exif_model_hint)
+    ImageView mExifModelHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,24 +148,24 @@ public class PhotoActivity extends BaseActivity {
     public void initData() {
         Photo photo = getIntent().getParcelableExtra(ARG_PHOTO);
 
+        mPhotoColorId = Color.parseColor(photo.color);
+        mPhotoColor = new ColorDrawable(mPhotoColorId);
+
         mViewModel = ViewModelProviders.of(this).get(PhotoDetailViewModel.class);
         mViewModel.setPhoto(photo);
-        mViewModel.getPhoto().observe(this, new Observer<Photo>() {
-            @Override
-            public void onChanged(@Nullable Photo photo) {
-                initContent(photo);
-            }
-        });
     }
 
     @Override
     public void initView() {
+        initContent(mViewModel.getPhotoData());
+        initIcon(mViewModel.getPhotoData());
         loadPhoto(mViewModel.getPhotoData());
 
         mViewModel.getPhoto(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
                 mViewModel.setPhoto(photo);
+                updateContent(photo);
             }
         });
     }
@@ -160,17 +176,10 @@ public class PhotoActivity extends BaseActivity {
         lp.height = lp.width * photo.height / photo.width;
         mPhotoView.setLayoutParams(lp);
 
-        mPhotoColorId = Color.parseColor(photo.color);
-        mPhotoColor = new ColorDrawable(mPhotoColorId);
-
         ImgUtil.loadImg(this, mPhotoView, mPhotoColor, photo.urls.small);
     }
 
     private void initContent(Photo photo) {
-        mLikeCount.setText(photo.likes + "");
-        mViewsCount.setText(photo.views + "");
-        mDownloadCount.setText(photo.downloads + "");
-
         if (photo.description != null) {
             mDescription.setText(photo.description);
             mDescription.setVisibility(View.VISIBLE);
@@ -218,23 +227,50 @@ public class PhotoActivity extends BaseActivity {
 
         if (photo.current_user_collections.size() > 0) {
             mCollectBtn.setText("Collected");
+            ViewUtil.setDrawableStart(mCollectBtn, mIcMark);
+        } else {
+            ViewUtil.setDrawableStart(mCollectBtn, mIcMarkBorder);
         }
+    }
 
-        initIcon(photo);
+    private void updateContent(Photo photo){
+        Animation scaleInAnimation = AnimationUtils.loadAnimation(PhotoActivity.this, R.anim.scale_left_in);
+        mLikeCount.startAnimation(scaleInAnimation);
+        mViewsCount.startAnimation(scaleInAnimation);
+        mDownloadCount.startAnimation(scaleInAnimation);
+        mLocation.startAnimation(scaleInAnimation);
+        mExifModel.startAnimation(scaleInAnimation);
+
+        mLikeCount.setText(photo.likes + "");
+        mViewsCount.setText(photo.views + "");
+        mDownloadCount.setText(photo.downloads + "");
+
+
+        if (photo.location != null) {
+            mLocation.setText(photo.location.title);
+        }
+        if (photo.exif != null) {
+            mExifModel.setText(photo.exif.model);
+
+            mExposureTime.setText(photo.exif.exposure_time);
+            mAperture.setText(photo.exif.aperture);
+            mFocalLength.setText(photo.exif.focal_length);
+            mIso.setText(photo.exif.iso + "");
+        }
     }
 
     private void initIcon(Photo photo) {
         if (photo.liked_by_user) {
-            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
+            mLikeCountHint.setImageDrawable(ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
         } else {
-            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+            mLikeCountHint.setImageDrawable(ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
         }
-        ViewUtil.setDrawableTop(mViewsCount, ViewUtil.tintDrawable(mIcVisibility, mPhotoColorId));
-        ViewUtil.setDrawableTop(mDownloadCount, ViewUtil.tintDrawable(mIcDownload, mPhotoColorId));
+        mViewsCountHint.setImageDrawable(ViewUtil.tintDrawable(mIcVisibility, mPhotoColorId));
+        mDownloadCountHint.setImageDrawable(ViewUtil.tintDrawable(mIcDownload, mPhotoColorId));
 
-        ViewUtil.setDrawableStart(mLocation, ViewUtil.tintDrawable(mIcPlace, mPhotoColorId));
+        mLocationHint.setImageDrawable(ViewUtil.tintDrawable(mIcPlace, mPhotoColorId));
         ViewUtil.setDrawableStart(mTime, ViewUtil.tintDrawable(mIcTime, mPhotoColorId));
-        ViewUtil.setDrawableStart(mExifModel, ViewUtil.tintDrawable(mIcCamera, mPhotoColorId));
+        mExifModelHint.setImageDrawable(ViewUtil.tintDrawable(mIcCamera, mPhotoColorId));
 
         mExifContainerHint.setImageDrawable(ViewUtil.tintDrawable(mIcArrowDown, mPhotoColorId));
 
@@ -242,14 +278,12 @@ public class PhotoActivity extends BaseActivity {
         ViewUtil.setDrawableStart(mColor, ViewUtil.tintDrawable(mIcPalette, mPhotoColorId));
 
         ViewUtil.setDrawableEnd(mUsername, ViewUtil.tintDrawable(mIcPersonOutline, mPhotoColorId));
-
-        ViewUtil.setDrawableStart(mCollectBtn, mIcMark);
     }
 
     @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.like_count:
+            case R.id.like_count_container:
                 mViewModel.likePhoto(mViewModel.getPhotoData()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
                     @Override
                     protected void onSuccess(LikePhoto likePhoto) {
@@ -261,7 +295,7 @@ public class PhotoActivity extends BaseActivity {
                     }
                 });
                 break;
-            case R.id.download_count:
+            case R.id.download_count_container:
                 break;
             case R.id.show_exif_btn:
                 int height = ViewUtil.getViewSize(mExifContainer)[1];

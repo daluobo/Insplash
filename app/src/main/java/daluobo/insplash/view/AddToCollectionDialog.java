@@ -12,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,8 +58,6 @@ public class AddToCollectionDialog extends DialogFragment {
     EditText mDescription;
     @BindView(R.id.isPrivate)
     CheckBox mIsPrivate;
-    @BindView(R.id.create_content_container)
-    LinearLayout mCreateContentContainer;
     @BindView(R.id.cancel_btn)
     TextView mCancelBtn;
     @BindView(R.id.create_btn)
@@ -73,7 +70,7 @@ public class AddToCollectionDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_collect, container);
+        View view = inflater.inflate(R.layout.dialog_add_to_collection, container);
         ButterKnife.bind(this, view);
 
         initData();

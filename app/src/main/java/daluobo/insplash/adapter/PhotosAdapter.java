@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,7 +104,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         } else {
             holder.mLikeBtn.setImageDrawable(holder.mIcFavoriteBorder);
         }
-        holder.mLikes.setText(item.likes + "");
+        holder.mLikes.setCurrentText(item.likes + "");
     }
 
     @Override
@@ -132,13 +135,15 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         @BindView(R.id.like_btn)
         ImageView mLikeBtn;
         @BindView(R.id.likes)
-        TextView mLikes;
+        TextSwitcher mLikes;
         @BindView(R.id.more)
         ImageView mMore;
         @BindView(R.id.container)
         CardView mContainer;
         @BindView(R.id.progress_bar)
         ProgressBar mProgressBar;
+
+        TextView mLikeText;
 
         int mPosition;
         Photo mPhoto;
@@ -148,6 +153,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
         Drawable mIcFavorite;
+        @BindColor(R.color.colorPrimary)
+        int mColorPrimary;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -186,6 +193,18 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
                     mProgressBar.setVisibility(View.VISIBLE);
                 }
             });
+
+            mLikes.setFactory(new ViewSwitcher.ViewFactory() {
+                @Override
+                public View makeView() {
+                    mLikeText= new TextView(mContext);
+                    mLikeText.setLayoutParams(new TextSwitcher.LayoutParams(TextSwitcher.LayoutParams.MATCH_PARENT, TextSwitcher.LayoutParams.MATCH_PARENT));
+                    mLikeText.setGravity(Gravity.CENTER);
+                    mLikeText.setBackgroundColor(Color.WHITE);
+                    mLikeText.setTextColor(mColorPrimary);
+                    return mLikeText;
+                }});
+
         }
 
         @Override

@@ -12,6 +12,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +28,7 @@ import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.fragment.CollectionPhotoFragment;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Tag;
@@ -162,6 +165,24 @@ public class CollectionActivity extends BaseActivity {
         } else {
             finish();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (AuthHelper.getUsername().equals(mViewModel.getCollectionData().user.username)) {
+            getMenuInflater().inflate(R.menu.menu_edit, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+            NavHelper.editCollection(getSupportFragmentManager(), mViewModel.getCollectionData());
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.user_container)

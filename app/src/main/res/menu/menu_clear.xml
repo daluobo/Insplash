@@ -5,6 +5,6 @@
         android:id="@+id/action_clear"
         android:icon="@drawable/ic_clear"
         android:orderInCategory="100"
-        android:title="clear"
+        android:title="Clear"
         app:showAsAction="always"/>
 </menu>

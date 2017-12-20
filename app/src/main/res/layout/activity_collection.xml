@@ -146,7 +146,6 @@
                 android:drawableRight="@drawable/ic_arrow_right"
                 android:drawableTint="@color/colorIcon"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:text="username"/>
 

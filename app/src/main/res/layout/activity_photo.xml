@@ -42,43 +42,84 @@
             android:background="@color/colorWhite"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/like_count"
+            <LinearLayout
+                android:id="@+id/like_count_container"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="0"
-                android:textColor="@color/colorBlack"
-                tools:drawableTint="@color/colorPrimary"
-                tools:drawableTop="@drawable/ic_favorite_border"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/views_count"
+                <ImageView
+                    android:id="@+id/like_count_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_border"/>
+
+                <TextView
+                    android:id="@+id/like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    tools:text="0"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/views_count_container"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?android:selectableItemBackground"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="0"
-                android:textColor="@color/colorBlack"
-                tools:drawableTint="@color/colorPrimary"
-                tools:drawableTop="@drawable/ic_visibility"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/download_count"
+                <ImageView
+                    android:id="@+id/views_count_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/ic_visibility"
+                    tools:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:id="@+id/views_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    tools:text="0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/download_count_container"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="0"
-                android:textColor="@color/colorBlack"
-                tools:drawableTint="@color/colorPrimary"
-                tools:drawableTop="@drawable/ic_file_download"/>
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/download_count_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/ic_file_download"
+                    tools:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:id="@+id/download_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    tools:text="0"/>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -89,14 +130,32 @@
             android:background="@color/colorWhite"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/location"
-                style="@style/InfoText"
-                android:drawablePadding="16dp"
-                android:text="···"
-                tools:drawableLeft="@drawable/ic_place"
-                tools:drawableTint="@color/colorPrimary"
-                tools:text="location"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:id="@+id/location_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/ic_place"
+                    tools:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    tools:text="location"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/time"
@@ -116,12 +175,21 @@
                 <TextView
                     android:id="@+id/exif_model"
                     style="@style/InfoText"
-                    android:background="?android:selectableItemBackground"
-                    android:drawablePadding="16dp"
+                    android:layout_marginEnd="48dp"
+                    android:layout_toRightOf="@id/exif_model_hint"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="···"
-                    tools:drawableLeft="@drawable/ic_camera"
-                    tools:drawableTint="@color/colorPrimary"
                     tools:text="exif_model"/>
+
+                <ImageView
+                    android:id="@+id/exif_model_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    tools:src="@drawable/ic_camera"
+                    tools:tint="@color/colorPrimary"/>
 
                 <ImageView
                     android:id="@+id/exif_container_hint"
