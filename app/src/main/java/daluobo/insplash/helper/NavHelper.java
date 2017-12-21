@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -33,32 +34,41 @@ public class NavHelper {
     public static void toPhoto(Context context, Photo photo, View photoView) {
         Intent intent = new Intent(context, PhotoActivity.class);
         intent.putExtra(PhotoActivity.ARG_PHOTO, photo);
-        context.startActivity(intent,
-                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                        photoView,
-                        "photo_view").toBundle());
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                            photoView,
+                            "photo_view").toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     public static void toUser(Context context, User user, View avatarView) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(UserActivity.ARG_USER, user);
-        context.startActivity(intent,
-                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                        avatarView,
-                        "avatar").toBundle());
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                            avatarView,
+                            "avatar").toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     public static void toUser(Context context, User user, View avatarView, int showIndex) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(UserActivity.ARG_USER, user);
         intent.putExtra(UserActivity.ARG_SHOW_INDEX, showIndex);
-        context.startActivity(intent,
-                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                        avatarView,
-                        "avatar").toBundle());
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                            avatarView,
+                            "avatar").toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     public static void toSearch(Context context) {

@@ -79,7 +79,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_place"
-                                android:drawableTint="@color/colorPrimary"
                                 android:gravity="center"
                                 android:padding="4dp"
                                 tools:text="location"/>
@@ -110,7 +109,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
                         android:drawableLeft="@drawable/ic_label_outline"
-                        android:drawableTint="@color/colorPrimary"
                         android:gravity="center_vertical"
                         android:padding="4dp"
                         android:paddingEnd="16dp"
@@ -161,7 +159,6 @@
                             style="@style/InfoText"
                             android:drawableLeft="@drawable/ic_email"
                             android:drawablePadding="8dp"
-                            android:drawableTint="@color/colorPrimary"
                             tools:text="email"/>
 
                         <TextView
@@ -169,7 +166,6 @@
                             style="@style/InfoText"
                             android:drawableLeft="@drawable/ic_twitter"
                             android:drawablePadding="8dp"
-                            android:drawableTint="@color/colorPrimary"
                             tools:text="twitter_username"/>
 
                         <TextView
@@ -177,7 +173,6 @@
                             style="@style/InfoText"
                             android:drawableLeft="@drawable/ic_instagram"
                             android:drawablePadding="8dp"
-                            android:drawableTint="@color/colorPrimary"
                             tools:text="instagram_username"/>
                     </LinearLayout>
 

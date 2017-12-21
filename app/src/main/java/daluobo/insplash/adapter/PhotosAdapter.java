@@ -1,9 +1,12 @@
 package daluobo.insplash.adapter;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -24,12 +27,16 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;
+import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
  * Created by daluobo on 2017/11/12.
@@ -39,6 +46,9 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     protected Context mContext;
     protected LayoutInflater mInflater;
     protected boolean mIsShowUser = true;
+    protected PhotoViewModel mViewModel;
+    protected LifecycleOwner mLifecycleOwner;
+    protected FragmentManager mFragmentManager;
 
     private PopupWindow mPopupWindow;
     private int[] mPopupWindowSize;
@@ -46,21 +56,19 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     private TextView mCollectBtn;
     private int mPopupWindowPhotoPosition = -1;
 
-    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
-        mOnMenuClickListener = onMenuClickListener;
-    }
 
-    private OnMenuClickListener mOnMenuClickListener;
-
-    public PhotosAdapter(Context context, List<Photo> data) {
+    public PhotosAdapter(Context context, List<Photo> data, LifecycleOwner owner, PhotoViewModel viewModel, FragmentManager manager) {
         this.mContext = context;
         super.mData = data;
+        this.mLifecycleOwner = owner;
+        this.mViewModel = viewModel;
+        this.mFragmentManager = manager;
 
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public PhotosAdapter(Context context, List<Photo> data, boolean isShowUser) {
-        this(context, data);
+    public PhotosAdapter(Context context, List<Photo> data, LifecycleOwner owner, PhotoViewModel viewModel, FragmentManager manager, boolean isShowUser) {
+        this(context, data, owner, viewModel, manager);
         this.mIsShowUser = isShowUser;
     }
 
@@ -187,23 +195,24 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             mLikeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnMenuClickListener.onLikeClick(mPhoto);
-
                     mLikeBtn.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
+
+                    onLikeClick(mPhoto);
                 }
             });
 
             mLikes.setFactory(new ViewSwitcher.ViewFactory() {
                 @Override
                 public View makeView() {
-                    mLikeText= new TextView(mContext);
+                    mLikeText = new TextView(mContext);
                     mLikeText.setLayoutParams(new TextSwitcher.LayoutParams(TextSwitcher.LayoutParams.MATCH_PARENT, TextSwitcher.LayoutParams.MATCH_PARENT));
                     mLikeText.setGravity(Gravity.CENTER);
                     mLikeText.setBackgroundColor(Color.WHITE);
                     mLikeText.setTextColor(mColorPrimary);
                     return mLikeText;
-                }});
+                }
+            });
 
         }
 
@@ -253,8 +262,20 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setTouchable(true);
-        mPopupWindow.setElevation(10);
         mPopupWindow.setAnimationStyle(R.style.ScaleAnimation);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mPopupWindow.setElevation(10);
+        }
+    }
+
+    public void onLikeClick(Photo photo) {
+        mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {
+            @Override
+            protected void onSuccess(LikePhoto likePhoto) {
+                onPhotoLikeChange(likePhoto.photo);
+            }
+        });
     }
 
     public void onDownloadClick() {
@@ -263,13 +284,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
     public void onCollectClick(Photo photo) {
         mPopupWindow.dismiss();
-        mOnMenuClickListener.onCollectClick(photo);
-    }
-
-    public interface OnMenuClickListener {
-        void onLikeClick(Photo photo);
-
-        void onCollectClick(Photo photo);
+        NavHelper.collectPhoto(mFragmentManager, photo);
     }
 
 }

@@ -14,6 +14,7 @@ import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
+import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
  * Created by daluobo on 2017/11/29.
@@ -52,7 +53,7 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
         mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
         ((CollectionPhotoViewModel)mViewModel).setCollection(collection);
 
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
 
     }
 

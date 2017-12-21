@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,6 +56,8 @@ public class EditCollectionDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_edit_collection, container);
         ButterKnife.bind(this, view);
 
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         initData();
         initView();
         return view;
@@ -62,7 +65,6 @@ public class EditCollectionDialog extends DialogFragment {
 
     private void initData() {
         Collection collection = getArguments().getParcelable(ARG_COLLECTION);
-
 
     }
 

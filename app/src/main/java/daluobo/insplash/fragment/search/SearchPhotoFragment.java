@@ -6,6 +6,7 @@ import java.util.List;
 
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.viewmodel.PhotoViewModel;
 import daluobo.insplash.viewmodel.SearchPhotoViewModel;
 
 /**
@@ -25,7 +26,7 @@ public class SearchPhotoFragment extends SearchFragment<List<Photo>> {
     @Override
     public void initData() {
         mViewModel = ViewModelProviders.of(this).get(SearchPhotoViewModel.class);
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
     }
 
 }

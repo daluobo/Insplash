@@ -54,11 +54,18 @@
             android:textColor="@color/colorBlack"
             android:textSize="22sp"/>
 
+        <View
+            android:id="@+id/cut1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/create_title"
+            android:background="@color/colorBg"/>
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/create_title"
+            android:layout_below="@id/cut1"
             android:layout_margin="16dp"
             android:hint="name"
             android:inputType="text"
@@ -85,6 +92,13 @@
             android:drawableRight="@drawable/ic_lock_small"
             android:drawableTint="@color/colorBlack"
             android:text="Make collection private"/>
+
+        <View
+            android:id="@+id/cut2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@id/cancel_btn"
+            android:background="@color/colorBg"/>
 
         <TextView
             android:id="@+id/cancel_btn"

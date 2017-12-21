@@ -18,13 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
-import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
@@ -105,23 +101,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             }
         });
 
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
-        ((PhotosAdapter) mAdapter).setOnMenuClickListener(new PhotosAdapter.OnMenuClickListener() {
-            @Override
-            public void onLikeClick(Photo photo) {
-                ((PhotoViewModel) mViewModel).likePhoto(photo).observe(PhotosFragment.this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(getContext()) {
-                    @Override
-                    protected void onSuccess(LikePhoto likePhoto) {
-                        ((PhotosAdapter) mAdapter).onPhotoLikeChange(likePhoto.photo);
-                    }
-                });
-            }
-
-            @Override
-            public void onCollectClick(Photo photo) {
-                NavHelper.collectPhoto(getFragmentManager(), photo);
-            }
-        });
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
     }
 
     @Override

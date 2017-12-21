@@ -105,7 +105,7 @@ public class CollectionActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
         mViewModel.setCollection(collection);
 
-        mAdapter = new PhotosAdapter(this, mViewModel.getData());
+        mAdapter = new PhotosAdapter(this, mViewModel.getData(), this, mViewModel, getSupportFragmentManager());
     }
 
     @Override

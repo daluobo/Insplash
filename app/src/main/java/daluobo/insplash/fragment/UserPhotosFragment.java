@@ -9,6 +9,7 @@ import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
+import daluobo.insplash.viewmodel.PhotoViewModel;
 import daluobo.insplash.viewmodel.UserPhotoViewModel;
 
 /**
@@ -43,9 +44,9 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
         ((UserPhotoViewModel)mViewModel).setUserPhotoTyp(type);
 
         if (type == UserPhotoViewModel.UserPhotosType.OWN) {
-            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), false);
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(),this, (PhotoViewModel) mViewModel, getFragmentManager(), false);
         } else {
-            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(),this, (PhotoViewModel) mViewModel, getFragmentManager());
         }
     }
 }

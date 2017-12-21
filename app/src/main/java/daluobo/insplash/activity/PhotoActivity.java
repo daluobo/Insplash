@@ -27,6 +27,7 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
@@ -168,6 +169,12 @@ public class PhotoActivity extends BaseActivity {
                 updateContent(photo);
             }
         });
+
+        if (AuthHelper.isLogin()) {
+            mCollectBtn.setVisibility(View.VISIBLE);
+        } else {
+            mCollectBtn.setVisibility(View.GONE);
+        }
     }
 
     private void loadPhoto(Photo photo) {
@@ -233,7 +240,7 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
-    private void updateContent(Photo photo){
+    private void updateContent(Photo photo) {
         Animation scaleInAnimation = AnimationUtils.loadAnimation(PhotoActivity.this, R.anim.scale_left_in);
         mLikeCount.startAnimation(scaleInAnimation);
         mViewsCount.startAnimation(scaleInAnimation);

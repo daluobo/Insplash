@@ -35,7 +35,7 @@ public class UserPhotoFragment extends SwipeListFragment<Photo> {
     @Override
     public void initData() {
         mViewModel = new PhotoViewModel();
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData());
+        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, mViewModel, getFragmentManager());
     }
 
     @Override

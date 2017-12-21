@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +73,8 @@ public class AddToCollectionDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_to_collection, container);
         ButterKnife.bind(this, view);
+
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         initData();
         initView();

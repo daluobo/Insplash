@@ -9,7 +9,7 @@
         android:padding="8dp"
         android:paddingStart="16dp"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="title"/>
 
     <TextView
@@ -63,7 +63,6 @@
             android:background="?android:selectableItemBackground"
             android:drawableLeft="@drawable/ic_folder"
             android:drawablePadding="8dp"
-            android:drawableTint="@color/colorPrimary"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:paddingEnd="16dp"

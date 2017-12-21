@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,22 +96,24 @@ public class PopupMenuHelper {
         window.setOutsideTouchable(true);
         window.setFocusable(true);
         window.setTouchable(true);
-        window.setElevation(10);
         window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         window.setAnimationStyle(R.style.AlphaAnimation);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setElevation(10);
+        }
 
         window.showAsDropDown(anchor, xOff, -anchor.getHeight());
     }
 
-    public static void showPhotoTypeMenu(Context context, View anchor,MenuItem selectedItem, OnMenuItemClickListener listener) {
+    public static void showPhotoTypeMenu(Context context, View anchor, MenuItem selectedItem, OnMenuItemClickListener listener) {
         showPopupMenu(context, anchor, R.layout.menu_item_type, mPhotoType, selectedItem, listener, 0);
     }
 
-    public static void showOrderByMenu(Context context, View anchor,MenuItem selectedItem, OnMenuItemClickListener listener) {
+    public static void showOrderByMenu(Context context, View anchor, MenuItem selectedItem, OnMenuItemClickListener listener) {
         showPopupMenu(context, anchor, R.layout.menu_item_order_by, mOrderBy, selectedItem, listener, -DimensionUtil.dpToPx(8));
     }
 
-    public static void showCollectionTypeMenu(Context context, View anchor,MenuItem selectedItem, OnMenuItemClickListener listener) {
+    public static void showCollectionTypeMenu(Context context, View anchor, MenuItem selectedItem, OnMenuItemClickListener listener) {
         showPopupMenu(context, anchor, R.layout.menu_item_type, mCollectionType, selectedItem, listener, 0);
     }
 
