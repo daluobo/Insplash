@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -102,15 +104,12 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             CoverViewHolder cvh = (CoverViewHolder) viewHolder;
             ViewGroup.LayoutParams lp = cvh.mCoverPhoto.getLayoutParams();
             lp.width = cvh.mContainerWidth;
+            lp.height = lp.width * 2 / 3;
+            cvh.mCoverPhoto.setLayoutParams(lp);
             if (item.cover_photo != null) {
-                lp.height = lp.width * 2 / 3;
-                cvh.mCoverPhoto.setLayoutParams(lp);
-
                 ImgUtil.loadImg(mContext, cvh.mCoverPhoto, new ColorDrawable(Color.parseColor(item.cover_photo.color)), item.cover_photo.urls.small);
             } else {
-                lp.height = 0;
-                cvh.mCoverPhoto.setLayoutParams(lp);
-                cvh.mCoverPhoto.setImageDrawable(null);
+                cvh.mCoverPhoto.setImageDrawable(cvh.mIcNeutral);
             }
         } else if (viewHolder instanceof PreViewHolder) {
             PreViewHolder pvh = (PreViewHolder) viewHolder;
@@ -147,8 +146,13 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             holder.mUsername.setVisibility(View.VISIBLE);
             holder.mAvatar.setVisibility(View.VISIBLE);
         } else {
-            holder.mUsername.setVisibility(View.GONE);
-            holder.mAvatar.setVisibility(View.GONE);
+            holder.mUsername.setVisibility(View.INVISIBLE);
+            if (item.privateX) {
+                holder.mAvatar.setVisibility(View.VISIBLE);
+                holder.mAvatar.setImageDrawable(holder.mIcLock);
+            } else {
+                holder.mAvatar.setVisibility(View.INVISIBLE);
+            }
         }
 
         holder.mTotalPhotos.setText(item.total_photos + "");
@@ -177,6 +181,12 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         @BindView(R.id.container)
         CardView mContainer;
 
+        @BindDrawable(R.drawable.ic_lock_outline)
+        Drawable mIcLock;
+
+        @BindDrawable(R.drawable.ic_neutral)
+        Drawable mIcNeutral;
+
         Collection mCollection;
         int mContainerWidth;
 
@@ -187,7 +197,18 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
             mAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NavHelper.toUser(mContext, mCollection.user, mAvatar);
+                    if (mIsShowUser) {
+                        NavHelper.toUser(mContext, mCollection.user, mAvatar);
+                    }
+                }
+            });
+
+            mUsername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mIsShowUser) {
+                        NavHelper.toUser(mContext, mCollection.user, mAvatar);
+                    }
                 }
             });
 

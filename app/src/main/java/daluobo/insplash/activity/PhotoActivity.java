@@ -28,9 +28,11 @@ import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
+import daluobo.insplash.helper.DownloadHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;
@@ -287,7 +289,7 @@ public class PhotoActivity extends BaseActivity {
         ViewUtil.setDrawableEnd(mUsername, ViewUtil.tintDrawable(mIcPersonOutline, mPhotoColorId));
     }
 
-    @OnClick({R.id.like_count, R.id.download_count, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn})
+    @OnClick({R.id.like_count_container, R.id.download_count_container, R.id.show_exif_btn, R.id.user_container, R.id.collect_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_count_container:
@@ -303,6 +305,12 @@ public class PhotoActivity extends BaseActivity {
                 });
                 break;
             case R.id.download_count_container:
+                mViewModel.getDownloadLink(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
+                    @Override
+                    protected void onSuccess(PhotoDownloadLink link) {
+                        DownloadHelper.download(PhotoActivity.this, PhotoActivity.this, link.url);
+                    }
+                });
                 break;
             case R.id.show_exif_btn:
                 int height = ViewUtil.getViewSize(mExifContainer)[1];

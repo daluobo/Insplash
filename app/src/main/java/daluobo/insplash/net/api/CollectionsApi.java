@@ -15,8 +15,10 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by daluobo on 2017/11/27.
@@ -49,4 +51,10 @@ public interface CollectionsApi {
 
     @DELETE("/collections/{collection_id}/remove")
     LiveData<ApiResponse<CollectPhoto>> removeFromCollection(@Path("collection_id") String id, @Query("collection_id") String collectionId, @Query("photo_id") String photoId);
+
+    @PUT("/collections/{id}")
+    LiveData<ApiResponse<Collection>> updateCollection(@Path("id") String id, @QueryMap Map<String, Object> param);
+
+    @DELETE("/collections/{id}")
+    LiveData<ApiResponse<Object>> deleteCollection(@Path("id") String id);
 }

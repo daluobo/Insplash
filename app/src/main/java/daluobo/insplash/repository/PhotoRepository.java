@@ -8,6 +8,7 @@ import java.util.List;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.net.RetrofitHelper;
@@ -94,6 +95,21 @@ public class PhotoRepository {
 
             @Override
             protected LikePhoto convertResult(@NonNull LikePhoto item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<PhotoDownloadLink>> getDownloadLink(final String id) {
+        return new NetworkResource<PhotoDownloadLink, PhotoDownloadLink>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<PhotoDownloadLink>> createCall() {
+                return mPhotoService.getDownloadLink(id);
+            }
+
+            @Override
+            protected PhotoDownloadLink convertResult(@NonNull PhotoDownloadLink item) {
                 return item;
             }
         }.getAsLiveData();

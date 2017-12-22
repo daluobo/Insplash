@@ -60,6 +60,7 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     @Override
     public void initView() {
         super.initListView();
+        super.mSwipeLayout.setEnabled(false);
 
         onShowRefresh();
         onRefresh();

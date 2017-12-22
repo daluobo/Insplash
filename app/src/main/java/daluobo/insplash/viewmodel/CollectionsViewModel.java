@@ -64,6 +64,14 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
         return mRepository.removeFromCollection(collectionId, photoId);
     }
 
+    public LiveData<Resource<Collection>> updateCollection(String id, Map<String, Object> param) {
+        return mRepository.updateCollection(id, param);
+    }
+
+    public LiveData<Resource<Object>> deleteCollection(String id) {
+        return mRepository.deleteCollection(id);
+    }
+
     public String getType() {
         return mType;
     }

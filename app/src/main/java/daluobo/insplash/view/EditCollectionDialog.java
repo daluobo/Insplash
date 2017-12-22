@@ -1,6 +1,9 @@
 package daluobo.insplash.view;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +14,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
+import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.util.ToastUtil;
+import daluobo.insplash.viewmodel.CollectionsEditViewModel;
 
 /**
  * Created by daluobo on 2017/12/20.
@@ -24,6 +34,7 @@ import daluobo.insplash.model.net.Collection;
 
 public class EditCollectionDialog extends DialogFragment {
     public static final String ARG_COLLECTION = "collection";
+    protected CollectionsEditViewModel mViewModel;
 
     @BindColor(R.color.colorPrimary)
     int mColorPrimary;
@@ -66,6 +77,16 @@ public class EditCollectionDialog extends DialogFragment {
     private void initData() {
         Collection collection = getArguments().getParcelable(ARG_COLLECTION);
 
+        mViewModel = ViewModelProviders.of(this).get(CollectionsEditViewModel.class);
+        mViewModel.setCollection(collection);
+        mViewModel.getCollection().observe(this, new Observer<Collection>() {
+            @Override
+            public void onChanged(@Nullable Collection collection) {
+                mName.setText(collection.title);
+                mDescription.setText(collection.description);
+                mIsPrivate.setChecked(collection.privateX);
+            }
+        });
     }
 
     private void initView() {
@@ -101,9 +122,31 @@ public class EditCollectionDialog extends DialogFragment {
                 break;
             case R.id.save_btn:
                 if (mHint.getVisibility() == View.VISIBLE) {
-
+                    mViewModel.deleteCollection(mViewModel.getCollectionData().id).observe(this, new ResourceObserver<Resource<Object>, Object>(getContext()) {
+                        @Override
+                        protected void onSuccess(Object o) {
+                            ToastUtil.showShort(getContext(), "Delete success!");
+                            EditCollectionDialog.this.dismiss();
+                        }
+                    });
                 } else {
+                    if (mName.getText().length() == 0) {
+                        ToastUtil.showShort(getContext(), "Name must not empty");
+                        return;
+                    }
 
+                    Map<String, Object> param = new HashMap<>();
+                    param.put("title", mName.getText());
+                    param.put("description", mDescription.getText());
+                    param.put("private", mIsPrivate.isChecked());
+
+                    mViewModel.updateCollection(mViewModel.getCollectionData().id, param).observe(this, new ResourceObserver<Resource<Collection>, Collection>(getContext()) {
+                        @Override
+                        protected void onSuccess(Collection collection) {
+                            ToastUtil.showShort(getContext(), "Update success!");
+                            EditCollectionDialog.this.dismiss();
+                        }
+                    });
                 }
                 break;
         }

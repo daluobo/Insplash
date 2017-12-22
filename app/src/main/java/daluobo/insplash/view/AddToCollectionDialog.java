@@ -31,7 +31,7 @@ import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.ToastUtil;
-import daluobo.insplash.viewmodel.MeCollectionsViewModel;
+import daluobo.insplash.viewmodel.CollectionsEditViewModel;
 
 /**
  * Created by daluobo on 2017/12/13.
@@ -39,7 +39,7 @@ import daluobo.insplash.viewmodel.MeCollectionsViewModel;
 
 public class AddToCollectionDialog extends DialogFragment {
     public static final String ARG_PHOTO = "photo";
-    private MeCollectionsViewModel mViewModel;
+    private CollectionsEditViewModel mViewModel;
     private SelectCollectionAdapter mAdapter;
     private int dialogWidth = 0;
 
@@ -82,7 +82,7 @@ public class AddToCollectionDialog extends DialogFragment {
     }
 
     private void initData() {
-        mViewModel = ViewModelProviders.of(this).get(MeCollectionsViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(CollectionsEditViewModel.class);
         Photo photo = getArguments().getParcelable(ARG_PHOTO);
         mViewModel.setPhoto(photo);
 

@@ -145,4 +145,34 @@ public class CollectionsRepository {
             }
         }.getAsLiveData();
     }
+
+    public LiveData<Resource<Collection>> updateCollection(final String id, final Map<String, Object> param) {
+        return new NetworkResource<Collection, Collection>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Collection>> createCall() {
+                return mCollectsService.updateCollection(id, param);
+            }
+
+            @Override
+            protected Collection convertResult(@NonNull Collection item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Object>> deleteCollection(final String id) {
+        return new NetworkResource<Object, Object>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Object>> createCall() {
+                return mCollectsService.deleteCollection(id);
+            }
+
+            @Override
+            protected Object convertResult(@NonNull Object item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
 }

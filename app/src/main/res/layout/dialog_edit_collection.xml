@@ -63,7 +63,6 @@
         android:layout_margin="16dp"
         android:drawablePadding="4dp"
         android:drawableRight="@drawable/ic_lock_small"
-        android:drawableTint="@color/colorBlack"
         android:text="Make collection private"/>
 
     <View

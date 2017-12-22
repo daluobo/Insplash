@@ -29,11 +29,15 @@ public class RetrofitHelper {
     public static final int DEFAULT_TIMEOUT = 3;
 
     public static Retrofit buildApi() {
-        return build(AppConstant.API_ENDPOINT, AppConstant.API_SSL_PUBLIC_KEY);
+        return build(AppConstant.API_ENDPOINT, AppConstant.API_SSL_PIN);
     }
 
     public static Retrofit buildUnsplsh() {
-        return build(AppConstant.UNSPLASH_ENDPOINT, AppConstant.UNSPLASH_SSL_PUBLIC_KEY);
+        return build(AppConstant.UNSPLASH_ENDPOINT, AppConstant.UNSPLASH_SSL_PIN);
+    }
+
+    public static Retrofit buildImage() {
+        return build(AppConstant.IMAGE_ENDPOINT, AppConstant.IMAGE_SSL_PIN);
     }
 
     public static Retrofit build(String endPoint, String sslKey) {

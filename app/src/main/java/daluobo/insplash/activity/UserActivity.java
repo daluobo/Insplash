@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,12 +48,28 @@ public class UserActivity extends BaseActivity {
     public static final String ARG_USER = "user";
     public static final String ARG_SHOW_INDEX = "show_index";
 
+    private int mShowIndex;
+    private int mHintClickCount = 0;
+
     protected UserViewModel mViewModel;
     protected TabFragmentAdapter mAdapter;
 
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     private boolean isShowUserInfo = false;
+
+    @BindDrawable(R.drawable.ic_mood)
+    Drawable mIcMood_0;
+    @BindDrawable(R.drawable.ic_mood_satisfied)
+    Drawable mIcMood_1;
+    @BindDrawable(R.drawable.ic_mood_neutral)
+    Drawable mIcMood_2;
+    @BindDrawable(R.drawable.ic_mood_dissatisfied)
+    Drawable mIcMood_3;
+    @BindDrawable(R.drawable.ic_mood_bad)
+    Drawable mIcMood_4;
+    @BindDrawable(R.drawable.ic_mood_very_dissatisfied)
+    Drawable mIcMood_5;
 
     @BindView(R.id.avatar)
     ImageView mAvatar;
@@ -93,6 +111,8 @@ public class UserActivity extends BaseActivity {
     ImageView mExtraInfoHint;
     @BindView(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
+    @BindView(R.id.mood)
+    ImageView mMood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,17 +136,11 @@ public class UserActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        int index = getIntent().getIntExtra(ARG_SHOW_INDEX, 0);
-        mViewPager.setCurrentItem(index, true);
-    }
-
-    @Override
     public void initData() {
-        mViewModel = new UserViewModel();
         User user = getIntent().getParcelableExtra(ARG_USER);
+        mShowIndex = getIntent().getIntExtra(ARG_SHOW_INDEX, 0);
+
+        mViewModel = new UserViewModel();
         mViewModel.setUser(user);
         mViewModel.getUser().observe(this, new Observer<User>() {
             @Override
@@ -165,6 +179,8 @@ public class UserActivity extends BaseActivity {
         mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.setCurrentItem(mShowIndex, true);
     }
 
     @Override
@@ -188,9 +204,31 @@ public class UserActivity extends BaseActivity {
                 if (isShowUserInfo) {
                     return;
                 }
+
                 isShowUserInfo = true;
 
                 final int distanceX = DimensionUtil.dip2px(UserActivity.this, 40);
+                switch (mHintClickCount) {
+                    case 0:
+                        mMood.setImageDrawable(mIcMood_0);
+                        break;
+                    case 1:
+                        mMood.setImageDrawable(mIcMood_1);
+                        break;
+                    case 2:
+                        mMood.setImageDrawable(mIcMood_2);
+                        break;
+                    case 3:
+                        mMood.setImageDrawable(mIcMood_3);
+                        break;
+                    case 4:
+                        mMood.setImageDrawable(mIcMood_4);
+                        break;
+                    case 5:
+                        mMood.setImageDrawable(mIcMood_5);
+                        break;
+                }
+                mHintClickCount++;
 
                 mEditProfileContainer.animate().translationXBy(-distanceX).setListener(new AnimatorListenerAdapter() {
 

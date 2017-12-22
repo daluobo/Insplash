@@ -7,9 +7,13 @@ package daluobo.insplash.common;
 public class AppConstant {
 
     public static final String UNSPLASH_ENDPOINT = "https://unsplash.com";
-    public static final String UNSPLASH_SSL_PUBLIC_KEY = "sha256/60J+uBsULLchqgoeQGCJeLilfJP/JWzhwUb06mXkvGM=";
+    public static final String UNSPLASH_SSL_PIN = "sha256/60J+uBsULLchqgoeQGCJeLilfJP/JWzhwUb06mXkvGM=";
+
     public static final String API_ENDPOINT = "https://api.unsplash.com";
-    public static final String API_SSL_PUBLIC_KEY = "sha256/60J+uBsULLchqgoeQGCJeLilfJP/JWzhwUb06mXkvGM= ";
+    public static final String API_SSL_PIN = "sha256/60J+uBsULLchqgoeQGCJeLilfJP/JWzhwUb06mXkvGM=";
+
+    public static final String IMAGE_ENDPOINT = "https://images.unsplash.com";
+    public static final String IMAGE_SSL_PIN = "sha256/8Q7osvwwjCV7oXU8aUl1VRqE7AIlZZRKtaCJsfd5w1c=";
 
     public static final String APP_CALLBACK_URL = "insplash-auth-callback";
     public static final String APP_API_ID = "2a9d8042c1e107475dc0d53fc70e39e8060cbf42bbd203c9961c0a111ade8989";
