@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <include layout="@layout/toolbar"/>
         </android.support.design.widget.CollapsingToolbarLayout>

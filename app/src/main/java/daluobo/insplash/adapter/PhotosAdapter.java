@@ -56,7 +56,6 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     private TextView mCollectBtn;
     private int mPopupWindowPhotoPosition = -1;
 
-
     public PhotosAdapter(Context context, List<Photo> data, LifecycleOwner owner, PhotoViewModel viewModel, FragmentManager manager) {
         this.mContext = context;
         super.mData = data;

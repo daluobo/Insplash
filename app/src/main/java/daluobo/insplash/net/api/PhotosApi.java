@@ -3,6 +3,7 @@ package daluobo.insplash.net.api;
 import android.arch.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -13,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by daluobo on 2017/11/12.
@@ -37,4 +39,6 @@ public interface PhotosApi {
     @GET("/photos/{id}/download")
     LiveData<ApiResponse<PhotoDownloadLink>> getDownloadLink(@Path("id") String id);
 
+    @GET("/photos/random")
+    LiveData<ApiResponse<Photo>> getRandom(@QueryMap Map<String, Object> param);
 }

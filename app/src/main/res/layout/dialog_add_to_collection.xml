@@ -35,6 +35,12 @@
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
     <RelativeLayout
         android:id="@+id/create_container"
         android:layout_width="match_parent"
@@ -67,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cut1"
             android:layout_margin="16dp"
+            android:background="@null"
             android:hint="name"
             android:inputType="text"
             android:maxLength="60"
@@ -78,9 +85,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
             android:layout_margin="16dp"
+            android:background="@null"
             android:hint="Description (optional)"
             android:maxLength="250"
-            android:maxLines="3"/>
+            android:maxLines="4"/>
 
         <CheckBox
             android:id="@+id/isPrivate"
@@ -125,12 +133,6 @@
             android:text="Create collection"
             android:textColor="@color/colorPrimary"/>
     </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
 
     <ImageView
         android:id="@+id/dismiss_btn"

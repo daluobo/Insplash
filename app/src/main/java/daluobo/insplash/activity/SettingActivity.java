@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -25,19 +27,24 @@ import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
-import daluobo.insplash.helper.SharePrefHelper;
-import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.util.ViewUtil;
+import daluobo.insplash.helper.SharePrefHelper;
 import daluobo.insplash.model.net.Token;
 import daluobo.insplash.model.net.User;
+import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.SharePrefUtil;
+import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.viewmodel.OauthViewModel;
 import daluobo.insplash.viewmodel.UserViewModel;
 
 public class SettingActivity extends BaseActivity {
+    public static final String ARG_REVEAL_X = "revealX";
+    public static final String ARG_REVEAL_Y = "revealY";
+
     protected UserViewModel mViewModel;
     protected OauthViewModel mOauthViewModel;
+    protected int revealX;
+    protected int revealY;
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -65,6 +72,10 @@ public class SettingActivity extends BaseActivity {
     LinearLayout mUserCountContainer;
     @BindView(R.id.name)
     TextView mName;
+    @BindView(R.id.about_btn)
+    TextView mAboutBtn;
+    @BindView(R.id.root_container)
+    ScrollView mRootContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +85,20 @@ public class SettingActivity extends BaseActivity {
 
         initData();
         initView();
-    }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mRootContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    Animator animator = AnimHelper.createReveal(mRootContainer,
+                            revealX,
+                            revealY,
+                            false, null);
+                    animator.start();
+                }
+            });
+        }
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -92,7 +115,7 @@ public class SettingActivity extends BaseActivity {
                     SharePrefUtil.putPreference(SettingActivity.this, AppConstant.SharePref.ACCESS_TOKEN, token.access_token);
                     SharePrefUtil.putPreference(SettingActivity.this, AppConstant.SharePref.REFRESH_TOKEN, token.refresh_token);
 
-                    NavHelper.toSetting(SettingActivity.this);
+                    NavHelper.toSetting(SettingActivity.this, 0, 0);
                 }
             });
         }
@@ -113,6 +136,9 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        revealX = getIntent().getIntExtra(ARG_REVEAL_X, 0);
+        revealY = getIntent().getIntExtra(ARG_REVEAL_Y, 0);
+
         mViewModel = new UserViewModel();
         mOauthViewModel = new OauthViewModel();
     }
@@ -124,7 +150,7 @@ public class SettingActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         mTitle.setText("Setting");
@@ -177,6 +203,9 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initUserProfile() {
+        if(mViewModel.getUserData()!=null){
+            return;
+        }
         mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
             @Override
             protected void onSuccess(User user) {
@@ -222,7 +251,32 @@ public class SettingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.user_container, R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container, R.id.about_btn})
+    @Override
+    public void onBackPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Animator animator = AnimHelper.createReveal(mRootContainer,
+                    revealX,
+                    revealY,
+                    true,
+                    new AnimatorListenerAdapter() {
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mRootContainer.setVisibility(View.INVISIBLE);
+                            finish();
+                            overridePendingTransition(0, 0);
+                        }
+
+                    });
+            animator.start();
+        } else {
+            finish();
+        }
+    }
+
+    @OnClick({R.id.user_container,
+            R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container,
+            R.id.view_btn,R.id.language_btn,R.id.about_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
@@ -236,6 +290,10 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.total_likes_container:
                 NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
+                break;
+            case R.id.view_btn:
+                break;
+            case R.id.language_btn:
                 break;
             case R.id.about_btn:
                 NavHelper.toAbout(this);

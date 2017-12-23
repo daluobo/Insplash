@@ -7,13 +7,14 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
-import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.repository.PhotoRepository;
 
 /**
@@ -73,6 +74,9 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         return mRepository.getDownloadLink(id);
     }
 
+    public LiveData<Resource<Photo>> getRandom(Map<String, Object> param) {
+        return mRepository.getRandom(param);
+    }
 
     public String getType() {
         return mType;

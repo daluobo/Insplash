@@ -82,18 +82,18 @@ public class CollectionActivity extends BaseActivity {
         initData();
         initView();
 
-        mRootContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mRootContainer.post(new Runnable() {
+                @Override
+                public void run() {
                     Animator animator = AnimHelper.createReveal(mRootContainer,
                             revealX,
                             revealY,
                             false, null);
                     animator.start();
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
@@ -110,6 +111,21 @@ public class PhotoRepository {
 
             @Override
             protected PhotoDownloadLink convertResult(@NonNull PhotoDownloadLink item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Photo>> getRandom(final Map<String, Object> param) {
+        return new NetworkResource<Photo, Photo>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Photo>> createCall() {
+                return mPhotoService.getRandom(param);
+            }
+
+            @Override
+            protected Photo convertResult(@NonNull Photo item) {
                 return item;
             }
         }.getAsLiveData();

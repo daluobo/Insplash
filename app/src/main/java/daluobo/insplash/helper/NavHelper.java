@@ -27,8 +27,11 @@ import daluobo.insplash.view.EditCollectionDialog;
 
 public class NavHelper {
 
-    public static void toSetting(Context context) {
-        context.startActivity(new Intent(context, SettingActivity.class));
+    public static void toSetting(Context context, int x, int y) {
+        Intent intent = new Intent(context, SettingActivity.class);
+        intent.putExtra(SettingActivity.ARG_REVEAL_X, x);
+        intent.putExtra(SettingActivity.ARG_REVEAL_Y, y);
+        context.startActivity(intent);
     }
 
     public static void toPhoto(Context context, Photo photo, View photoView) {

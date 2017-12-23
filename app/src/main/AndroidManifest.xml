@@ -39,17 +39,14 @@
             android:theme="@style/noAnimTheme">
         </activity>
         <activity
-            android:name=".test.ScrollingActivity"
-            android:label="">
-        </activity>
-        <activity
             android:name=".activity.UserActivity"
             android:launchMode="singleTask"
             android:theme="@style/noAnimTheme">
         </activity>
         <activity
             android:name=".activity.SettingActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/noAnimTheme">
             <intent-filter>
                 <data
                     android:host="insplash-auth-callback"
@@ -63,9 +60,11 @@
         </activity>
         <activity android:name=".activity.SearchActivity">
         </activity>
-        <activity android:name=".activity.ProfileActivity">
+        <activity android:name=".activity.ProfileActivity"
+                  android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
-        <activity android:name=".activity.AboutActivity">
+        <activity android:name=".activity.AboutActivity"
+            android:label="">
         </activity>
     </application>
 

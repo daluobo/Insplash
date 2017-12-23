@@ -14,6 +14,7 @@ public class Urls implements Parcelable {
     public String regular;
     public String small;
     public String thumb;
+    public String custom;
 
 
     @Override
@@ -28,6 +29,7 @@ public class Urls implements Parcelable {
         dest.writeString(this.regular);
         dest.writeString(this.small);
         dest.writeString(this.thumb);
+        dest.writeString(this.custom);
     }
 
     public Urls() {
@@ -39,9 +41,10 @@ public class Urls implements Parcelable {
         this.regular = in.readString();
         this.small = in.readString();
         this.thumb = in.readString();
+        this.custom = in.readString();
     }
 
-    public static final Parcelable.Creator<Urls> CREATOR = new Parcelable.Creator<Urls>() {
+    public static final Creator<Urls> CREATOR = new Creator<Urls>() {
         @Override
         public Urls createFromParcel(Parcel source) {
             return new Urls(source);

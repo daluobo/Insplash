@@ -132,6 +132,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
 
     protected void onLoadSuccess(List<T> data) {
         mAdapter.addItems(data);
-        mAdapter.notifyDataSetChanged();
+
+        mAdapter.notifyItemRangeInserted(mAdapter.getItemCount() - 1, data.size());
     }
 }

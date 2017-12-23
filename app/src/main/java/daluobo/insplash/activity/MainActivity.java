@@ -11,8 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +70,20 @@ public class MainActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHelper.toSetting(MainActivity.this);
+                float x = 0;
+                float y = 0;
+                try {
+                    Field field = Toolbar.class.getDeclaredField("mNavButtonView");
+                    field.setAccessible(true);
+                    ImageButton navIcon = (ImageButton) field.get(mToolbar);
+
+                    x = navIcon.getX() + navIcon.getWidth() / 2;
+                    y = navIcon.getY() + navIcon.getHeight() / 2;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                NavHelper.toSetting(MainActivity.this, (int) x, (int) y);
             }
         });
 

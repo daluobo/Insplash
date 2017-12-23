@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,12 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.PhotosAdapter;
+import daluobo.insplash.adapter.CompatPhotoAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.test.GridDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -101,7 +103,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             }
         });
 
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
+        //mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
+        mAdapter = new CompatPhotoAdapter(getContext(), mViewModel.getData());
     }
 
     @Override
@@ -126,6 +129,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initListView();
+        mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mListView.addItemDecoration(new GridDecoration(getContext()));
         mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
