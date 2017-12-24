@@ -34,7 +34,7 @@ public class PopupMenuHelper {
 
     static {
         mPhotoType.add(new MenuItem("Photos", PhotoViewModel.PhotoType.ALL));
-        mPhotoType.add(new MenuItem("Curated", PhotoViewModel.PhotoType.CURATED));
+        mPhotoType.add(new MenuItem("Trending", PhotoViewModel.PhotoType.CURATED));
 
         mOrderBy.add(new MenuItem("Latest", BasePageViewModel.OrderBy.LATEST));
         mOrderBy.add(new MenuItem("Oldest", BasePageViewModel.OrderBy.OLDEST));

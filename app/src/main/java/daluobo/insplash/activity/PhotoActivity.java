@@ -44,7 +44,7 @@ public class PhotoActivity extends BaseActivity {
     protected ColorDrawable mPhotoColor;
     protected int mPhotoColorId;
 
-    @BindDrawable(R.drawable.ic_favorite_border)
+    @BindDrawable(R.drawable.ic_favorite_border_primary)
     Drawable mIcFavoriteBorder;
     @BindDrawable(R.drawable.ic_favorite)
     Drawable mIcFavorite;

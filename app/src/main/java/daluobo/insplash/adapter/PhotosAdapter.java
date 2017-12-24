@@ -80,12 +80,13 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             return;
         }
         holder.mPhoto = item;
+        ColorDrawable bg = new ColorDrawable(Color.parseColor(item.color));
 
         ViewGroup.LayoutParams lp = holder.mPhotoView.getLayoutParams();
         lp.width = holder.mContainerWidth;
         lp.height = lp.width * item.height / item.width;
         holder.mPhotoView.setLayoutParams(lp);
-        ImgUtil.loadImg(mContext, holder.mPhotoView, new ColorDrawable(Color.parseColor(item.color)), item.urls.small);
+        ImgUtil.loadImg(mContext, holder.mPhotoView, bg, item.urls.small);
 
         if (item.description != null) {
             holder.mDescription.setText(item.description);
@@ -96,7 +97,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
         if (mIsShowUser) {
             holder.mUsername.setText(item.user.name);
-            ImgUtil.loadImg(mContext, holder.mAvatar, item.user.profile_image.small);
+            ImgUtil.loadImg(mContext, holder.mAvatar, bg, item.user.profile_image.small);
             holder.mUsername.setVisibility(View.VISIBLE);
             holder.mAvatar.setVisibility(View.VISIBLE);
         } else {
@@ -156,7 +157,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         Photo mPhoto;
         int mContainerWidth;
 
-        @BindDrawable(R.drawable.ic_favorite_border)
+        @BindDrawable(R.drawable.ic_favorite_border_primary)
         Drawable mIcFavoriteBorder;
         @BindDrawable(R.drawable.ic_favorite)
         Drawable mIcFavorite;
@@ -207,7 +208,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
                     mLikeText = new TextView(mContext);
                     mLikeText.setLayoutParams(new TextSwitcher.LayoutParams(TextSwitcher.LayoutParams.MATCH_PARENT, TextSwitcher.LayoutParams.MATCH_PARENT));
                     mLikeText.setGravity(Gravity.CENTER);
-                    mLikeText.setBackgroundColor(Color.WHITE);
+                    mLikeText.setBackgroundColor(Color.TRANSPARENT);
                     mLikeText.setTextColor(mColorPrimary);
                     return mLikeText;
                 }

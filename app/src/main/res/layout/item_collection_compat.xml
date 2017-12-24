@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/photos_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        tools:layout_height="96dp">
+
+        <ImageView
+            android:id="@+id/preview_0"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/preview_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/preview_0"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/preview_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/preview_1"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/photos_container"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:padding="8dp"
+            android:paddingStart="20dp"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            tools:text="title"/>
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:foreground="?android:selectableItemBackground"
+            android:padding="8dp"
+            android:transitionName="avatar"
+            tools:src="@drawable/ic_account_box"
+            tools:tint="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/total_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/info_container"
+        android:layout_alignParentEnd="true"
+        android:padding="16dp"
+        android:textColor="@color/colorWhite"
+        tools:text="0 photo"
+        tools:textColor="@color/colorBlack"/>
+</RelativeLayout>

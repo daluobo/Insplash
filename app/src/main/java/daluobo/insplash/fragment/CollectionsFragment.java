@@ -13,7 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.CollectionsAdapter;
+import daluobo.insplash.adapter.CompatCollectionAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
@@ -75,8 +75,8 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
             }
         });
 
-        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
-
+        //mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
+        mAdapter = new CompatCollectionAdapter(getContext(), mViewModel.getData());
     }
 
     @Override
@@ -92,9 +92,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
             }
         });
 
-
         super.initListView();
-
     }
 
     private void showSelectType() {

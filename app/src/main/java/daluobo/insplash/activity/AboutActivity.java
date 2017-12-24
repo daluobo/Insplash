@@ -1,6 +1,8 @@
 package daluobo.insplash.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringDef;
@@ -49,6 +51,8 @@ public class AboutActivity extends BaseActivity {
     @BindDrawable(R.drawable.ic_neutral)
     Drawable mIcNeutral;
 
+    Drawable mImgBg;
+
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({Orientation.LANDSCAPE, Orientation.PORTRAIT, Orientation.SQUARISH})
     public @interface Orientation {
@@ -96,6 +100,7 @@ public class AboutActivity extends BaseActivity {
                     @Override
                     protected void onSuccess(Photo photo) {
                         ImgUtil.loadImg(AboutActivity.this, mBackdrop, mIcNeutral, photo.urls.custom);
+                        mImgBg = new ColorDrawable(Color.parseColor(photo.color));
                     }
                 });
             }
@@ -113,7 +118,8 @@ public class AboutActivity extends BaseActivity {
         mViewModel.getRandom(mParam).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
-                ImgUtil.loadImg(AboutActivity.this, mBackdrop, photo.urls.custom);
+                ImgUtil.loadImg(AboutActivity.this, mBackdrop, mImgBg, photo.urls.custom);
+                mImgBg = new ColorDrawable(Color.parseColor(photo.color));
             }
         });
     }

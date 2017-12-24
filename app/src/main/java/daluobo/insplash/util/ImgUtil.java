@@ -24,7 +24,7 @@ public class ImgUtil {
                 .into(imageView);
     }
 
-    public static void loadImg(@NonNull Context context, @NonNull ImageView imageView, Drawable placeholder, @NonNull String url) {
+    public static void loadImg(@NonNull Context context, @NonNull ImageView imageView, @NonNull Drawable placeholder, @NonNull String url) {
         GlideApp.with(context)
                 .load(url)
                 .placeholder(placeholder)
@@ -32,12 +32,28 @@ public class ImgUtil {
                 .into(imageView);
     }
 
-    public static void loadImgCC(@NonNull Context context, @NonNull ImageView imageView, Drawable placeholder, @NonNull String url) {
+    public static void loadImgCC(@NonNull Context context, @NonNull ImageView imageView, @NonNull String url) {
+        GlideApp.with(context)
+                .load(url)
+                .centerCrop()
+                .transition(withCrossFade())
+                .into(imageView);
+    }
+
+    public static void loadImgCC(@NonNull Context context, @NonNull ImageView imageView, @NonNull Drawable placeholder, @NonNull String url) {
         GlideApp.with(context)
                 .load(url)
                 .centerCrop()
                 .transition(withCrossFade())
                 .placeholder(placeholder)
+                .into(imageView);
+    }
+
+    public static void loadImg(@NonNull Context context, @NonNull ImageView imageView, @NonNull Drawable drawable) {
+        GlideApp.with(context)
+                .load(drawable)
+                .centerCrop()
+                .transition(withCrossFade())
                 .into(imageView);
     }
 }

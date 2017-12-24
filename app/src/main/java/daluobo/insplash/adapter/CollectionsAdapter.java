@@ -1,7 +1,6 @@
 package daluobo.insplash.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,7 +19,6 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
@@ -229,19 +227,13 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             int[] location = new int[2];
-            v.getLocationInWindow(location);
+            view.getLocationInWindow(location);
             int x = location[0];
             int y = location[1];
 
-            Intent intent = new Intent(mContext, CollectionActivity.class);
-            intent.putExtra(CollectionActivity.ARG_COLLECTION, mCollection);
-
-            intent.putExtra(CollectionActivity.ARG_REVEAL_X, x + v.getWidth() / 2);
-            intent.putExtra(CollectionActivity.ARG_REVEAL_Y, y + mCoverPhoto.getHeight() / 2);
-
-            mContext.startActivity(intent);
+            NavHelper.toCollection(mContext, mCollection, x + view.getWidth() / 2, y + mCoverPhoto.getHeight() / 2);
         }
     }
 
@@ -264,19 +256,13 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             int[] location = new int[2];
-            v.getLocationInWindow(location);
+            view.getLocationInWindow(location);
             int x = location[0];
             int y = location[1];
 
-            Intent intent = new Intent(mContext, CollectionActivity.class);
-            intent.putExtra(CollectionActivity.ARG_COLLECTION, mCollection);
-
-            intent.putExtra(CollectionActivity.ARG_REVEAL_X, x + v.getWidth() / 2);
-            intent.putExtra(CollectionActivity.ARG_REVEAL_Y, y + mPreview0.getHeight() / 2);
-
-            mContext.startActivity(intent);
+            NavHelper.toCollection(mContext, mCollection, x + view.getWidth() / 2, y + mPreview0.getHeight() / 2);
         }
     }
 }

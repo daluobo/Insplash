@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import daluobo.insplash.activity.AboutActivity;
+import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.activity.PhotoActivity;
 import daluobo.insplash.activity.ProfileActivity;
 import daluobo.insplash.activity.SearchActivity;
@@ -45,6 +46,16 @@ public class NavHelper {
         } else {
             context.startActivity(intent);
         }
+    }
+
+    public static void toCollection(Context context, Collection collection, int x, int y) {
+        Intent intent = new Intent(context, CollectionActivity.class);
+        intent.putExtra(CollectionActivity.ARG_COLLECTION, collection);
+
+        intent.putExtra(CollectionActivity.ARG_REVEAL_X, x);
+        intent.putExtra(CollectionActivity.ARG_REVEAL_Y, y);
+
+        context.startActivity(intent);
     }
 
     public static void toUser(Context context, User user, View avatarView) {
