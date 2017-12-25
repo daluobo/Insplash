@@ -14,7 +14,7 @@
         android:drawableLeft="@drawable/ic_file_download"
         android:drawablePadding="8dp"
         android:paddingEnd="36dp"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorIcon"
         android:text="Download"/>
 
     <TextView
@@ -22,7 +22,7 @@
         style="@style/InfoText"
         android:foreground="?android:selectableItemBackground"
         android:drawableLeft="@drawable/ic_mark_border"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorIcon"
         android:paddingEnd="36dp"
         android:drawablePadding="8dp"
         android:text="Collect"/>

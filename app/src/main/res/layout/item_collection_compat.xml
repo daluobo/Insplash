@@ -41,48 +41,50 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/info_container"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/photos_container"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp">
+        android:ellipsize="end"
+        android:padding="8dp"
+        android:paddingStart="20dp"
+        android:singleLine="true"
+        android:textColor="@color/colorTitle"
+        android:layout_marginRight="48dp"
+        android:textSize="16sp"
+        tools:text="title"/>
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:padding="8dp"
-            android:paddingStart="20dp"
-            android:singleLine="true"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            tools:text="title"/>
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/photos_container"
+        android:layout_marginRight="8dp"
+        android:foreground="?android:selectableItemBackground"
+        android:padding="8dp"
+        android:transitionName="avatar"
+        tools:src="@drawable/ic_account_box"
+        tools:tint="@color/colorPrimary"/>
 
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="8dp"
-            android:foreground="?android:selectableItemBackground"
-            android:padding="8dp"
-            android:transitionName="avatar"
-            tools:src="@drawable/ic_account_box"
-            tools:tint="@color/colorPrimary"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="20dp"
+        android:textSize="12sp"
+        tools:text="description"/>
 
     <TextView
         android:id="@+id/total_photos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/info_container"
+        android:layout_above="@id/avatar"
         android:layout_alignParentEnd="true"
         android:padding="16dp"
-        android:textColor="@color/colorWhite"
-        tools:text="0 photo"
-        tools:textColor="@color/colorBlack"/>
+        tools:text="0 photo"/>
 </RelativeLayout>

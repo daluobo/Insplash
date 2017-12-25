@@ -44,7 +44,7 @@ public class PhotoActivity extends BaseActivity {
     protected ColorDrawable mPhotoColor;
     protected int mPhotoColorId;
 
-    @BindDrawable(R.drawable.ic_favorite_border_primary)
+    @BindDrawable(R.drawable.ic_favorite_border)
     Drawable mIcFavoriteBorder;
     @BindDrawable(R.drawable.ic_favorite)
     Drawable mIcFavorite;
@@ -161,8 +161,8 @@ public class PhotoActivity extends BaseActivity {
     @Override
     public void initView() {
         initContent(mViewModel.getPhotoData());
-        initIcon(mViewModel.getPhotoData());
         loadPhoto(mViewModel.getPhotoData());
+        //initIcon(mViewModel.getPhotoData());
 
         mViewModel.getPhoto(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override

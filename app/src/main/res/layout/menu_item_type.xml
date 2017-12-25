@@ -10,6 +10,6 @@
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
-    android:textColor="@color/colorBlack"
+    android:textColor="@color/colorPrimary"
     android:textSize="18sp"
     tools:text="Photos  "/>

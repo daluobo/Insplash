@@ -24,7 +24,7 @@
             android:paddingStart="16dp"
             android:paddingTop="8dp"
             android:text="Add to collection"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorTitle"
             android:textSize="22sp"/>
 
         <android.support.v7.widget.RecyclerView
@@ -57,7 +57,7 @@
             android:paddingStart="16dp"
             android:paddingTop="8dp"
             android:text="Create new collection"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorTitle"
             android:textSize="22sp"/>
 
         <View
@@ -97,8 +97,8 @@
             android:layout_below="@id/description"
             android:layout_margin="16dp"
             android:drawablePadding="4dp"
+            android:textColor="@color/colorTitle"
             android:drawableRight="@drawable/ic_lock_small"
-            android:drawableTint="@color/colorBlack"
             android:text="Make collection private"/>
 
         <View

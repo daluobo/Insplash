@@ -99,7 +99,7 @@ public class AboutActivity extends BaseActivity {
                 mViewModel.getRandom(mParam).observe(AboutActivity.this, new ResourceObserver<Resource<Photo>, Photo>(AboutActivity.this) {
                     @Override
                     protected void onSuccess(Photo photo) {
-                        ImgUtil.loadImg(AboutActivity.this, mBackdrop, mIcNeutral, photo.urls.custom);
+                        ImgUtil.loadImg(AboutActivity.this, mBackdrop, photo.urls.custom);
                         mImgBg = new ColorDrawable(Color.parseColor(photo.color));
                     }
                 });

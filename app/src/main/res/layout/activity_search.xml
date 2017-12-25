@@ -14,16 +14,17 @@
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:minHeight="?attr/actionBarSize"
-        android:navigationIcon="@drawable/ic_arrow_back_gray"
-        app:navigationIcon="@drawable/ic_arrow_back_gray">
+        android:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/ic_arrow_back">
 
         <EditText
             android:id="@+id/query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:hint="Search"
-            android:singleLine="true"
-            android:background="@null"/>
+            android:imeOptions="actionSearch"
+            android:singleLine="true"/>
 
     </android.support.v7.widget.Toolbar>
 

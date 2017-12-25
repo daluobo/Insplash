@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,6 +113,8 @@ public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, Sel
         Drawable mIcAdd;
         @BindDrawable(R.drawable.ic_done)
         Drawable mIcDone;
+        @BindColor(R.color.colorWhite)
+        int mColorWhite;
 
         Collection mCollection;
         int mPosition;
@@ -119,6 +122,8 @@ public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, Sel
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            mIcLock = ViewUtil.tintDrawable(mIcLock, mColorWhite);
 
             mContainer.setOnClickListener(this);
         }

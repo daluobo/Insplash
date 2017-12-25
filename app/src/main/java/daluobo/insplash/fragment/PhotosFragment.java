@@ -18,12 +18,13 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.CompatPhotoAdapter;
+import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.MenuItem;
 import daluobo.insplash.model.net.Photo;
-import daluobo.insplash.test.GridDecoration;
+import daluobo.insplash.view.VerticalDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -102,9 +103,11 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 }
             }
         });
-
-        //mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
-        mAdapter = new CompatPhotoAdapter(getContext(), mViewModel.getData());
+        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager(), true, 2);
+        } else {
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
+        }
     }
 
     @Override
@@ -129,8 +132,10 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initListView();
-        mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mListView.addItemDecoration(new GridDecoration(getContext()));
+        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+            mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            mListView.addItemDecoration(new VerticalDecoration(getContext(), 8));
+        }
         mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

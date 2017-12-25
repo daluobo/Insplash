@@ -41,14 +41,10 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final D item = getItem(position);
 
-        switch (getItemViewType(position)) {
-            case ItemViewType.NORMAL_TYPE:
-                bindDataToItemView(viewHolder, item, position);
-                break;
-            case ItemViewType.FOOTER_TYPE:
-                break;
+        if (getItemViewType(position) == ItemViewType.FOOTER_TYPE) {
+            return;
         }
-
+        bindDataToItemView(viewHolder, item, position);
     }
 
     @Override

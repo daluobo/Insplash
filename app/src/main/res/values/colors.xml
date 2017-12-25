@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#014284</color>
-    <color name="colorPrimaryDark">#0E3A53</color>
-    <color name="colorAccent">#C72B6C</color>
+    <color name="colorPrimary">#229EE6</color>
+    <color name="colorPrimaryDark">#014284</color>
+    <color name="colorAccent">#FD6776</color>
 
-    <color name="colorPrimaryT">#66014284</color>
+    <color name="colorAccentDark">#C72B6C</color>
+
+    <color name="primary_overlay">#66229EE6</color>
+    <color name="accent_overlay">#66FD6776</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="white_overlay">#66FFFFFF</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
-    <color name="colorText">#646464</color>
+    <color name="colorTitle">#5C6773</color>
+    <color name="colorText">#A1AAB3</color>
     <color name="colorIcon">#646464</color>
     <color name="colorHint">#D8D8D8</color>
-    <color name="colorBg">#FAFAFA</color>
+    <color name="colorBg">#F8F9FA</color>
 
-    <color name="black_overlay">#66000000</color>
-    <color name="white_overlay">#66FFFFFF</color>
 
 </resources>

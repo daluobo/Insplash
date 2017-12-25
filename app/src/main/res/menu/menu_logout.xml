@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/ic_directions_run_gray"
+        android:icon="@drawable/ic_directions_run"
         android:iconTint="@color/colorIcon"
         android:orderInCategory="100"
         android:title="Logout"

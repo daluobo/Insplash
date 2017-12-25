@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorTitle"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:text="username"/>
@@ -95,14 +95,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/colorBlack"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTitle"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="photos"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -121,14 +122,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/colorBlack"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTitle"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="collections"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -147,14 +149,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/colorBlack"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTitle"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="likes"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -165,25 +168,73 @@
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
             android:text="Download"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorTitle"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/view_btn"
-            style="@style/InfoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@color/colorWhite"
             android:foreground="?android:selectableItemBackground"
-            android:padding="16dp"
-            android:text="View"
-            android:textColor="@color/colorBlack"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-        <TextView
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="View"
+                android:textColor="@color/colorTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compat"
+                android:textColor="@color/colorTitle"/>
+
+            <ImageView
+                android:id="@+id/view_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="90"
+                android:src="@drawable/ic_arrow_drop_down"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/language_btn"
-            style="@style/InfoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
+            android:background="@color/colorWhite"
             android:foreground="?android:selectableItemBackground"
-            android:padding="16dp"
-            android:text="Language"
-            android:textColor="@color/colorBlack"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Language"
+                android:textColor="@color/colorTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:textColor="@color/colorTitle"/>
+
+            <ImageView
+                android:id="@+id/language_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="90"
+                android:src="@drawable/ic_arrow_drop_down"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/about_btn"
@@ -192,6 +243,6 @@
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
             android:text="About"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorTitle"/>
     </LinearLayout>
 </ScrollView>

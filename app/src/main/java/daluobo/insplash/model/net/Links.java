@@ -14,6 +14,8 @@ public class Links implements Parcelable {
     public String photos;
     public String likes;
     public String portfolio;
+    public String following;
+    public String followers;
     public String download;
     public String download_location;
 
@@ -30,6 +32,8 @@ public class Links implements Parcelable {
         dest.writeString(this.photos);
         dest.writeString(this.likes);
         dest.writeString(this.portfolio);
+        dest.writeString(this.following);
+        dest.writeString(this.followers);
         dest.writeString(this.download);
         dest.writeString(this.download_location);
     }
@@ -43,11 +47,13 @@ public class Links implements Parcelable {
         this.photos = in.readString();
         this.likes = in.readString();
         this.portfolio = in.readString();
+        this.following = in.readString();
+        this.followers = in.readString();
         this.download = in.readString();
         this.download_location = in.readString();
     }
 
-    public static final Parcelable.Creator<Links> CREATOR = new Parcelable.Creator<Links>() {
+    public static final Creator<Links> CREATOR = new Creator<Links>() {
         @Override
         public Links createFromParcel(Parcel source) {
             return new Links(source);

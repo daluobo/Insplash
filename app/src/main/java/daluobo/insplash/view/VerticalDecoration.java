@@ -1,4 +1,4 @@
-package daluobo.insplash.test;
+package daluobo.insplash.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,12 +15,16 @@ import daluobo.insplash.util.DimensionUtil;
  * Created by daluobo on 2017/6/3.
  */
 
-public class GridDecoration extends RecyclerView.ItemDecoration {
+public class VerticalDecoration extends RecyclerView.ItemDecoration {
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+    private int mWidth;
 
-    public GridDecoration(Context context) {
+
+    public VerticalDecoration(Context context, int width) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         a.recycle();
+
+        mWidth = width;
     }
 
     @Override
@@ -68,15 +72,15 @@ public class GridDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int spanCount = getSpanCount(parent);
-        int dp4 = DimensionUtil.dpToPx(4);
-        int dp8 = DimensionUtil.dpToPx(8);
+        int dp1 = DimensionUtil.dpToPx(mWidth);
+        int dp2 = DimensionUtil.dpToPx(mWidth / 2);
 
         if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp8, dp4, dp4, dp4);
+            outRect.set(dp1, 0, dp2, 0);
         } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp4, dp4, dp8, dp4);
+            outRect.set(dp2, 0, dp1, 0);
         } else {
-            outRect.set(dp8, dp4, dp4, dp4);
+            outRect.set(dp1, 0, dp2, 0);
         }
 
     }

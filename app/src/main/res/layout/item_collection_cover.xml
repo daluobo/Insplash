@@ -24,6 +24,6 @@
             android:transitionName="transitionImg"
             tools:layout_height="196dp"/>
 
-        <include layout="@layout/collection_footer"/>
+        <include layout="@layout/item_collection_footer"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:foreground="@color/black_overlay"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_neutral"
+                android:src="@color/colorPrimary"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"/>
 
@@ -53,6 +53,7 @@
                     android:drawableRight="@drawable/ic_gift"
                     android:gravity="center_vertical"
                     android:padding="16dp"
+                    android:drawableTint="@color/colorWhite"
                     android:text="Beautiful, free photos.\nGifted by the world’s most generous community of photographers. "
                     android:textColor="@color/colorWhite"/>
             </LinearLayout>
@@ -61,10 +62,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white_overlay"
-                android:navigationIcon="@drawable/ic_arrow_back_gray"
+                android:background="@android:color/transparent"
+                android:navigationIcon="@drawable/ic_arrow_back"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_gray"/>
+                app:navigationIcon="@drawable/ic_arrow_back"/>
 
             <TextView
                 android:id="@+id/title"
@@ -74,7 +75,7 @@
                 android:paddingEnd="24dp"
                 android:singleLine="true"
                 android:text="About"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorIcon"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_collapseMode="pin">
@@ -131,7 +132,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:text="Insplsh"
-                                android:textColor="@color/colorBlack"
+                                android:textColor="@color/colorTitle"
                                 android:textSize="24sp"/>
 
                             <TextView
@@ -156,8 +157,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:src="@drawable/ic_info_outline"
-                            android:tint="@color/colorPrimary"/>
+                            android:src="@drawable/ic_info_outline"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:text="Version"
-                                android:textColor="@color/colorBlack"/>
+                                android:textColor="@color/colorTitle"/>
 
                             <TextView
                                 android:id="@+id/version"
@@ -197,8 +197,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:src="@drawable/ic_person"
-                            android:tint="@color/colorPrimary"/>
+                            android:src="@drawable/ic_person"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -213,7 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:text="Author"
-                                android:textColor="@color/colorBlack"/>
+                                android:textColor="@color/colorTitle"/>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -248,7 +247,7 @@
                         android:gravity="center_vertical"
                         android:padding="16dp"
                         android:text="Open Source Licenses"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/colorTitle"
                         android:textSize="12sp"/>
 
                     <LinearLayout
@@ -263,7 +262,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Android Support Libraries "
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -285,7 +284,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Android Architecture Components"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -307,7 +306,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Butter Knife"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -329,7 +328,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Glide"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -351,7 +350,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Retrofit 2"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -373,7 +372,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Logging Interceptor"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -395,7 +394,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="LeakCanary"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorTitle"/>
 
                         <TextView
                             android:layout_width="match_parent"

@@ -18,7 +18,7 @@
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:text="Photos"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"/>
 

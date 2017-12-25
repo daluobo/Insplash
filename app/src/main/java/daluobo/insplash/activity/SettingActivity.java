@@ -145,7 +145,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_gray);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

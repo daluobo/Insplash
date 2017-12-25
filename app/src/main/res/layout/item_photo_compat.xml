@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
 
     <ImageView
         android:id="@+id/photo_view"
@@ -19,9 +22,10 @@
         android:id="@+id/progress_bar"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_below="@id/photo_view"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
         android:padding="4dp"
         android:visibility="gone"
         tools:visibility="visible"/>
@@ -30,9 +34,10 @@
         android:id="@+id/like_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_below="@id/photo_view"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
         android:padding="4dp"
         android:src="@drawable/ic_favorite_border"/>
 
@@ -40,9 +45,9 @@
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="6dp"
+        android:layout_below="@id/photo_view"
         android:layout_marginLeft="2dp"
+        android:layout_marginTop="8dp"
         android:layout_toRightOf="@id/like_btn"
         android:inAnimation="@anim/slide_in_likes_counter"
         android:outAnimation="@anim/slide_out_likes_counter">
