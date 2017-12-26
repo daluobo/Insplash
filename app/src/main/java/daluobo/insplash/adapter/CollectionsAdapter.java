@@ -44,7 +44,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
     public int getItemViewType(int position) {
         if (isShowFooter && position == getItemCount() - 1) {
             return ItemViewType.FOOTER_TYPE;
-        } else if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+        } else if (ConfigHelper.isCompatView()) {
             return CollectionViewType.COLLECTION_COMPAT;
         } else {
             if (mData.get(position).preview_photos.size() >= 3) {

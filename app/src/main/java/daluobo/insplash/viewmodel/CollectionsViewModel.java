@@ -11,7 +11,7 @@ import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.helper.PopupMenuHelper;
-import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.repository.CollectionsRepository;
@@ -22,7 +22,7 @@ import daluobo.insplash.repository.CollectionsRepository;
 
 public class CollectionsViewModel extends BasePageViewModel<Collection> {
     protected CollectionsRepository mRepository = new CollectionsRepository();
-    protected MediatorLiveData<MenuItem> mCurrentType = new MediatorLiveData<>();
+    protected MediatorLiveData<OptionItem> mCurrentType = new MediatorLiveData<>();
 
     @CollectionType
     private String mType = CollectionType.ALL;
@@ -81,15 +81,15 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
         mPage = 1;
     }
 
-    public void setCurrentType(MenuItem type) {
+    public void setCurrentType(OptionItem type) {
         mCurrentType.setValue(type);
     }
 
-    public LiveData<MenuItem> getCurrentType() {
+    public LiveData<OptionItem> getCurrentType() {
         return mCurrentType;
     }
 
-    public MenuItem getCurrentTypeData() {
+    public OptionItem getCurrentTypeData() {
         return mCurrentType.getValue();
     }
 }

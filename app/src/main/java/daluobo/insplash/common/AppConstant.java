@@ -39,6 +39,7 @@ public class AppConstant {
         public static String ACCESS_TOKEN = "access_token";
         public static String REFRESH_TOKEN = "refresh_token";
         public static String USER_NAME = "user_name";
-
+        public static String VIEW_TYPE = "view_type";
+        public static String LANGUAGE = "language";
     }
 }

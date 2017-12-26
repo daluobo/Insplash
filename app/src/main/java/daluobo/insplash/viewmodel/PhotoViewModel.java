@@ -11,7 +11,7 @@ import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.helper.PopupMenuHelper;
-import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -23,8 +23,8 @@ import daluobo.insplash.repository.PhotoRepository;
 
 public class PhotoViewModel extends BasePageViewModel<Photo> {
     protected PhotoRepository mRepository = new PhotoRepository();
-    protected MediatorLiveData<MenuItem> mCurrentType = new MediatorLiveData<>();
-    protected MediatorLiveData<MenuItem> mOrderByType = new MediatorLiveData<>();
+    protected MediatorLiveData<OptionItem> mCurrentType = new MediatorLiveData<>();
+    protected MediatorLiveData<OptionItem> mOrderByType = new MediatorLiveData<>();
 
     @PhotoType
     private String mType = PhotoType.ALL;
@@ -87,27 +87,27 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
         mPage = 1;
     }
 
-    public void setCurrentType(MenuItem type) {
+    public void setCurrentType(OptionItem type) {
         mCurrentType.setValue(type);
     }
 
-    public void setOrderByType(MenuItem orderBy) {
+    public void setOrderByType(OptionItem orderBy) {
         mOrderByType.setValue(orderBy);
     }
 
-    public LiveData<MenuItem> getCurrentType() {
+    public LiveData<OptionItem> getCurrentType() {
         return mCurrentType;
     }
 
-    public LiveData<MenuItem> getOrderByType() {
+    public LiveData<OptionItem> getOrderByType() {
         return mOrderByType;
     }
 
-    public MenuItem getCurrentTypeData() {
+    public OptionItem getCurrentTypeData() {
         return mCurrentType.getValue();
     }
 
-    public MenuItem getOrderByTypeData() {
+    public OptionItem getOrderByTypeData() {
         return mOrderByType.getValue();
     }
 

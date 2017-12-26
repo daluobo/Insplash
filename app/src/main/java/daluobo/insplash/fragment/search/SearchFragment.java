@@ -1,6 +1,8 @@
 package daluobo.insplash.fragment.search;
 
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
+import daluobo.insplash.helper.ConfigHelper;
+import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.ISearchView;
 
 /**
@@ -15,6 +17,9 @@ public abstract class SearchFragment<T> extends SimpleSwipeListFragment<T> {
         super.initView();
 
         super.mSwipeLayout.setEnabled(false);
+        if (ConfigHelper.isCompatView()) {
+            mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
+        }
     }
 
     public void setQuery(String query) {

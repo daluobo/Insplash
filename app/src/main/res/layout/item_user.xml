@@ -3,63 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
     android:layout_marginStart="4dp"
-    android:background="@color/colorWhite"
-    android:foreground="?android:attr/selectableItemBackground"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:transitionName="avatar"
-            tools:src="@drawable/ic_account_box"
-            tools:tint="@color/colorPrimary"/>
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/avatar"
-            android:gravity="center"
-            android:padding="4dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/colorTitle"
-            android:textSize="16sp"
-            tools:text="username"/>
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@id/avatar"
-            android:gravity="center"
-            android:padding="4dp"
-            tools:text="name"/>
-
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:layout_toRightOf="@id/avatar"
-            android:drawableRight="@drawable/ic_place_small"
-            android:gravity="center"
-            android:padding="4dp"
-            tools:text="location"/>
-
-    </RelativeLayout>
+    <include layout="@layout/item_user_compat"/>
 
 </android.support.v7.widget.CardView>

@@ -1,11 +1,12 @@
 package daluobo.insplash.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,9 +15,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.FooterAdapter;
-import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.User;
+import daluobo.insplash.util.ImgUtil;
 
 /**
  * Created by daluobo on 2017/12/7.
@@ -29,6 +31,23 @@ public class UsersAdapter extends FooterAdapter<User> {
     public UsersAdapter(Context context, List<User> data) {
         this.mContext = context;
         super.mData = data;
+    }
+
+    @IntDef({UserViewType.COMPAT, UserViewType.CARD})
+    private @interface UserViewType {
+        int COMPAT = 10;
+        int CARD = 11;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isShowFooter && position == getItemCount() - 1) {
+            return ItemViewType.FOOTER_TYPE;
+        } else if (ConfigHelper.isCompatView()) {
+            return UserViewType.COMPAT;
+        } else {
+            return UserViewType.CARD;
+        }
     }
 
     @Override
@@ -49,7 +68,13 @@ public class UsersAdapter extends FooterAdapter<User> {
 
     @Override
     protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateItemView(parent, R.layout.item_user));
+        switch (viewType) {
+            case UserViewType.COMPAT:
+                return new ViewHolder(inflateItemView(parent, R.layout.item_user_compat));
+            case UserViewType.CARD:
+                return new ViewHolder(inflateItemView(parent, R.layout.item_user));
+        }
+        return null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,7 +87,7 @@ public class UsersAdapter extends FooterAdapter<User> {
         @BindView(R.id.location)
         TextView mLocation;
         @BindView(R.id.container)
-        CardView mContainer;
+        RelativeLayout mContainer;
 
         User mUser;
 

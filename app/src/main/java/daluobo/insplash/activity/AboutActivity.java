@@ -75,6 +75,8 @@ public class AboutActivity extends BaseActivity {
     public void initData() {
         mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
 
+        mImgBg = new ColorDrawable(getResources().getColor(R.color.colorPrimary));
+
         //mParam.put("query", "tech");
         mParam.put("featured", true);
         mParam.put("orientation", Orientation.LANDSCAPE);
@@ -99,7 +101,7 @@ public class AboutActivity extends BaseActivity {
                 mViewModel.getRandom(mParam).observe(AboutActivity.this, new ResourceObserver<Resource<Photo>, Photo>(AboutActivity.this) {
                     @Override
                     protected void onSuccess(Photo photo) {
-                        ImgUtil.loadImg(AboutActivity.this, mBackdrop, photo.urls.custom);
+                        ImgUtil.loadImg(AboutActivity.this, mBackdrop, mImgBg, photo.urls.custom);
                         mImgBg = new ColorDrawable(Color.parseColor(photo.color));
                     }
                 });

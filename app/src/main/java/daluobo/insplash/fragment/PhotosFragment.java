@@ -22,9 +22,9 @@ import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
-import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.Photo;
-import daluobo.insplash.view.VerticalDecoration;
+import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -44,14 +44,14 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
     protected PopupMenuHelper.OnMenuItemClickListener mTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
-        public void onItemClick(MenuItem menuItem) {
+        public void onItemClick(OptionItem menuItem) {
             mPhotoViewModel.setCurrentType(menuItem);
         }
     };
 
     protected PopupMenuHelper.OnMenuItemClickListener mOrderByClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
-        public void onItemClick(MenuItem menuItem) {
+        public void onItemClick(OptionItem menuItem) {
             mPhotoViewModel.setOrderByType(menuItem);
         }
     };
@@ -81,9 +81,9 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
         mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
         mPhotoViewModel = (PhotoViewModel) mViewModel;
-        mPhotoViewModel.getCurrentType().observe(this, new Observer<MenuItem>() {
+        mPhotoViewModel.getCurrentType().observe(this, new Observer<OptionItem>() {
             @Override
-            public void onChanged(@Nullable MenuItem menuItem) {
+            public void onChanged(@Nullable OptionItem menuItem) {
                 mPhotoType.setText(menuItem.title);
                 ((PhotoViewModel) mViewModel).setType(menuItem.value);
 
@@ -91,9 +91,9 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 onRefresh();
             }
         });
-        mPhotoViewModel.getOrderByType().observe(this, new Observer<MenuItem>() {
+        mPhotoViewModel.getOrderByType().observe(this, new Observer<OptionItem>() {
             @Override
-            public void onChanged(@Nullable MenuItem menuItem) {
+            public void onChanged(@Nullable OptionItem menuItem) {
                 mOrderBy.setText(menuItem.title);
                 mViewModel.setOrderBy(menuItem.value);
 
@@ -103,7 +103,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 }
             }
         });
-        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+        if (ConfigHelper.isCompatView()) {
             mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager(), true, 2);
         } else {
             mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
@@ -132,9 +132,9 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initListView();
-        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+        if (ConfigHelper.isCompatView()) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            mListView.addItemDecoration(new VerticalDecoration(getContext(), 8));
+            mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
         }
         mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

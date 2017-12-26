@@ -29,4 +29,6 @@ public class SearchUserFragment extends SearchFragment<List<User>> {
 
         mAdapter = new UsersAdapter(getContext(), mViewModel.getData());
     }
+
+
 }

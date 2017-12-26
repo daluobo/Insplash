@@ -29,4 +29,20 @@ public class SharePrefHelper {
     public static void setUsername(String username) {
         SharePrefUtil.putPreference(MyApplication.getInstance(), AppConstant.SharePref.USER_NAME, username);
     }
+
+    public static String getViewType() {
+        return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.VIEW_TYPE);
+    }
+
+    public static void setViewType(String type) {
+        SharePrefUtil.putPreference(MyApplication.getInstance(), AppConstant.SharePref.VIEW_TYPE, type);
+    }
+
+    public static String getLanguage() {
+        return SharePrefUtil.getPreference(MyApplication.getInstance(), AppConstant.SharePref.LANGUAGE);
+    }
+
+    public static void setLanguage(String language) {
+        SharePrefUtil.putPreference(MyApplication.getInstance(), AppConstant.SharePref.LANGUAGE, language);
+    }
 }

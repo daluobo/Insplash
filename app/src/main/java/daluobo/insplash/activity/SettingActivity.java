@@ -3,10 +3,13 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -27,21 +30,24 @@ import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.helper.SharePrefHelper;
+import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.Token;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.SharePrefUtil;
 import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.viewmodel.OauthViewModel;
-import daluobo.insplash.viewmodel.UserViewModel;
+import daluobo.insplash.viewmodel.SettingViewModel;
 
 public class SettingActivity extends BaseActivity {
     public static final String ARG_REVEAL_X = "revealX";
     public static final String ARG_REVEAL_Y = "revealY";
 
-    protected UserViewModel mViewModel;
+    protected SettingViewModel mViewModel;
     protected OauthViewModel mOauthViewModel;
     protected int revealX;
     protected int revealY;
@@ -76,6 +82,34 @@ public class SettingActivity extends BaseActivity {
     TextView mAboutBtn;
     @BindView(R.id.root_container)
     ScrollView mRootContainer;
+    @BindView(R.id.view_type)
+    TextView mViewType;
+    @BindView(R.id.view_hint)
+    ImageView mViewHint;
+    @BindView(R.id.view_btn)
+    LinearLayout mViewBtn;
+    @BindView(R.id.language_hint)
+    ImageView mLanguageHint;
+    @BindView(R.id.language_btn)
+    LinearLayout mLanguageBtn;
+    @BindView(R.id.language)
+    TextView mLanguage;
+
+    protected PopupMenuHelper.OnMenuItemClickListener mViewTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
+        @Override
+        public void onItemClick(OptionItem menuItem) {
+            ConfigHelper.setViewType(menuItem.value);
+            mViewModel.setViewType(menuItem);
+        }
+    };
+
+    protected PopupMenuHelper.OnMenuItemClickListener mLanguageClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
+        @Override
+        public void onItemClick(OptionItem menuItem) {
+            ConfigHelper.setLanguage(menuItem.value);
+            mViewModel.setLanguage(menuItem);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +161,6 @@ public class SettingActivity extends BaseActivity {
 
         if (AuthHelper.isLogin()) {
             initUserProfile();
-
         } else {
             hideUserProfile();
         }
@@ -139,8 +172,22 @@ public class SettingActivity extends BaseActivity {
         revealX = getIntent().getIntExtra(ARG_REVEAL_X, 0);
         revealY = getIntent().getIntExtra(ARG_REVEAL_Y, 0);
 
-        mViewModel = new UserViewModel();
-        mOauthViewModel = new OauthViewModel();
+        mOauthViewModel = ViewModelProviders.of(this).get(OauthViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(SettingViewModel.class);
+        mViewModel.getViewType().observe(this, new Observer<OptionItem>() {
+            @Override
+            public void onChanged(@Nullable OptionItem menuItem) {
+                mViewType.setText(menuItem.title);
+            }
+        });
+        mViewModel.setViewType(ConfigHelper.getViewType());
+        mViewModel.getLanguage().observe(this, new Observer<OptionItem>() {
+            @Override
+            public void onChanged(@Nullable OptionItem menuItem) {
+                mLanguage.setText(menuItem.title);
+            }
+        });
+        mViewModel.setLanguage(ConfigHelper.getLanguage());
     }
 
     @Override
@@ -203,7 +250,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initUserProfile() {
-        if(mViewModel.getUserData()!=null){
+        if (mViewModel.getUserData() != null) {
             return;
         }
         mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
@@ -276,7 +323,7 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick({R.id.user_container,
             R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container,
-            R.id.view_btn,R.id.language_btn,R.id.about_btn})
+            R.id.view_btn, R.id.language_btn, R.id.about_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
@@ -292,12 +339,15 @@ public class SettingActivity extends BaseActivity {
                 NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
                 break;
             case R.id.view_btn:
+                PopupMenuHelper.showViewTypeMenu(this, mViewType, mViewModel.getViewTypeData(), mViewTypeClickListener);
                 break;
             case R.id.language_btn:
+                PopupMenuHelper.showLanguageMenu(this, mLanguage, mViewModel.getLanguageData(), mLanguageClickListener);
                 break;
             case R.id.about_btn:
                 NavHelper.toAbout(this);
                 break;
         }
     }
+
 }

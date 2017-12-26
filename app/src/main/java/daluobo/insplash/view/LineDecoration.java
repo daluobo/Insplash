@@ -15,16 +15,27 @@ import daluobo.insplash.util.DimensionUtil;
  * Created by daluobo on 2017/6/3.
  */
 
-public class VerticalDecoration extends RecyclerView.ItemDecoration {
+public class LineDecoration extends RecyclerView.ItemDecoration {
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private int mWidth;
+    private int mTop;
+    private int mBottom;
+
+    int dp1, dp2, dp3, dp4;
 
 
-    public VerticalDecoration(Context context, int width) {
+    public LineDecoration(Context context, int width, int top, int bottom) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         a.recycle();
 
         mWidth = width;
+        mTop = top;
+        mBottom = bottom;
+
+        dp1 = DimensionUtil.dpToPx(mWidth);
+        dp2 = DimensionUtil.dpToPx(mWidth / 2);
+        dp3 = DimensionUtil.dpToPx(mTop);
+        dp4 = DimensionUtil.dpToPx(mBottom);
     }
 
     @Override
@@ -72,15 +83,13 @@ public class VerticalDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int spanCount = getSpanCount(parent);
-        int dp1 = DimensionUtil.dpToPx(mWidth);
-        int dp2 = DimensionUtil.dpToPx(mWidth / 2);
 
         if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp1, 0, dp2, 0);
+            outRect.set(dp1, dp3, dp2, dp4);
         } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp2, 0, dp1, 0);
+            outRect.set(dp2, dp3, dp1, dp4);
         } else {
-            outRect.set(dp1, 0, dp2, 0);
+            outRect.set(dp1, dp3, dp2, dp4);
         }
 
     }

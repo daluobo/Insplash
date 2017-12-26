@@ -11,7 +11,7 @@ import daluobo.insplash.base.view.SimpleSwipeListFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
-import daluobo.insplash.view.VerticalDecoration;
+import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 import daluobo.insplash.viewmodel.UserPhotoViewModel;
 
@@ -47,7 +47,7 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
         ((UserPhotoViewModel) mViewModel).setUserPhotoTyp(type);
 
         int column = 1;
-        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+        if (ConfigHelper.isCompatView()) {
             column = 3;
         }
 
@@ -62,10 +62,10 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
     public void initView() {
         super.initView();
 
-        if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT
+        if (ConfigHelper.isCompatView()
                 && ((UserPhotoViewModel) mViewModel).getUserPhotoTyp() == UserPhotoViewModel.UserPhotosType.OWN) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-            mListView.addItemDecoration(new VerticalDecoration(getContext(), 8));
+            mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
         }
     }
 }

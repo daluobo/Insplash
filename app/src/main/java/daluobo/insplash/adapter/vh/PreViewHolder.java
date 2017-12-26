@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
@@ -30,6 +31,7 @@ public class PreViewHolder extends CollectionViewHolder {
 
     public PreViewHolder(View itemView, Context context, boolean isShowUser) {
         super(itemView, context, isShowUser);
+        ButterKnife.bind(this, itemView);
     }
 
     @Override

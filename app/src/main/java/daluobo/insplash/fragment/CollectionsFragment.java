@@ -16,7 +16,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.helper.PopupMenuHelper;
-import daluobo.insplash.model.MenuItem;
+import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.viewmodel.CollectionsViewModel;
 
@@ -34,7 +34,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
 
     protected PopupMenuHelper.OnMenuItemClickListener mTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
-        public void onItemClick(MenuItem menuItem) {
+        public void onItemClick(OptionItem menuItem) {
             mCollectionsViewModel.setCurrentType(menuItem);
         }
     };
@@ -64,9 +64,9 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
 
         mViewModel = ViewModelProviders.of(this).get(CollectionsViewModel.class);
         mCollectionsViewModel = (CollectionsViewModel) mViewModel;
-        mCollectionsViewModel.getCurrentType().observe(this, new Observer<MenuItem>() {
+        mCollectionsViewModel.getCurrentType().observe(this, new Observer<OptionItem>() {
             @Override
-            public void onChanged(@Nullable MenuItem menuItem) {
+            public void onChanged(@Nullable OptionItem menuItem) {
                 mCollectionType.setText(menuItem.title);
                 ((CollectionsViewModel) mViewModel).setType(menuItem.value);
 

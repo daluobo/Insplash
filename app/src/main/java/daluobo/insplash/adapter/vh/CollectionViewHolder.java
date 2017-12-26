@@ -54,6 +54,8 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
         mContext = context;
         mIsShowUser = isShowUser;
 
+        mContainer.setOnClickListener(this);
+
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +104,6 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
             }
         }
 
-        mTotalPhotos.setText(collection.total_photos + "");
+        mTotalPhotos.setText(collection.total_photos + " Photos");
     }
 }

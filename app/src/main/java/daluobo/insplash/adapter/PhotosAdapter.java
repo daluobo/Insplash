@@ -62,7 +62,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     public int getItemViewType(int position) {
         if (isShowFooter && position == getItemCount() - 1) {
             return ItemViewType.FOOTER_TYPE;
-        } else if (ConfigHelper.getViewType() == ConfigHelper.ViewType.COMPAT) {
+        } else if (ConfigHelper.isCompatView()) {
             return PhotoViewType.COMPAT;
         } else {
             return PhotoViewType.PREVIEW;
