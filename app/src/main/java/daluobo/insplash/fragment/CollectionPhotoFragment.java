@@ -13,6 +13,7 @@ import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
@@ -60,7 +61,8 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     @Override
     public void initView() {
         super.initListView();
-        super.mSwipeLayout.setEnabled(false);
+
+        mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
 
         onShowRefresh();
         onRefresh();

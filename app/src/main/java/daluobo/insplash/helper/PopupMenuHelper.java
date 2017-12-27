@@ -169,6 +169,12 @@ public class PopupMenuHelper {
         window.setTouchable(true);
         window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         window.setAnimationStyle(R.style.AlphaAnimation);
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                listener.onDismiss();
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setElevation(10);
         }
@@ -198,5 +204,7 @@ public class PopupMenuHelper {
 
     public interface OnMenuItemClickListener {
         void onItemClick(OptionItem menuItem);
+
+        void onDismiss();
     }
 }

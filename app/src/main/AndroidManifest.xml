@@ -32,7 +32,10 @@
             android:label="@string/title_activity_photo"
             android:theme="@style/AppTheme.FullScreen">
         </activity>
-        <activity android:name=".test.TestActivity">
+        <activity
+            android:name=".test.TestActivity"
+            android:label=""
+            android:theme="@style/TestTheme">
         </activity>
         <activity
             android:name=".activity.CollectionActivity"
@@ -60,11 +63,18 @@
         </activity>
         <activity android:name=".activity.SearchActivity">
         </activity>
-        <activity android:name=".activity.ProfileActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan">
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
-        <activity android:name=".activity.AboutActivity"
+        <activity
+            android:name=".activity.AboutActivity"
             android:label="">
+        </activity>
+        <activity
+            android:name=".activity.CompatUserActivity"
+            android:label=""
+            android:theme="@style/AppTheme.FullScreen">
         </activity>
     </application>
 

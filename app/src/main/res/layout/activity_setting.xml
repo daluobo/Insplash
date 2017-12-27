@@ -49,23 +49,23 @@
                 android:paddingStart="4dp">
 
                 <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:textColor="@color/colorTitle"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="username"/>
-
-                <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="4dp"
+                    android:textColor="@color/colorTitle"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     tools:text="name"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    tools:text="username"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -95,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
+                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
                     android:textStyle="bold"/>
 
@@ -122,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
+                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
                     android:textStyle="bold"/>
 
@@ -149,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
+                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
                     android:textStyle="bold"/>
 
@@ -164,7 +167,7 @@
 
         <TextView
             style="@style/InfoText"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="8dp"
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
             android:text="Download"

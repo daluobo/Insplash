@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
+import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,6 +33,7 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
+import daluobo.insplash.event.ViewEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.ConfigHelper;
@@ -95,11 +101,25 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.language)
     TextView mLanguage;
 
+    @BindDrawable(R.drawable.ic_arrow_drop_down)
+    Drawable mIcDropDown;
+    @BindDrawable(R.drawable.ic_arrow_drop_down_primary)
+    Drawable mIcDropDownPrimary;
+    @BindColor(R.color.colorPrimary)
+    int mColorPrimary;
+
     protected PopupMenuHelper.OnMenuItemClickListener mViewTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
         public void onItemClick(OptionItem menuItem) {
             ConfigHelper.setViewType(menuItem.value);
             mViewModel.setViewType(menuItem);
+
+            EventBus.getDefault().post(new ViewEvent(menuItem));
+        }
+
+        @Override
+        public void onDismiss() {
+            mViewHint.setImageDrawable(mIcDropDown);
         }
     };
 
@@ -108,6 +128,11 @@ public class SettingActivity extends BaseActivity {
         public void onItemClick(OptionItem menuItem) {
             ConfigHelper.setLanguage(menuItem.value);
             mViewModel.setLanguage(menuItem);
+        }
+
+        @Override
+        public void onDismiss() {
+            mLanguageHint.setImageDrawable(mIcDropDown);
         }
     };
 
@@ -188,6 +213,7 @@ public class SettingActivity extends BaseActivity {
             }
         });
         mViewModel.setLanguage(ConfigHelper.getLanguage());
+
     }
 
     @Override
@@ -261,8 +287,8 @@ public class SettingActivity extends BaseActivity {
 
                 mViewModel.setUser(user);
 
-                mUsername.setText(user.username);
                 mName.setText(user.name);
+                mUsername.setText("@" + user.username);
                 mTotalLikes.setText(user.total_likes + "");
                 mTotalPhotos.setText(user.total_photos + "");
                 mTotalCollections.setText(user.total_collections + "");
@@ -340,9 +366,11 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.view_btn:
                 PopupMenuHelper.showViewTypeMenu(this, mViewType, mViewModel.getViewTypeData(), mViewTypeClickListener);
+                mViewHint.setImageDrawable(mIcDropDownPrimary);
                 break;
             case R.id.language_btn:
                 PopupMenuHelper.showLanguageMenu(this, mLanguage, mViewModel.getLanguageData(), mLanguageClickListener);
+                mLanguageHint.setImageDrawable(mIcDropDownPrimary);
                 break;
             case R.id.about_btn:
                 NavHelper.toAbout(this);

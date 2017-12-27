@@ -41,6 +41,8 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
     TextSwitcher mLikes;
     @BindView(R.id.container)
     RelativeLayout mContainer;
+    @BindView(R.id.avatar)
+    ImageView mAvatar;
 
     @BindDrawable(R.drawable.ic_favorite_border)
     Drawable mIcFavoriteBorder;
@@ -88,6 +90,13 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
                 mOnActionClickListener.onLikeClick(mPhoto, mPosition);
             }
         });
+
+        mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHelper.toUser(mContext, mPhoto.user, mAvatar);
+            }
+        });
     }
 
     @Override
@@ -102,15 +111,21 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
 
         ViewGroup.LayoutParams lp = mPhotoView.getLayoutParams();
         if (mColumn <= 1) {
+            mAvatar.setVisibility(View.VISIBLE);
+            ImgUtil.loadImg(mContext, mAvatar, photo.user.profile_image.small);
+
             lp.width = ViewUtil.getScreenSize(mContext)[0];
             lp.height = lp.width * photo.height / photo.width;
         } else if (mColumn == 3) {
-            int width = ViewUtil.getScreenSize(mContext)[0] - (mColumn + 1) * DimensionUtil.dpToPx(8);
+            mLikeBtn.setVisibility(View.GONE);
+            mLikes.setVisibility(View.GONE);
+
+            int width = ViewUtil.getScreenSize(mContext)[0] - mColumn * DimensionUtil.dpToPx(4);
 
             lp.width = width / mColumn;
             lp.height = lp.width;
         } else {
-            int width = ViewUtil.getScreenSize(mContext)[0] - (mColumn + 1) * DimensionUtil.dpToPx(8);
+            int width = ViewUtil.getScreenSize(mContext)[0] - mColumn * DimensionUtil.dpToPx(4);
 
             lp.width = width / mColumn;
             lp.height = lp.width * 3 / 2;

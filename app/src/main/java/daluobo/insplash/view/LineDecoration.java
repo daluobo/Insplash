@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import daluobo.insplash.util.DimensionUtil;
@@ -23,7 +24,6 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
 
     int dp1, dp2, dp3, dp4;
 
-
     public LineDecoration(Context context, int width, int top, int bottom) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         a.recycle();
@@ -32,8 +32,8 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
         mTop = top;
         mBottom = bottom;
 
-        dp1 = DimensionUtil.dpToPx(mWidth);
-        dp2 = DimensionUtil.dpToPx(mWidth / 2);
+        dp1 = DimensionUtil.dpToPx(mWidth / 2);
+        dp2 = DimensionUtil.dpToPx(mWidth);
         dp3 = DimensionUtil.dpToPx(mTop);
         dp4 = DimensionUtil.dpToPx(mBottom);
     }
@@ -59,6 +59,8 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
 
         if (layoutManager instanceof GridLayoutManager) {
             if ((position + 1) % spanCount == 1) {
+
+                Log.e("LineDecoration", "first " + position);
                 return true;
             }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -71,7 +73,8 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
 
         if (layoutManager instanceof GridLayoutManager) {
-            if ((position + 1) % spanCount == 0) {
+            if ((position) % spanCount == (spanCount - 1)) {
+                Log.e("LineDecoration", "last " + position);
                 return true;
             }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -84,13 +87,13 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int spanCount = getSpanCount(parent);
 
-        if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp1, dp3, dp2, dp4);
-        } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-            outRect.set(dp2, dp3, dp1, dp4);
-        } else {
-            outRect.set(dp1, dp3, dp2, dp4);
-        }
+        outRect.set(dp1, dp3, dp1, dp4);
+
+//        if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
+//            outRect.set(dp1, dp3, dp1, dp4);
+//        } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
+//            outRect.set(dp1, dp3, dp1, dp4);
+//        }
 
     }
 }

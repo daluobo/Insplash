@@ -4,10 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -73,8 +73,8 @@ public class UserActivity extends BaseActivity {
 
     @BindView(R.id.avatar)
     ImageView mAvatar;
-    @BindView(R.id.username)
-    TextView mUsername;
+    @BindView(R.id.name)
+    TextView mName;
     @BindView(R.id.location)
     TextView mLocation;
     @BindView(R.id.badge)
@@ -124,15 +124,6 @@ public class UserActivity extends BaseActivity {
         initData();
         initView();
 
-        mRootContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Animator animator = AnimHelper.createReveal(mRootContainer, (int) mAvatar.getX(), (int) mAvatar.getY(), false, null);
-                    animator.start();
-                }
-            }
-        });
     }
 
     @Override
@@ -140,14 +131,16 @@ public class UserActivity extends BaseActivity {
         User user = getIntent().getParcelableExtra(ARG_USER);
         mShowIndex = getIntent().getIntExtra(ARG_SHOW_INDEX, 0);
 
-        mViewModel = new UserViewModel();
+        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         mViewModel.setUser(user);
         mViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 ImgUtil.loadImg(UserActivity.this, mAvatar, user.profile_image.large);
 
+                mName.setText(user.name);
                 mLocation.setText(user.location);
+
                 if (user.badge != null) {
                     mBadge.setText(user.badge);
                     mBadge.setVisibility(View.VISIBLE);
@@ -155,7 +148,6 @@ public class UserActivity extends BaseActivity {
                     mBadge.setVisibility(View.GONE);
                 }
 
-                mUsername.setText(user.name);
                 if (user.bio != null) {
                     mBio.setText(user.bio);
                     mBio.setVisibility(View.VISIBLE);
@@ -192,7 +184,7 @@ public class UserActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-        mTitle.setText(mViewModel.getUserData().username);
+        mTitle.setText("@" + mViewModel.getUserData().username);
     }
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})

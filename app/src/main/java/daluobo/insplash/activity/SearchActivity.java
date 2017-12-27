@@ -2,6 +2,7 @@ package daluobo.insplash.activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -56,6 +58,10 @@ public class SearchActivity extends BaseActivity {
         initView();
     }
 
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+    }
 
     @Override
     public void initData() {
@@ -78,6 +84,11 @@ public class SearchActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                }
+
                 onBackPressed();
             }
         });
@@ -127,6 +138,11 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void doSearch(String query) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
+
         SearchFragment sf = ((SearchFragment) (mFragments.get(mViewPager.getCurrentItem())));
         if (query.length() == 0 || query.equals(sf.getQuery())) {
             return;

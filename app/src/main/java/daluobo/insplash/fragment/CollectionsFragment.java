@@ -10,14 +10,21 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.event.ViewEvent;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.CollectionsViewModel;
 
 /**
@@ -37,6 +44,11 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
         public void onItemClick(OptionItem menuItem) {
             mCollectionsViewModel.setCurrentType(menuItem);
         }
+
+        @Override
+        public void onDismiss() {
+
+        }
     };
 
     public CollectionsFragment() {
@@ -52,10 +64,22 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
 
         initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onViewEvent(ViewEvent event) {
+        initListView();
     }
 
     @Override
@@ -75,7 +99,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
             }
         });
 
-        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
+
     }
 
     @Override
@@ -91,7 +115,18 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
             }
         });
 
+        initListView();
+    }
+
+    @Override
+    public void initListView() {
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
+
         super.initListView();
+
+        if (ConfigHelper.isCompatView()) {
+            mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
+        }
     }
 
     private void showSelectType() {

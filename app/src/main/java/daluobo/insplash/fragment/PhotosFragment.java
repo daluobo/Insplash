@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindColor;
@@ -20,6 +24,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.event.ViewEvent;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
@@ -47,12 +52,22 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         public void onItemClick(OptionItem menuItem) {
             mPhotoViewModel.setCurrentType(menuItem);
         }
+
+        @Override
+        public void onDismiss() {
+
+        }
     };
 
     protected PopupMenuHelper.OnMenuItemClickListener mOrderByClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
         public void onItemClick(OptionItem menuItem) {
             mPhotoViewModel.setOrderByType(menuItem);
+        }
+
+        @Override
+        public void onDismiss() {
+
         }
     };
 
@@ -69,10 +84,22 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
 
         initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onViewEvent(ViewEvent event){
+        initListView();
     }
 
     @Override
@@ -103,11 +130,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 }
             }
         });
-        if (ConfigHelper.isCompatView()) {
-            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager(), true, 2);
-        } else {
-            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
-        }
+
+
     }
 
     @Override
@@ -132,6 +156,18 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initListView();
+    }
+
+    @Override
+    public void initListView() {
+        if (ConfigHelper.isCompatView()) {
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager(), true, 2);
+        } else {
+            mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
+        }
+
+        super.initListView();
+
         if (ConfigHelper.isCompatView()) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
@@ -140,7 +176,6 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
             }
         });
     }

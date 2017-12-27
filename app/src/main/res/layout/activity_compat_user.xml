@@ -73,7 +73,9 @@
                     android:gravity="center"
                     android:padding="4dp"
                     android:paddingStart="8dp"
+                    android:visibility="invisible"
                     android:textColor="@color/colorWhite"
+                    tools:visibility="visible"
                     tools:text="location"/>
 
             </LinearLayout>

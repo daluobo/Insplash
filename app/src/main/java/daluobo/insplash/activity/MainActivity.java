@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity {
 
         if (id == R.id.action_search) {
             NavHelper.toSearch(this);
+            overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         }
         return super.onOptionsItemSelected(item);
     }
