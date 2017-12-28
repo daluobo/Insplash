@@ -22,10 +22,13 @@ import retrofit2.http.QueryMap;
 
 public interface PhotosApi {
     @GET("/photos")
-    LiveData<ApiResponse<List<Photo>>> photos(@Query("page") int page, @Query("order_by") String order_by);
+    LiveData<ApiResponse<List<Photo>>> photos(@Query("page") int page,
+                                              @Query("order_by") String order_by,
+                                              @Query("per_page") int per_page);
 
     @GET("/photos/curated")
-    LiveData<ApiResponse<List<Photo>>> curated(@Query("page") int page);
+    LiveData<ApiResponse<List<Photo>>> curated(@Query("page") int page,
+                                               @Query("per_page") int per_page);
 
     @GET("/photos/{id}")
     LiveData<ApiResponse<Photo>> photo(@Path("id") String id);

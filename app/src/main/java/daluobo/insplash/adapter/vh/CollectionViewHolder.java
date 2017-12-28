@@ -77,7 +77,7 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
         mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
     }
 
-    public void bindDataToView(Collection collection, int posotion) {
+    public void bindDataToView(Collection collection, int position) {
         mCollection = collection;
         mTitle.setText(collection.title);
 

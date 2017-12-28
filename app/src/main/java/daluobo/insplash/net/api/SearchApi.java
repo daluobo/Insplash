@@ -16,11 +16,17 @@ import retrofit2.http.Query;
 
 public interface SearchApi {
     @GET("/search/photos")
-    LiveData<ApiResponse<Search<Photo>>> photos(@Query("page") int page, @Query("query") String query);
+    LiveData<ApiResponse<Search<Photo>>> photos(@Query("page") int page,
+                                                @Query("query") String query,
+                                                @Query("per_page") int per_page);
 
     @GET("/search/collections")
-    LiveData<ApiResponse<Search<Collection>>> collections(@Query("page") int page,@Query("query") String query);
+    LiveData<ApiResponse<Search<Collection>>> collections(@Query("page") int page,
+                                                          @Query("query") String query,
+                                                          @Query("per_page") int per_page);
 
     @GET("/search/users")
-    LiveData<ApiResponse<Search<User>>> users(@Query("page") int page,@Query("query") String query);
+    LiveData<ApiResponse<Search<User>>> users(@Query("page") int page,
+                                              @Query("query") String query,
+                                              @Query("per_page") int per_page);
 }

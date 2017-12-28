@@ -27,12 +27,12 @@ public class ConfigHelper {
 
     public static OptionItem getViewType() {
         String value = SharePrefHelper.getViewType();
-        for (OptionItem menuItem : PopupMenuHelper.mViewType) {
+        for (OptionItem menuItem : PopupMenuHelper.getmViewType()) {
             if (value.equals(menuItem.value)) {
                 return menuItem;
             }
         }
-        return PopupMenuHelper.mViewType.get(0);
+        return PopupMenuHelper.getmViewType().get(0);
     }
 
     public static void setViewType(String type) {
@@ -41,12 +41,12 @@ public class ConfigHelper {
 
     public static OptionItem getLanguage() {
         String value = SharePrefHelper.getLanguage();
-        for (OptionItem menuItem : PopupMenuHelper.mLanguage) {
+        for (OptionItem menuItem : PopupMenuHelper.getmLanguage()) {
             if (value.equals(menuItem.value)) {
                 return menuItem;
             }
         }
-        return PopupMenuHelper.mLanguage.get(0);
+        return PopupMenuHelper.getmLanguage().get(0);
     }
 
     public static void setLanguage(String language) {

@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_more_vert"
         android:orderInCategory="100"
         android:iconTint="@color/colorIcon"
-        android:title="More"
+        android:title="@string/more"
         app:showAsAction="always"/>
 </menu>

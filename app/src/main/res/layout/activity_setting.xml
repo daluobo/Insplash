@@ -95,15 +95,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
+                    android:textSize="22sp"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="photos"
+                    android:text="@string/photos"
                     android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
@@ -123,15 +123,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
+                    android:textSize="22sp"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="collections"
+                    android:text="@string/collections"
                     android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
@@ -151,15 +151,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
-                    android:textSize="22sp"
                     android:textColor="@color/colorTitle"
+                    android:textSize="22sp"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="likes"
+                    android:text="@string/likes"
                     android:textColor="@color/colorTitle"/>
             </LinearLayout>
 
@@ -170,7 +170,7 @@
             android:layout_marginTop="8dp"
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
-            android:text="Download"
+            android:text="@string/download"
             android:textColor="@color/colorTitle"/>
 
         <LinearLayout
@@ -188,7 +188,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View"
+                android:text="@string/view"
                 android:textColor="@color/colorTitle"/>
 
             <TextView
@@ -197,9 +197,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="16dp"
-                android:text="Compat"
                 android:textColor="@color/colorTitle"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="Compat"/>
 
             <ImageView
                 android:id="@+id/view_hint"
@@ -225,7 +225,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Language"
+                android:text="@string/language"
                 android:textColor="@color/colorTitle"/>
 
             <TextView
@@ -234,9 +234,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="16dp"
-                android:text="English"
                 android:textColor="@color/colorTitle"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="English"/>
 
             <ImageView
                 android:id="@+id/language_hint"
@@ -253,7 +253,7 @@
             android:layout_marginTop="8dp"
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
-            android:text="About"
+            android:text="@string/about"
             android:textColor="@color/colorTitle"/>
     </LinearLayout>
 </ScrollView>

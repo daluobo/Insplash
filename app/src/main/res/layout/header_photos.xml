@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
@@ -17,10 +18,10 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
-        android:text="Photos"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        tools:text="@string/photos"/>
 
     <TextView
         android:id="@+id/order_by"
@@ -34,8 +35,8 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
-        android:text="Latest"
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        tools:text="@string/latest"/>
 </RelativeLayout>

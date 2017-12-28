@@ -1,6 +1,7 @@
 package daluobo.insplash.helper;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import daluobo.insplash.R;
+import daluobo.insplash.common.MyApplication;
 import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ViewUtil;
@@ -28,29 +30,52 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
  */
 
 public class PopupMenuHelper {
-    public static final List<OptionItem> mPhotoType = new ArrayList<>();
-    public static final List<OptionItem> mOrderBy = new ArrayList<>();
-    public static final List<OptionItem> mCollectionType = new ArrayList<>();
-    public static final List<OptionItem> mViewType = new ArrayList<>();
-    public static final List<OptionItem> mLanguage = new ArrayList<>();
+    private static final List<OptionItem> mPhotoType = new ArrayList<>();
+    private static final List<OptionItem> mOrderBy = new ArrayList<>();
+    private static final List<OptionItem> mCollectionType = new ArrayList<>();
+    private static final List<OptionItem> mViewType = new ArrayList<>();
+    private static final List<OptionItem> mLanguage = new ArrayList<>();
 
-    static {
-        mPhotoType.add(new OptionItem("Photos", PhotoViewModel.PhotoType.ALL));
-        mPhotoType.add(new OptionItem("Trending", PhotoViewModel.PhotoType.CURATED));
+    private static String[] mPhotosOption;
+    private static String[] mOrderByOption;
+    private static String[] mCollectionOption;
+    private static String[] mViewOption;
+    private static String[] mLanguageOption;
 
-        mOrderBy.add(new OptionItem("Latest", BasePageViewModel.OrderBy.LATEST));
-        mOrderBy.add(new OptionItem("Oldest", BasePageViewModel.OrderBy.OLDEST));
-        mOrderBy.add(new OptionItem("Popular", BasePageViewModel.OrderBy.POPULAR));
+    static boolean mIsInit = false;
 
-        mCollectionType.add(new OptionItem("Collections", CollectionsViewModel.CollectionType.ALL));
-        mCollectionType.add(new OptionItem("Featured", CollectionsViewModel.CollectionType.FEATURED));
-        mCollectionType.add(new OptionItem("Curated", CollectionsViewModel.CollectionType.CURATED));
+    public static void init(Context context) {
+        if (mIsInit) {
+            return;
+        }
 
-        mViewType.add(new OptionItem("Compat", ConfigHelper.ViewType.COMPAT));
-        mViewType.add(new OptionItem("Card", ConfigHelper.ViewType.CARD));
+        Resources res = context.getResources();
 
-        mLanguage.add(new OptionItem("English", ConfigHelper.Language.ENGLISH));
-        mLanguage.add(new OptionItem("Chinese", ConfigHelper.Language.CHINESE));
+        mPhotosOption = res.getStringArray(R.array.photos_option);
+        mOrderByOption = res.getStringArray(R.array.order_by_option);
+        mCollectionOption = res.getStringArray(R.array.collection_option);
+        mViewOption = res.getStringArray(R.array.view_option);
+        mLanguageOption = res.getStringArray(R.array.language_option);
+
+
+        mPhotoType.add(new OptionItem(mPhotosOption[0], PhotoViewModel.PhotoType.ALL));
+        mPhotoType.add(new OptionItem(mPhotosOption[1], PhotoViewModel.PhotoType.CURATED));
+
+        mOrderBy.add(new OptionItem(mOrderByOption[0], BasePageViewModel.OrderBy.LATEST));
+        mOrderBy.add(new OptionItem(mOrderByOption[1], BasePageViewModel.OrderBy.OLDEST));
+        mOrderBy.add(new OptionItem(mOrderByOption[2], BasePageViewModel.OrderBy.POPULAR));
+
+        mCollectionType.add(new OptionItem(mCollectionOption[0], CollectionsViewModel.CollectionType.ALL));
+        mCollectionType.add(new OptionItem(mCollectionOption[1], CollectionsViewModel.CollectionType.FEATURED));
+        mCollectionType.add(new OptionItem(mCollectionOption[2], CollectionsViewModel.CollectionType.CURATED));
+
+        mViewType.add(new OptionItem(mViewOption[0], ConfigHelper.ViewType.COMPAT));
+        mViewType.add(new OptionItem(mViewOption[1], ConfigHelper.ViewType.CARD));
+
+        mLanguage.add(new OptionItem(mLanguageOption[0], ConfigHelper.Language.ENGLISH));
+        mLanguage.add(new OptionItem(mLanguageOption[1], ConfigHelper.Language.CHINESE));
+
+        mIsInit = true;
     }
 
     public static void showPopupMenu(Context context, View anchor,
@@ -183,23 +208,53 @@ public class PopupMenuHelper {
     }
 
     public static void showPhotoTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
+        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_type, mPhotoType, selectedItem, listener, 0);
     }
 
     public static void showOrderByMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
+        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_order_by, mOrderBy, selectedItem, listener, -DimensionUtil.dpToPx(8));
     }
 
     public static void showCollectionTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
+        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_type, mCollectionType, selectedItem, listener, 0);
     }
 
     public static void showViewTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
+        init(context);
         showOptionMenu(context, anchor, R.layout.menu_item_view, mViewType, selectedItem, listener, 0, DimensionUtil.dpToPx(8));
     }
 
     public static void showLanguageMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
+        init(context);
         showOptionMenu(context, anchor, R.layout.menu_item_view, mLanguage, selectedItem, listener, 0, DimensionUtil.dpToPx(8));
+    }
+
+    public static List<OptionItem> getmPhotoType() {
+        init(MyApplication.getInstance());
+        return mPhotoType;
+    }
+
+    public static List<OptionItem> getmOrderBy() {
+        init(MyApplication.getInstance());
+        return mOrderBy;
+    }
+
+    public static List<OptionItem> getmCollectionType() {
+        init(MyApplication.getInstance());
+        return mCollectionType;
+    }
+
+    public static List<OptionItem> getmViewType() {
+        init(MyApplication.getInstance());
+        return mViewType;
+    }
+
+    public static List<OptionItem> getmLanguage() {
+        init(MyApplication.getInstance());
+        return mLanguage;
     }
 
     public interface OnMenuItemClickListener {

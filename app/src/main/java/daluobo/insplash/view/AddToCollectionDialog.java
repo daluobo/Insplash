@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -67,6 +68,9 @@ public class AddToCollectionDialog extends DialogFragment {
     RelativeLayout mCreateContainer;
     @BindView(R.id.dismiss_btn)
     ImageView mDismissBtn;
+
+    @BindString(R.string.msg_name_must_not_empty)
+    String mMsg_name_must_not_empty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +141,7 @@ public class AddToCollectionDialog extends DialogFragment {
             public void onClick(View v) {
                 String title = mName.getText().toString();
                 if (title.length() == 0) {
-                    ToastUtil.showShort(getContext(), "Name must not empty");
+                    ToastUtil.showShort(getContext(), mMsg_name_must_not_empty);
                     return;
                 }
                 String description = mDescription.getText().toString();

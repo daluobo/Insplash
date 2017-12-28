@@ -1,7 +1,6 @@
 package daluobo.insplash.adapter.vh;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 
 /**
  * Created by daluobo on 2017/12/25.
@@ -43,7 +43,7 @@ public class PreViewHolder extends CollectionViewHolder {
         containerLp.height = width;
         mPreviewContainer.setLayoutParams(containerLp);
 
-        ColorDrawable bg = new ColorDrawable(Color.parseColor(collection.cover_photo.color));
+        ColorDrawable bg = ViewUtil.createColorDrawable(collection.cover_photo.color);
 
         ImgUtil.loadImgCC(mContext, mPreview0, bg, collection.preview_photos.get(0).urls.thumb);
         ImgUtil.loadImgCC(mContext, mPreview1, bg, collection.preview_photos.get(1).urls.thumb);

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -48,6 +49,9 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.query)
     EditText mQuery;
 
+    @BindArray(R.array.search_tabs)
+    String[] mSearchTabs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +71,9 @@ public class SearchActivity extends BaseActivity {
     public void initData() {
         mViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
 
-        titles.add("photos");
-        titles.add("collections");
-        titles.add("users");
+        titles.add(mSearchTabs[0]);
+        titles.add(mSearchTabs[1]);
+        titles.add(mSearchTabs[2]);
 
         mFragments.add(SearchPhotoFragment.newInstance());
         mFragments.add(SearchCollectionFragment.newInstance());

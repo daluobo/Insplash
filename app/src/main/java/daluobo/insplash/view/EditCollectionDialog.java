@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,6 +61,20 @@ public class EditCollectionDialog extends DialogFragment {
     @BindView(R.id.hint)
     TextView mHint;
 
+    @BindString(R.string.msg_name_must_not_empty)
+    String mMsgNameMustNotEmpty;
+    @BindString(R.string.msg_delete_success)
+    String mMsgDeleteSuccess;
+    @BindString(R.string.msg_update_success)
+    String mMsgUpdateSuccess;
+    @BindString(R.string.delete_collection)
+    String mDeleteCollection;
+    @BindString(R.string.save)
+    String mSaveStr;
+    @BindString(R.string.delete)
+    String mDeleteStr;
+    @BindString(R.string.cancel)
+    String mCancelStr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,19 +118,19 @@ public class EditCollectionDialog extends DialogFragment {
                 if (mHint.getVisibility() == View.VISIBLE) {
                     mHint.setVisibility(View.GONE);
 
-                    mDeleteBtn.setText("Delete Collection");
+                    mDeleteBtn.setText(mDeleteCollection);
                     mDeleteBtn.setTextColor(mColorAccent);
 
-                    mSaveBtn.setText("Save");
+                    mSaveBtn.setText(mSaveStr);
                     mSaveBtn.setTextColor(mColorPrimary);
                     mSaveBtn.setBackgroundColor(mColorWhite);
                 } else {
                     mHint.setVisibility(View.VISIBLE);
 
-                    mDeleteBtn.setText("Cancel");
+                    mDeleteBtn.setText(mCancelStr);
                     mDeleteBtn.setTextColor(mColorPrimary);
 
-                    mSaveBtn.setText("Delete");
+                    mSaveBtn.setText(mDeleteStr);
                     mSaveBtn.setTextColor(mColorWhite);
                     mSaveBtn.setBackgroundColor(mColorAccent);
                 }
@@ -125,13 +140,13 @@ public class EditCollectionDialog extends DialogFragment {
                     mViewModel.deleteCollection(mViewModel.getCollectionData().id).observe(this, new ResourceObserver<Resource<Object>, Object>(getContext()) {
                         @Override
                         protected void onSuccess(Object o) {
-                            ToastUtil.showShort(getContext(), "Delete success!");
+                            ToastUtil.showShort(getContext(), mMsgDeleteSuccess);
                             EditCollectionDialog.this.dismiss();
                         }
                     });
                 } else {
                     if (mName.getText().length() == 0) {
-                        ToastUtil.showShort(getContext(), "Name must not empty");
+                        ToastUtil.showShort(getContext(), mMsgNameMustNotEmpty);
                         return;
                     }
 
@@ -143,7 +158,7 @@ public class EditCollectionDialog extends DialogFragment {
                     mViewModel.updateCollection(mViewModel.getCollectionData().id, param).observe(this, new ResourceObserver<Resource<Collection>, Collection>(getContext()) {
                         @Override
                         protected void onSuccess(Collection collection) {
-                            ToastUtil.showShort(getContext(), "Update success!");
+                            ToastUtil.showShort(getContext(), mMsgUpdateSuccess);
                             EditCollectionDialog.this.dismiss();
                         }
                     });

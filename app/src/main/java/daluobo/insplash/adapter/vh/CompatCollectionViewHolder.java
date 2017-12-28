@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -45,6 +46,9 @@ public class CompatCollectionViewHolder extends RecyclerView.ViewHolder implemen
     @BindView(R.id.description)
     TextView mDescription;
 
+    @BindString(R.string.photos)
+    String mPhotosStr;
+
     Context mContext;
     Collection mCollection;
     int mPosition;
@@ -71,7 +75,7 @@ public class CompatCollectionViewHolder extends RecyclerView.ViewHolder implemen
         mPosition = position;
 
         mTitle.setText(collection.title);
-        mTotalPhotos.setText(collection.total_photos + "  Photos");
+        mTotalPhotos.setText(collection.total_photos + "  " + mPhotosStr);
         ImgUtil.loadImgCC(mContext, mAvatar, collection.user.profile_image.small);
 
         if (collection.description != null) {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="search_tabs">
+        <item>照片</item>
+        <item>收藏</item>
+        <item>用户</item>
+    </string-array>
+
+    <string-array name="user_tabs">
+        <item>照片</item>
+        <item>收藏</item>
+        <item>喜欢</item>
+    </string-array>
+
+    <string-array name="photos_option">
+        <item>照片</item>
+        <item>精选</item>
+    </string-array>
+
+    <string-array name="collection_option">
+        <item>收藏</item>
+        <item>特色</item>
+        <item>精选</item>
+    </string-array>
+
+    <string-array name="order_by_option">
+        <item>最新</item>
+        <item>最旧</item>
+        <item>最热</item>
+    </string-array>
+
+    <string-array name="view_option">
+        <item>紧凑</item>
+        <item>卡片</item>
+    </string-array>
+
+    <string-array name="language_option">
+        <item>英文</item>
+        <item>中文</item>
+    </string-array>
+</resources>

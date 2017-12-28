@@ -1,4 +1,4 @@
-package daluobo.insplash.fragment;
+package daluobo.insplash.test;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

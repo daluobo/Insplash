@@ -15,7 +15,7 @@
         android:drawablePadding="8dp"
         android:paddingEnd="36dp"
         android:textColor="@color/colorIcon"
-        android:text="Download"/>
+        android:text="@string/download"/>
 
     <TextView
         android:id="@+id/collect_tv"
@@ -25,5 +25,5 @@
         android:textColor="@color/colorIcon"
         android:paddingEnd="36dp"
         android:drawablePadding="8dp"
-        android:text="Collect"/>
+        android:text="@string/collect"/>
 </LinearLayout>

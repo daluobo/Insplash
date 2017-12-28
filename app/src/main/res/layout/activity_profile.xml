@@ -28,7 +28,7 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:text="Appellation"
+                android:text="@string/appellation"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"/>
 
@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="First name"
+                    android:hint="@string/first_name"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Last name"
+                    android:hint="@string/last_name"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:text="Contact"
+                android:text="@string/contact"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"/>
 
@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"/>
             </LinearLayout>
 
@@ -156,7 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Location"
+                    android:hint="@string/location"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -171,7 +171,7 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:text="Social "
+                android:text="@string/social"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"/>
 
@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Portfolio/personal URL"
+                    android:hint="@string/Portfolio"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -217,7 +217,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="About/bio"
+                    android:hint="@string/about_bio"
                     android:inputType="text"/>
             </LinearLayout>
 
@@ -239,7 +239,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:hint="Instagram username"
+                    android:hint="@string/instagram_username"
                     android:inputType="text"/>
             </LinearLayout>
 

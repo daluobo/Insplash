@@ -27,6 +27,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,6 +115,9 @@ public class UserActivity extends BaseActivity {
     @BindView(R.id.mood)
     ImageView mMood;
 
+    @BindArray(R.array.user_tabs)
+    String[] mUserTabs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,9 +164,9 @@ public class UserActivity extends BaseActivity {
             }
         });
 
-        titles.add("photos");
-        titles.add("collections");
-        titles.add("likes");
+        titles.add(mUserTabs[0]);
+        titles.add(mUserTabs[1]);
+        titles.add(mUserTabs[2]);
 
         mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
         mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));

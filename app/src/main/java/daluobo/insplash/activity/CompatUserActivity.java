@@ -12,7 +12,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.BindArray;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +76,9 @@ public class CompatUserActivity extends BaseActivity {
     @BindColor(R.color.colorIcon)
     int mColorIcon;
 
+    @BindArray(R.array.user_tabs)
+    String[] mUserTabs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +114,9 @@ public class CompatUserActivity extends BaseActivity {
             }
         });
 
-        titles.add("photos");
-        titles.add("collections");
-        titles.add("likes");
+        titles.add(mUserTabs[0]);
+        titles.add(mUserTabs[1]);
+        titles.add(mUserTabs[2]);
 
         mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
         mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
@@ -138,7 +141,6 @@ public class CompatUserActivity extends BaseActivity {
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.d("STATE", state.name());
                 if (state == State.EXPANDED) {
 
                 } else if (state == State.COLLAPSED) {

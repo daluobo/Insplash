@@ -47,6 +47,7 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
     public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
 
+
         if (newState == RecyclerView.SCROLL_STATE_IDLE
                 &&((FooterAdapter) recyclerView.getAdapter()).isShowFooter
                 && mIsScrollDown

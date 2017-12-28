@@ -12,4 +12,4 @@
     android:paddingTop="8dp"
     android:textColor="@color/colorPrimary"
     android:textSize="18sp"
-    tools:text="Photos  "/>
+    tools:text="Photos"/>

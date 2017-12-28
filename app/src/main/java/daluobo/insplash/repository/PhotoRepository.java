@@ -9,9 +9,10 @@ import java.util.Map;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.model.net.PhotoDownloadLink;
+import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.net.RetrofitHelper;
 import daluobo.insplash.net.api.PhotosApi;
 
@@ -19,7 +20,7 @@ import daluobo.insplash.net.api.PhotosApi;
  * Created by daluobo on 2017/11/12.
  */
 
-public class PhotoRepository {
+public class PhotoRepository extends BaseRepository{
     private PhotosApi mPhotoService;
 
     public PhotoRepository() {
@@ -31,7 +32,7 @@ public class PhotoRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mPhotoService.photos(page, order_by);
+                return mPhotoService.photos(page, order_by, AppConstant.mPerPage);
             }
 
             @Override
@@ -46,7 +47,7 @@ public class PhotoRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mPhotoService.curated(page);
+                return mPhotoService.curated(page, AppConstant.mPerPage);
             }
 
             @Override

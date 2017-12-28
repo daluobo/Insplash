@@ -20,7 +20,7 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:textColor="@color/colorWhite"
-        android:text="Create a new collection"
+        android:text="@string/create_a_new_collection"
         android:textSize="18sp"/>
 
     <ImageView

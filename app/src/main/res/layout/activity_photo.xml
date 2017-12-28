@@ -226,7 +226,7 @@
                         style="@style/InfoText"
                         android:layout_width="wrap_content"
                         android:paddingStart="54dp"
-                        android:text="exposure_time"
+                        android:text="@string/exposure_time"
                         android:textColor="@color/colorTitle"/>
 
                     <TextView
@@ -246,7 +246,7 @@
                         style="@style/InfoText"
                         android:layout_width="wrap_content"
                         android:paddingStart="54dp"
-                        android:text="aperture"
+                        android:text="@string/aperture"
                         android:textColor="@color/colorTitle"/>
 
                     <TextView
@@ -266,7 +266,7 @@
                         style="@style/InfoText"
                         android:layout_width="wrap_content"
                         android:paddingStart="54dp"
-                        android:text="focal_length"
+                        android:text="@string/focal_length"
                         android:textColor="@color/colorTitle"/>
 
                     <TextView
@@ -294,7 +294,7 @@
                         android:id="@+id/iso"
                         style="@style/InfoText"
                         android:gravity="end"
-                        tools:text="iso"/>
+                        tools:text="@string/iso"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -311,11 +311,9 @@
                 android:textColor="@color/colorTitle"
                 tools:text="size x size"/>
 
-
             <TextView
                 android:id="@+id/color"
                 style="@style/InfoText"
-                android:layout_width="wrap_content"
                 android:drawableLeft="@drawable/ic_palette"
                 android:drawablePadding="16dp"
                 android:textColor="@color/colorTitle"
@@ -371,7 +369,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:text="Collect"
+            android:text="@string/collect"
             android:textColor="@color/colorTitle"/>
 
     </LinearLayout>

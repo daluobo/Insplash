@@ -14,7 +14,7 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
-        android:text="Edit collection"
+        android:text="@string/edit_collection"
         android:textColor="@color/colorTitle"
         android:textSize="22sp"/>
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cut1"
         android:layout_margin="16dp"
-        android:hint="name"
+        android:hint="@string/name"
         android:inputType="text"
         android:maxLength="60"
         android:singleLine="true"/>
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:layout_margin="16dp"
-        android:hint="Description (optional)"
+        android:hint="@string/description_hint"
         android:maxLength="250"
         android:maxLines="3"/>
 
@@ -62,9 +62,9 @@
         android:layout_below="@id/description"
         android:layout_margin="16dp"
         android:drawablePadding="4dp"
-        android:textColor="@color/colorTitle"
         android:drawableRight="@drawable/ic_lock_small"
-        android:text="Make collection private"/>
+        android:text="@string/make_collection_private"
+        android:textColor="@color/colorTitle"/>
 
     <View
         android:id="@+id/cut2"
@@ -80,7 +80,7 @@
         android:layout_below="@id/cut2"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Are you sure?"
+        android:text="@string/are_you_sure"
         android:textColor="@color/colorAccent"
         android:visibility="gone"
         tools:visibility="visible"/>
@@ -94,7 +94,7 @@
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:padding="8dp"
-        android:text="Delete Collection"
+        android:text="@string/delete_collection"
         android:textColor="@color/colorAccent"/>
 
     <TextView
@@ -107,6 +107,6 @@
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:padding="8dp"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="@color/colorPrimary"/>
 </RelativeLayout>

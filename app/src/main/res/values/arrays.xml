@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="search_tabs">
+        <item>Photos</item>
+        <item>Collections</item>
+        <item>Users</item>
+    </string-array>
+
+    <string-array name="user_tabs">
+        <item>Photos</item>
+        <item>Collections</item>
+        <item>Likes</item>
+    </string-array>
+
+    <string-array name="photos_option">
+        <item>Photos</item>
+        <item>Curated</item>
+    </string-array>
+
+    <string-array name="collection_option">
+        <item>Collections</item>
+        <item>Featured</item>
+        <item>Curated</item>
+    </string-array>
+
+    <string-array name="order_by_option">
+        <item>Latest</item>
+        <item>Oldest</item>
+        <item>Popular</item>
+    </string-array>
+
+    <string-array name="view_option">
+        <item>Compat</item>
+        <item>Card</item>
+    </string-array>
+
+    <string-array name="language_option">
+        <item>English</item>
+        <item>Chinese</item>
+    </string-array>
+</resources>

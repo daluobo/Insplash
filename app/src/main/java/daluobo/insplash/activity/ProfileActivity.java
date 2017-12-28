@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -46,6 +47,9 @@ public class ProfileActivity extends BaseActivity {
     EditText mBio;
     @BindView(R.id.instagram_username)
     EditText mInstagramUsername;
+
+    @BindString(R.string.profile)
+    String mProfileStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,7 @@ public class ProfileActivity extends BaseActivity {
                 finish();
             }
         });
-        mTitle.setText("Profile");
+        mTitle.setText(mProfileStr);
     }
 
     @Override

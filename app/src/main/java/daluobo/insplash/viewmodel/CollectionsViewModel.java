@@ -36,7 +36,7 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
     }
 
     public CollectionsViewModel() {
-        mCurrentType.setValue(PopupMenuHelper.mCollectionType.get(0));
+        mCurrentType.setValue(PopupMenuHelper.getmCollectionType().get(0));
     }
 
     @Override

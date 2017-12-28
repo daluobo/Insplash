@@ -9,6 +9,7 @@ import java.util.Map;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
@@ -19,7 +20,7 @@ import daluobo.insplash.net.api.CollectionsApi;
  * Created by daluobo on 2017/11/27.
  */
 
-public class CollectionsRepository {
+public class CollectionsRepository extends BaseRepository{
     private CollectionsApi mCollectsService;
 
     public CollectionsRepository() {
@@ -31,7 +32,7 @@ public class CollectionsRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Collection>>> createCall() {
-                return mCollectsService.collections(page);
+                return mCollectsService.collections(page, AppConstant.mPerPage);
             }
 
             @Override
@@ -46,7 +47,7 @@ public class CollectionsRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Collection>>> createCall() {
-                return mCollectsService.featured(page);
+                return mCollectsService.featured(page, AppConstant.mPerPage);
             }
 
             @Override
@@ -61,7 +62,7 @@ public class CollectionsRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Collection>>> createCall() {
-                return mCollectsService.curated(page);
+                return mCollectsService.curated(page, AppConstant.mPerPage);
             }
 
             @Override
@@ -91,7 +92,7 @@ public class CollectionsRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mCollectsService.photos(collectionId, page);
+                return mCollectsService.photos(collectionId, page, AppConstant.mPerPage);
             }
 
             @Override

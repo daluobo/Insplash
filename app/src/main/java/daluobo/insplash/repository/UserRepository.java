@@ -9,6 +9,7 @@ import java.util.Map;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
@@ -19,7 +20,7 @@ import daluobo.insplash.net.api.UserApi;
  * Created by daluobo on 2017/11/15.
  */
 
-public class UserRepository {
+public class UserRepository extends BaseRepository{
     private UserApi mUserService;
 
     public UserRepository() {
@@ -61,7 +62,7 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mUserService.photos(username, page);
+                return mUserService.photos(username, page, AppConstant.mPerPage);
             }
 
             @Override
@@ -76,7 +77,7 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Photo>>> createCall() {
-                return mUserService.likes(username, page);
+                return mUserService.likes(username, page, AppConstant.mPerPage);
             }
 
             @Override

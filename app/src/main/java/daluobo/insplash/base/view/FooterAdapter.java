@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import daluobo.insplash.R;
+import daluobo.insplash.common.AppConstant;
 
 /**
  * Created by daluobo on 2017/11/24.
@@ -52,7 +53,8 @@ public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerVi
         if (mData.size() == 0) {
             return 0;
         }
-        if (mData.size() > 0 && mData.size() % 10 != 0) {
+
+        if (mData.size() > 0 && mData.size() % AppConstant.mPerPage != 0) {
             isShowFooter = false;
             return mData.size();
         } else if (!isShowFooter) {

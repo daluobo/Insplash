@@ -37,8 +37,8 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     }
 
     public PhotoViewModel() {
-        mCurrentType.setValue(PopupMenuHelper.mPhotoType.get(0));
-        mOrderByType.setValue(PopupMenuHelper.mOrderBy.get(0));
+        mCurrentType.setValue(PopupMenuHelper.getmPhotoType().get(0));
+        mOrderByType.setValue(PopupMenuHelper.getmOrderBy().get(0));
     }
 
     @Override

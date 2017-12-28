@@ -9,6 +9,7 @@ import java.util.List;
 import daluobo.insplash.base.arch.ApiResponse;
 import daluobo.insplash.base.arch.NetworkResource;
 import daluobo.insplash.base.arch.Resource;
+import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.Search;
@@ -20,7 +21,7 @@ import daluobo.insplash.net.api.SearchApi;
  * Created by daluobo on 2017/12/7.
  */
 
-public class SearchRepository {
+public class SearchRepository extends BaseRepository{
     private SearchApi mService;
 
     public SearchRepository() {
@@ -33,7 +34,7 @@ public class SearchRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<Search<Photo>>> createCall() {
-                return mService.photos(page, query);
+                return mService.photos(page, query, AppConstant.mPerPage);
             }
 
             @Override
@@ -52,7 +53,7 @@ public class SearchRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<Search<Collection>>> createCall() {
-                return mService.collections(page, query);
+                return mService.collections(page, query, AppConstant.mPerPage);
             }
 
             @Override
@@ -71,7 +72,7 @@ public class SearchRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<Search<User>>> createCall() {
-                return mService.users(page, query);
+                return mService.users(page, query, AppConstant.mPerPage);
             }
 
             @Override

@@ -23,7 +23,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:text="Add to collection"
+            android:text="@string/add_to_collection"
             android:textColor="@color/colorTitle"
             android:textSize="22sp"/>
 
@@ -56,7 +56,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:text="Create new collection"
+            android:text="@string/create_a_new_collection"
             android:textColor="@color/colorTitle"
             android:textSize="22sp"/>
 
@@ -74,7 +74,7 @@
             android:layout_below="@id/cut1"
             android:layout_margin="16dp"
             android:background="@null"
-            android:hint="name"
+            android:hint="@string/name"
             android:inputType="text"
             android:maxLength="60"
             android:singleLine="true"/>
@@ -86,7 +86,7 @@
             android:layout_below="@id/name"
             android:layout_margin="16dp"
             android:background="@null"
-            android:hint="Description (optional)"
+            android:hint="@string/description_hint"
             android:maxLength="250"
             android:maxLines="4"/>
 
@@ -99,7 +99,7 @@
             android:drawablePadding="4dp"
             android:textColor="@color/colorTitle"
             android:drawableRight="@drawable/ic_lock_small"
-            android:text="Make collection private"/>
+            android:text="@string/make_collection_private"/>
 
         <View
             android:id="@+id/cut2"
@@ -117,7 +117,7 @@
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:padding="8dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/colorAccent"/>
 
         <TextView
@@ -130,7 +130,7 @@
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:padding="8dp"
-            android:text="Create collection"
+            android:text="@string/create_collection"
             android:textColor="@color/colorPrimary"/>
     </RelativeLayout>
 

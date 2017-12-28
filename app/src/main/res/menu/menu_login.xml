@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_accessibility"
         android:orderInCategory="100"
         android:iconTint="@color/colorIcon"
-        android:title="Login"
+        android:title="@string/login"
         app:showAsAction="always"/>
 </menu>

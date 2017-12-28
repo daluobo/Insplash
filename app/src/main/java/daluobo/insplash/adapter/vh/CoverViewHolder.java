@@ -1,8 +1,6 @@
 package daluobo.insplash.adapter.vh;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +11,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ViewUtil;
 
 /**
  * Created by daluobo on 2017/12/25.
@@ -34,7 +33,7 @@ public class CoverViewHolder extends CollectionViewHolder {
         lp.height = lp.width * 2 / 3;
         mCoverPhoto.setLayoutParams(lp);
         if (collection.cover_photo != null) {
-            ImgUtil.loadImg(mContext, mCoverPhoto, new ColorDrawable(Color.parseColor(collection.cover_photo.color)), collection.cover_photo.urls.small);
+            ImgUtil.loadImg(mContext, mCoverPhoto, ViewUtil.createColorDrawable(collection.cover_photo.color), collection.cover_photo.urls.small);
         } else {
             mCoverPhoto.setImageDrawable(mIcNeutral);
         }

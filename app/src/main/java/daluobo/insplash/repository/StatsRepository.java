@@ -14,7 +14,7 @@ import daluobo.insplash.net.api.StatsApi;
  * Created by daluobo on 2017/11/1.
  */
 
-public class StatsRepository {
+public class StatsRepository extends BaseRepository{
     private StatsApi mStatsService;
 
     public StatsRepository(){

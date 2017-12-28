@@ -2,7 +2,6 @@ package daluobo.insplash.adapter.vh;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -132,7 +131,7 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
         }
 
         mPhotoView.setLayoutParams(lp);
-        ImgUtil.loadImg(mContext, mPhotoView, new ColorDrawable(Color.parseColor(photo.color)), photo.urls.small);
+        ImgUtil.loadImg(mContext, mPhotoView, ViewUtil.createColorDrawable(photo.color), photo.urls.small);
     }
 
     public interface OnActionClickListener {

@@ -18,7 +18,7 @@ import daluobo.insplash.net.api.OauthApi;
  * Created by daluobo on 2017/11/8.
  */
 
-public class OauthRepository {
+public class OauthRepository extends BaseRepository{
     private OauthApi mOauthService;
 
     public OauthRepository(){

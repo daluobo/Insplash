@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -107,6 +108,9 @@ public class SettingActivity extends BaseActivity {
     Drawable mIcDropDownPrimary;
     @BindColor(R.color.colorPrimary)
     int mColorPrimary;
+    @BindString(R.string.setting)
+    String mSettingStr;
+
 
     protected PopupMenuHelper.OnMenuItemClickListener mViewTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
@@ -226,7 +230,7 @@ public class SettingActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-        mTitle.setText("Setting");
+        mTitle.setText(mSettingStr);
     }
 
     private void showUserProfile() {
