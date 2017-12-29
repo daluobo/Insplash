@@ -12,6 +12,7 @@ import java.util.List;
 
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.vh.CompatPhotoViewHolder;
+import daluobo.insplash.adapter.vh.OnActionClickListener;
 import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
@@ -84,14 +85,30 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case PhotoViewType.COMPAT:
-                return new CompatPhotoViewHolder(inflateItemView(parent, R.layout.item_photo_compat), mContext, mColumn, new CompatPhotoViewHolder.OnActionClickListener() {
+                return new CompatPhotoViewHolder(inflateItemView(parent, R.layout.item_photo_compat), mContext, mColumn, new OnActionClickListener() {
                     @Override
-                    public void onLikeClick(Photo photo, int position) {
+                    public void onLikeClick(Photo photo) {
+                        mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {
+                            @Override
+                            protected void onSuccess(LikePhoto likePhoto) {
+                                onPhotoLikeChange(likePhoto.photo);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDownloadClick(Photo photo) {
 
                     }
+
+                    @Override
+                    public void onCollectClick(Photo photo) {
+
+                    }
+
                 });
             case PhotoViewType.PREVIEW:
-                return new PhotoViewHolder(inflateItemView(parent, R.layout.item_photo), mContext, mIsShowUser, new PhotoViewHolder.OnMenuItemClickListener() {
+                return new PhotoViewHolder(inflateItemView(parent, R.layout.item_photo), mContext, mIsShowUser, new OnActionClickListener() {
                     @Override
                     public void onLikeClick(Photo photo) {
                         mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {

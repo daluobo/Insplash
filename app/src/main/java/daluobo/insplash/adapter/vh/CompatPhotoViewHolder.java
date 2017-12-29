@@ -16,13 +16,16 @@ import android.widget.ViewSwitcher;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.util.ViewUtil;
 
 /**
@@ -49,6 +52,8 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
     Drawable mIcFavorite;
     @BindColor(R.color.colorTitle)
     int mColorText;
+    @BindString(R.string.msg_please_login)
+    String mMsgPleaseLogin;
 
     TextView mLikeText;
 
@@ -83,10 +88,14 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
         mLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLikeBtn.setVisibility(View.INVISIBLE);
-                mProgressBar.setVisibility(View.VISIBLE);
+                if (AuthHelper.isLogin()) {
+                    mLikeBtn.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
 
-                mOnActionClickListener.onLikeClick(mPhoto, mPosition);
+                    mOnActionClickListener.onLikeClick(mPhoto);
+                } else {
+                    ToastUtil.showShort(mContext, mMsgPleaseLogin);
+                }
             }
         });
 
@@ -134,7 +143,4 @@ public class CompatPhotoViewHolder extends RecyclerView.ViewHolder implements Vi
         ImgUtil.loadImg(mContext, mPhotoView, ViewUtil.createColorDrawable(photo.color), photo.urls.small);
     }
 
-    public interface OnActionClickListener {
-        void onLikeClick(Photo photo, int position);
-    }
 }

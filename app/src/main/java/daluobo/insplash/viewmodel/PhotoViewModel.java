@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
@@ -34,11 +33,6 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     public @interface PhotoType {
         String ALL = "all";
         String CURATED = "curated";
-    }
-
-    public PhotoViewModel() {
-        mCurrentType.setValue(PopupMenuHelper.getmPhotoType().get(0));
-        mOrderByType.setValue(PopupMenuHelper.getmOrderBy().get(0));
     }
 
     @Override

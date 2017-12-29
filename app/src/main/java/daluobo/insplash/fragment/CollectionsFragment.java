@@ -99,7 +99,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
             }
         });
 
-
+        mCollectionsViewModel.setCurrentType(PopupMenuHelper.getCollectionType().get(0));
     }
 
     @Override

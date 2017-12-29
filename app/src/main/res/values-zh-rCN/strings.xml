@@ -41,10 +41,6 @@
     <string name="are_you_sure">确定删除?</string>
     <string name="delete_collection">删除收藏</string>
 
-    <string name="msg_name_must_not_empty">名称不能为空!</string>
-    <string name="msg_delete_success">删除成功!</string>
-    <string name="msg_update_success">更新成功!</string>
-
     <string name="appellation">称谓</string>
     <string name="contact">联系</string>
     <string name="social">社交</string>
@@ -66,4 +62,8 @@
     <string name="created_in">创建于</string>
     <string name="update_on">更新于</string>
 
+    <string name="msg_name_must_not_empty">名称不能为空!</string>
+    <string name="msg_delete_success">删除成功!</string>
+    <string name="msg_update_success">更新成功!</string>
+    <string name="msg_please_login">请登陆!</string>
 </resources>

@@ -131,7 +131,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
             }
         });
 
-
+        mPhotoViewModel.setCurrentType(PopupMenuHelper.getPhotoType().get(0));
+        mPhotoViewModel.setOrderByType(PopupMenuHelper.getOrderBy().get(0));
     }
 
     @Override

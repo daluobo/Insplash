@@ -20,13 +20,16 @@ import android.widget.ViewSwitcher;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.util.ViewUtil;
 
 /**
@@ -59,6 +62,8 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnC
     Drawable mIcFavorite;
     @BindColor(R.color.colorTitle)
     int mColorTitle;
+    @BindString(R.string.msg_please_login)
+    String mMsgPleaseLogin;
 
     TextView mLikeText;
 
@@ -68,20 +73,20 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnC
     int mContainerWidth;
     boolean mIsShowUser = true;
 
-    private OnMenuItemClickListener mOnMenuItemClickListener;
+    private OnActionClickListener mOnActionClickListener;
 
     private PopupWindow mPopupWindow;
     private int[] mPopupWindowSize;
     private TextView mDownloadBtn;
     private TextView mCollectBtn;
 
-    public PhotoViewHolder(View itemView, Context context, boolean isShowUser, OnMenuItemClickListener onMenuItemClickListener) {
+    public PhotoViewHolder(View itemView, Context context, boolean isShowUser, OnActionClickListener onMenuItemClickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
 
         mContext = context;
         mIsShowUser = isShowUser;
-        mOnMenuItemClickListener = onMenuItemClickListener;
+        mOnActionClickListener = onMenuItemClickListener;
 
         mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
         mPhotoView.setOnClickListener(this);
@@ -103,17 +108,21 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnC
         mMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMoreDialog(v, mPosition);
+                showMoreDialog(v);
             }
         });
 
         mLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLikeBtn.setVisibility(View.GONE);
-                mProgressBar.setVisibility(View.VISIBLE);
+                if (AuthHelper.isLogin()) {
+                    mLikeBtn.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
 
-                onLikeClick(mPhoto);
+                    mOnActionClickListener.onLikeClick(mPhoto);
+                } else {
+                    ToastUtil.showShort(mContext, mMsgPleaseLogin);
+                }
             }
         });
 
@@ -178,7 +187,7 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnC
         mLikes.setCurrentText(photo.likes + "");
     }
 
-    private void showMoreDialog(View view, final int position) {
+    private void showMoreDialog(View view) {
         if (mPopupWindow == null) {
             initPopupWindow();
         }
@@ -224,24 +233,19 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnC
         }
     }
 
-    public void onLikeClick(Photo photo) {
-        mOnMenuItemClickListener.onLikeClick(photo);
-    }
 
     public void onDownloadClick(Photo photo) {
-        mOnMenuItemClickListener.onDownloadClick(photo);
+        mOnActionClickListener.onDownloadClick(photo);
     }
 
     public void onCollectClick(Photo photo) {
-        mPopupWindow.dismiss();
-        mOnMenuItemClickListener.onCollectClick(photo);
+        if (AuthHelper.isLogin()) {
+            mPopupWindow.dismiss();
+            mOnActionClickListener.onCollectClick(photo);
+        } else {
+            ToastUtil.showShort(mContext, mMsgPleaseLogin);
+        }
+
     }
 
-    public interface OnMenuItemClickListener {
-        void onLikeClick(Photo photo);
-
-        void onDownloadClick(Photo photo);
-
-        void onCollectClick(Photo photo);
-    }
 }

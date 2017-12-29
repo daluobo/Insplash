@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,6 +36,7 @@ import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.util.DateUtil;
 import daluobo.insplash.util.ImgUtil;
+import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.util.ViewUtil;
 import daluobo.insplash.viewmodel.PhotoDetailViewModel;
 
@@ -136,6 +138,10 @@ public class PhotoActivity extends BaseActivity {
     ImageView mLocationHint;
     @BindView(R.id.exif_model_hint)
     ImageView mExifModelHint;
+
+
+    @BindString(R.string.msg_please_login)
+    String mMsgPleaseLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,7 +346,11 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.collect_btn:
-                NavHelper.collectPhoto(getSupportFragmentManager(), mViewModel.getPhotoData());
+                if (AuthHelper.isLogin()) {
+                    NavHelper.collectPhoto(getSupportFragmentManager(), mViewModel.getPhotoData());
+                } else {
+                    ToastUtil.showShort(this, mMsgPleaseLogin);
+                }
                 break;
         }
     }

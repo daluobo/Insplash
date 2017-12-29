@@ -67,5 +67,8 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
         }
+
+        onShowRefresh();
+        onRefresh();
     }
 }

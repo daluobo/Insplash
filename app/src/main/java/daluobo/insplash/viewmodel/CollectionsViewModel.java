@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.Resource;
-import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.CollectPhoto;
 import daluobo.insplash.model.net.Collection;
@@ -33,10 +32,6 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
         String ALL = "all";
         String FEATURED = "featured";
         String CURATED = "curated";
-    }
-
-    public CollectionsViewModel() {
-        mCurrentType.setValue(PopupMenuHelper.getmCollectionType().get(0));
     }
 
     @Override

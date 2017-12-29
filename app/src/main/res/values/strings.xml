@@ -42,10 +42,6 @@
     <string name="are_you_sure">Are you sure ?</string>
     <string name="delete_collection">Delete collection</string>
 
-    <string name="msg_name_must_not_empty">Name must not empty !</string>
-    <string name="msg_delete_success">Delete success !</string>
-    <string name="msg_update_success">update success !</string>
-
     <string name="appellation">appellation</string>
     <string name="contact">Contact</string>
     <string name="social">Social</string>
@@ -67,4 +63,8 @@
     <string name="created_in">Created in</string>
     <string name="update_on">Update on</string>
 
+    <string name="msg_name_must_not_empty">Name must not empty !</string>
+    <string name="msg_delete_success">Delete success !</string>
+    <string name="msg_update_success">update success !</string>
+    <string name="msg_please_login">Please login!</string>
 </resources>

@@ -34,9 +34,4 @@
         <item>紧凑</item>
         <item>卡片</item>
     </string-array>
-
-    <string-array name="language_option">
-        <item>英文</item>
-        <item>中文</item>
-    </string-array>
 </resources>

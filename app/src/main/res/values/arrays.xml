@@ -37,6 +37,6 @@
 
     <string-array name="language_option">
         <item>English</item>
-        <item>Chinese</item>
+        <item>中文</item>
     </string-array>
 </resources>

@@ -42,40 +42,52 @@ public class PopupMenuHelper {
     private static String[] mViewOption;
     private static String[] mLanguageOption;
 
-    static boolean mIsInit = false;
-
-    public static void init(Context context) {
-        if (mIsInit) {
-            return;
-        }
-
+    public static void initPhotoType(Context context) {
         Resources res = context.getResources();
 
         mPhotosOption = res.getStringArray(R.array.photos_option);
-        mOrderByOption = res.getStringArray(R.array.order_by_option);
-        mCollectionOption = res.getStringArray(R.array.collection_option);
-        mViewOption = res.getStringArray(R.array.view_option);
-        mLanguageOption = res.getStringArray(R.array.language_option);
 
-
+        mPhotoType.clear();
         mPhotoType.add(new OptionItem(mPhotosOption[0], PhotoViewModel.PhotoType.ALL));
         mPhotoType.add(new OptionItem(mPhotosOption[1], PhotoViewModel.PhotoType.CURATED));
+    }
 
+    public static void initOrderBy(Context context) {
+        Resources res = context.getResources();
+        mOrderByOption = res.getStringArray(R.array.order_by_option);
+
+        mOrderBy.clear();
         mOrderBy.add(new OptionItem(mOrderByOption[0], BasePageViewModel.OrderBy.LATEST));
         mOrderBy.add(new OptionItem(mOrderByOption[1], BasePageViewModel.OrderBy.OLDEST));
         mOrderBy.add(new OptionItem(mOrderByOption[2], BasePageViewModel.OrderBy.POPULAR));
+    }
 
+    public static void initCollectionType(Context context) {
+        Resources res = context.getResources();
+        mCollectionOption = res.getStringArray(R.array.collection_option);
+
+        mCollectionType.clear();
         mCollectionType.add(new OptionItem(mCollectionOption[0], CollectionsViewModel.CollectionType.ALL));
         mCollectionType.add(new OptionItem(mCollectionOption[1], CollectionsViewModel.CollectionType.FEATURED));
         mCollectionType.add(new OptionItem(mCollectionOption[2], CollectionsViewModel.CollectionType.CURATED));
+    }
 
+    public static void initViewType(Context context) {
+        Resources res = context.getResources();
+        mViewOption = res.getStringArray(R.array.view_option);
+
+        mViewType.clear();
         mViewType.add(new OptionItem(mViewOption[0], ConfigHelper.ViewType.COMPAT));
         mViewType.add(new OptionItem(mViewOption[1], ConfigHelper.ViewType.CARD));
+    }
 
+    public static void initLanguage(Context context) {
+        Resources res = context.getResources();
+        mLanguageOption = res.getStringArray(R.array.language_option);
+
+        mLanguage.clear();
         mLanguage.add(new OptionItem(mLanguageOption[0], ConfigHelper.Language.ENGLISH));
         mLanguage.add(new OptionItem(mLanguageOption[1], ConfigHelper.Language.CHINESE));
-
-        mIsInit = true;
     }
 
     public static void showPopupMenu(Context context, View anchor,
@@ -208,52 +220,47 @@ public class PopupMenuHelper {
     }
 
     public static void showPhotoTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
-        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_type, mPhotoType, selectedItem, listener, 0);
     }
 
     public static void showOrderByMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
-        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_order_by, mOrderBy, selectedItem, listener, -DimensionUtil.dpToPx(8));
     }
 
     public static void showCollectionTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
-        init(context);
         showPopupMenu(context, anchor, R.layout.menu_item_type, mCollectionType, selectedItem, listener, 0);
     }
 
     public static void showViewTypeMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
-        init(context);
         showOptionMenu(context, anchor, R.layout.menu_item_view, mViewType, selectedItem, listener, 0, DimensionUtil.dpToPx(8));
     }
 
     public static void showLanguageMenu(Context context, View anchor, OptionItem selectedItem, OnMenuItemClickListener listener) {
-        init(context);
         showOptionMenu(context, anchor, R.layout.menu_item_view, mLanguage, selectedItem, listener, 0, DimensionUtil.dpToPx(8));
     }
 
-    public static List<OptionItem> getmPhotoType() {
-        init(MyApplication.getInstance());
+    public static List<OptionItem> getPhotoType() {
+        initPhotoType(MyApplication.getInstance());
         return mPhotoType;
     }
 
-    public static List<OptionItem> getmOrderBy() {
-        init(MyApplication.getInstance());
+    public static List<OptionItem> getOrderBy() {
+        initOrderBy(MyApplication.getInstance());
         return mOrderBy;
     }
 
-    public static List<OptionItem> getmCollectionType() {
-        init(MyApplication.getInstance());
+    public static List<OptionItem> getCollectionType() {
+        initCollectionType(MyApplication.getInstance());
         return mCollectionType;
     }
 
-    public static List<OptionItem> getmViewType() {
-        init(MyApplication.getInstance());
+    public static List<OptionItem> getViewType() {
+        initViewType(MyApplication.getInstance());
         return mViewType;
     }
 
-    public static List<OptionItem> getmLanguage() {
-        init(MyApplication.getInstance());
+    public static List<OptionItem> getLanguage() {
+        initLanguage(MyApplication.getInstance());
         return mLanguage;
     }
 

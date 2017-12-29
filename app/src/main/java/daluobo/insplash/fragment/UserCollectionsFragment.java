@@ -40,4 +40,11 @@ public class UserCollectionsFragment extends SimpleSwipeListFragment<List<Collec
         mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData(), false);
     }
 
+    @Override
+    public void initView() {
+        super.initView();
+
+        onShowRefresh();
+        onRefresh();
+    }
 }

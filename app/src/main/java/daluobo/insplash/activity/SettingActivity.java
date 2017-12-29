@@ -34,6 +34,7 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
+import daluobo.insplash.event.LanguageEvent;
 import daluobo.insplash.event.ViewEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
@@ -132,6 +133,8 @@ public class SettingActivity extends BaseActivity {
         public void onItemClick(OptionItem menuItem) {
             ConfigHelper.setLanguage(menuItem.value);
             mViewModel.setLanguage(menuItem);
+
+            EventBus.getDefault().post(new LanguageEvent(menuItem));
         }
 
         @Override

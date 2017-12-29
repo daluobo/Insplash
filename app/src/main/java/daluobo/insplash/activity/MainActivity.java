@@ -6,7 +6,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +29,6 @@ import daluobo.insplash.helper.NavHelper;
 public class MainActivity extends BaseActivity {
     private List<Fragment> mFragments = new ArrayList<>();
     private SimplePageAdapter mAdapter;
-
-    private SearchView mSearchView;
-    private SearchView.SearchAutoComplete mSearchAutoComplete;
 
     @BindView(R.id.title)
     TextView mTitle;
