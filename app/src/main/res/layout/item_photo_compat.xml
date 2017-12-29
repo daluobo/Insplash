@@ -46,8 +46,8 @@
         android:layout_marginLeft="2dp"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@id/like_btn"
-        android:inAnimation="@anim/slide_in_likes_counter"
-        android:outAnimation="@anim/slide_out_likes_counter">
+        android:inAnimation="@anim/slide_form_bottom"
+        android:outAnimation="@anim/slide_to_top">
     </TextSwitcher>
 
     <ImageView

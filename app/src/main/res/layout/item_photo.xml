@@ -87,8 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:inAnimation="@anim/slide_in_likes_counter"
-                android:outAnimation="@anim/slide_out_likes_counter">
+                android:inAnimation="@anim/slide_form_bottom"
+                android:outAnimation="@anim/slide_to_top">
             </TextSwitcher>
 
             <ImageView

@@ -28,13 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindArray;
+import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
+import daluobo.insplash.adapter.CountTabFragmentAdapter;
 import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.base.view.TabFragmentAdapter;
 import daluobo.insplash.fragment.UserCollectionsFragment;
 import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
@@ -49,14 +50,15 @@ public class UserActivity extends BaseActivity {
     public static final String ARG_USER = "user";
     public static final String ARG_SHOW_INDEX = "show_index";
 
-    private int mShowIndex;
+    private int mShowIndex = 0;
     private int mHintClickCount = 0;
 
     protected UserViewModel mViewModel;
-    protected TabFragmentAdapter mAdapter;
+    protected CountTabFragmentAdapter mAdapter;
 
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
+    private List<String> mCounts = new ArrayList<>();
     private boolean isShowUserInfo = false;
 
     @BindDrawable(R.drawable.ic_mood)
@@ -117,6 +119,10 @@ public class UserActivity extends BaseActivity {
 
     @BindArray(R.array.user_tabs)
     String[] mUserTabs;
+    @BindColor(R.color.colorTitle)
+    int mColorTitle;
+    @BindColor(R.color.colorText)
+    int mColorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +170,10 @@ public class UserActivity extends BaseActivity {
             }
         });
 
+        mCounts.add(user.total_photos + "");
+        mCounts.add(user.total_collections + "");
+        mCounts.add(user.total_likes + "");
+
         titles.add(mUserTabs[0]);
         titles.add(mUserTabs[1]);
         titles.add(mUserTabs[2]);
@@ -172,11 +182,15 @@ public class UserActivity extends BaseActivity {
         mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
         mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
 
-        mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
+        mAdapter = new CountTabFragmentAdapter(this, getSupportFragmentManager(), mFragments, titles, mCounts);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            tab.setCustomView(mAdapter.getTabView(i));
+        }
 
-        mViewPager.setCurrentItem(mShowIndex, true);
+
     }
 
     @Override
@@ -189,6 +203,32 @@ public class UserActivity extends BaseActivity {
             }
         });
         mTitle.setText("@" + mViewModel.getUserData().username);
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TextView count = tab.getCustomView().findViewById(R.id.count);
+                count.setTextColor(mColorTitle);
+                TextView title = tab.getCustomView().findViewById(R.id.title);
+                title.setTextColor(mColorTitle);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                TextView count = tab.getCustomView().findViewById(R.id.count);
+                count.setTextColor(mColorText);
+                TextView title = tab.getCustomView().findViewById(R.id.title);
+                title.setTextColor(mColorText);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        mViewPager.setCurrentItem(mShowIndex, true);
+        mAdapter.setTabSelected(mTabLayout.getTabAt(mShowIndex).getCustomView(), mColorTitle);
     }
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})

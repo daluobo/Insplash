@@ -6,6 +6,7 @@ import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.vh.CompatPhotoViewHolder;
 import daluobo.insplash.adapter.vh.OnActionClickListener;
+import daluobo.insplash.adapter.vh.PhotoCardViewHolder;
 import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
@@ -72,8 +74,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Photo item, int position) {
-        if (viewHolder instanceof PhotoViewHolder) {
-            PhotoViewHolder pvh = (PhotoViewHolder) viewHolder;
+        if (viewHolder instanceof PhotoCardViewHolder) {
+            PhotoCardViewHolder pvh = (PhotoCardViewHolder) viewHolder;
             pvh.bindDataToView(item, position);
         } else if (viewHolder instanceof CompatPhotoViewHolder) {
             CompatPhotoViewHolder cpv = (CompatPhotoViewHolder) viewHolder;
@@ -87,13 +89,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             case PhotoViewType.COMPAT:
                 return new CompatPhotoViewHolder(inflateItemView(parent, R.layout.item_photo_compat), mContext, mColumn, new OnActionClickListener() {
                     @Override
-                    public void onLikeClick(Photo photo) {
-                        mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {
-                            @Override
-                            protected void onSuccess(LikePhoto likePhoto) {
-                                onPhotoLikeChange(likePhoto.photo);
-                            }
-                        });
+                    public void onLikeClick(final Photo photo) {
+                        onPhotoLike(photo);
                     }
 
                     @Override
@@ -108,15 +105,10 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
                 });
             case PhotoViewType.PREVIEW:
-                return new PhotoViewHolder(inflateItemView(parent, R.layout.item_photo), mContext, mIsShowUser, new OnActionClickListener() {
+                return new PhotoCardViewHolder(inflateItemView(parent, R.layout.item_photo), mContext, mIsShowUser, new OnActionClickListener() {
                     @Override
-                    public void onLikeClick(Photo photo) {
-                        mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {
-                            @Override
-                            protected void onSuccess(LikePhoto likePhoto) {
-                                onPhotoLikeChange(likePhoto.photo);
-                            }
-                        });
+                    public void onLikeClick(final Photo photo) {
+                        onPhotoLike(photo);
                     }
 
                     @Override
@@ -134,12 +126,49 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         return null;
     }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            PhotoViewHolder pvh = (PhotoViewHolder) holder;
+
+            pvh.mProgressBar.setVisibility(View.GONE);
+            pvh.mLikeBtn.setVisibility(View.VISIBLE);
+            pvh.mLikes.setText(mData.get(position).likes + "");
+            if (mData.get(position).liked_by_user) {
+                pvh.mLikeBtn.setImageDrawable(pvh.mIcFavorite);
+            } else {
+                pvh.mLikeBtn.setImageDrawable(pvh.mIcFavoriteBorder);
+            }
+
+            pvh.mLikeBtn.animate()
+                    .rotationBy(360)
+                    .setDuration(300)
+                    .start();
+        }
+    }
+
+    public void onPhotoLike(final Photo photo) {
+        mViewModel.likePhoto(photo).observe(mLifecycleOwner, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(mContext) {
+            @Override
+            protected void onSuccess(LikePhoto likePhoto) {
+                onPhotoLikeChange(likePhoto.photo);
+            }
+            @Override
+            protected void onError(String msg) {
+                super.onError(msg);
+                onPhotoLikeChange(photo);
+            }
+        });
+    }
+
     public void onPhotoLikeChange(Photo photo) {
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).id.equals(photo.id)) {
                 mData.get(i).liked_by_user = photo.liked_by_user;
                 mData.get(i).likes = photo.likes;
-                notifyItemChanged(i);
+                notifyItemChanged(i, "photo_change");
                 break;
             }
         }
