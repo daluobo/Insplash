@@ -1,49 +1,26 @@
 package daluobo.insplash.activity;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import butterknife.BindArray;
-import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.AppBarStateChangeListener;
-import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.base.view.TabFragmentAdapter;
-import daluobo.insplash.fragment.UserCollectionsFragment;
-import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.ImgUtil;
-import daluobo.insplash.viewmodel.UserPhotoViewModel;
-import daluobo.insplash.viewmodel.UserViewModel;
 
-public class CompatUserActivity extends BaseActivity {
-
-    public static final String ARG_USER = "user";
-    protected UserViewModel mViewModel;
-    protected TabFragmentAdapter mAdapter;
-
-    private List<Fragment> mFragments = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
-
+public class CompatUserActivity extends BaseUserActivity {
     @BindView(R.id.backdrop)
     ImageView mBackdrop;
     @BindView(R.id.avatar)
@@ -52,32 +29,13 @@ public class CompatUserActivity extends BaseActivity {
     TextView mName;
     @BindView(R.id.location)
     TextView mLocation;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.title)
-    TextView mTitle;
+
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbar;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
     @BindView(R.id.appbar)
     AppBarLayout mAppbar;
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
     @BindView(R.id.root_container)
     CoordinatorLayout mRootContainer;
-
-    @BindColor(R.color.primary_overlay)
-    int mColorPrimaryOverlay;
-    @BindColor(R.color.colorPrimary)
-    int mColorPrimary;
-    @BindColor(R.color.colorWhite)
-    int mColorWhite;
-    @BindColor(R.color.colorIcon)
-    int mColorIcon;
-
-    @BindArray(R.array.user_tabs)
-    String[] mUserTabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +49,8 @@ public class CompatUserActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        User user = getIntent().getParcelableExtra(ARG_USER);
+        super.initData();
 
-        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        mViewModel.setUser(user);
         mViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
@@ -110,33 +66,16 @@ public class CompatUserActivity extends BaseActivity {
                 if (user.photos != null && user.photos.size() > 0) {
                     Random random = new Random();
                     ImgUtil.loadImg(CompatUserActivity.this, mBackdrop, new ColorDrawable(mColorPrimary), user.photos.get(random.nextInt(user.photos.size())).urls.regular);
+                } else {
+                    ImgUtil.loadImg(CompatUserActivity.this, mBackdrop, new ColorDrawable(mColorPrimary), user.profile_image.large);
                 }
             }
         });
-
-        titles.add(mUserTabs[0]);
-        titles.add(mUserTabs[1]);
-        titles.add(mUserTabs[2]);
-
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
-        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
-
-        mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
     }
 
     @Override
     public void initView() {
-        setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        super.initView();
 
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override

@@ -28,7 +28,6 @@ import daluobo.insplash.util.ViewUtil;
  */
 
 public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, SelectCollectionAdapter.ViewHolder> {
-    Context mContext;
     OnCollectionClickListener mOnCollectionClickListener;
     List<Collection> mCurrentUserCollections;
 
@@ -38,7 +37,7 @@ public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, Sel
     }
 
     public SelectCollectionAdapter(Context context, List<Collection> data) {
-        this.mContext = context;
+        super.mContext = context;
         data.add(0, new Collection());
         super.mData = data;
     }

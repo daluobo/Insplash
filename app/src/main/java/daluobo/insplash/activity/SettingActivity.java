@@ -112,7 +112,6 @@ public class SettingActivity extends BaseActivity {
     @BindString(R.string.setting)
     String mSettingStr;
 
-
     protected PopupMenuHelper.OnMenuItemClickListener mViewTypeClickListener = new PopupMenuHelper.OnMenuItemClickListener() {
         @Override
         public void onItemClick(OptionItem menuItem) {
@@ -221,11 +220,22 @@ public class SettingActivity extends BaseActivity {
         });
         mViewModel.setLanguage(ConfigHelper.getLanguage());
 
+        mViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                showUserProfile();
+                mName.setText(user.name);
+                mUsername.setText("@" + user.username);
+                mTotalLikes.setText(user.total_likes + "");
+                mTotalPhotos.setText(user.total_photos + "");
+                mTotalCollections.setText(user.total_collections + "");
+                ImgUtil.loadImg(SettingActivity.this, mAvatar, user.profile_image.medium);
+            }
+        });
     }
 
     @Override
     public void initView() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,22 +296,21 @@ public class SettingActivity extends BaseActivity {
         if (mViewModel.getUserData() != null) {
             return;
         }
-        mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
-            @Override
-            protected void onSuccess(User user) {
-                SharePrefHelper.setUsername(user.username);
-                showUserProfile();
+        if (AuthHelper.mCurrentUser == null) {
+            mViewModel.getMyProfile().observe(this, new ResourceObserver<Resource<User>, User>(this) {
+                @Override
+                protected void onSuccess(User user) {
+                    AuthHelper.mCurrentUser = user;
+                    SharePrefHelper.setUsername(user.username);
 
-                mViewModel.setUser(user);
+                    mViewModel.setUser(user);
+                }
+            });
+        } else {
+            mViewModel.setUser(AuthHelper.mCurrentUser);
+        }
 
-                mName.setText(user.name);
-                mUsername.setText("@" + user.username);
-                mTotalLikes.setText(user.total_likes + "");
-                mTotalPhotos.setText(user.total_photos + "");
-                mTotalCollections.setText(user.total_collections + "");
-                ImgUtil.loadImg(SettingActivity.this, mAvatar, user.profile_image.medium);
-            }
-        });
+
     }
 
     @Override
@@ -356,6 +365,7 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick({R.id.user_container,
             R.id.total_photos_container, R.id.total_collections_container, R.id.total_likes_container,
+            R.id.download_btn,
             R.id.view_btn, R.id.language_btn, R.id.about_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -370,6 +380,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.total_likes_container:
                 NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
+                break;
+            case R.id.download_btn:
+                NavHelper.toDownload(this);
                 break;
             case R.id.view_btn:
                 PopupMenuHelper.showViewTypeMenu(this, mViewType, mViewModel.getViewTypeData(), mViewTypeClickListener);

@@ -1,7 +1,6 @@
 package daluobo.insplash.adapter;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
@@ -49,6 +48,13 @@ public class CountTabFragmentAdapter extends TabFragmentAdapter {
     }
 
     public void setTabSelected(View view, int color){
+        TextView count = view.findViewById(R.id.count);
+        TextView title = view.findViewById(R.id.title);
+        title.setTextColor(color);
+        count.setTextColor(color);
+    }
+
+    public void setTabUnSelected(View view, int color){
         TextView count = view.findViewById(R.id.count);
         TextView title = view.findViewById(R.id.title);
         title.setTextColor(color);

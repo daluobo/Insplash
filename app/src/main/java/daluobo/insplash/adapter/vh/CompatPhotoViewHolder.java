@@ -41,7 +41,7 @@ public class CompatPhotoViewHolder extends PhotoViewHolder {
             @Override
             public void onClick(View view) {
                 if (AuthHelper.isLogin()) {
-                    mLikeBtn.setVisibility(View.GONE);
+                    mLikeBtn.setVisibility(View.INVISIBLE);
                     mProgressBar.setVisibility(View.VISIBLE);
 
                     mOnActionClickListener.onLikeClick(mPhoto);
@@ -76,19 +76,22 @@ public class CompatPhotoViewHolder extends PhotoViewHolder {
 
             lp.width = ViewUtil.getScreenSize(mContext)[0];
             lp.height = lp.width * photo.height / photo.width;
-        } else if (mColumn == 3) {
-            mLikeBtn.setVisibility(View.GONE);
-            mLikes.setVisibility(View.GONE);
+        } else if (mColumn == 2) {
+            mAvatar.setVisibility(View.VISIBLE);
+            ImgUtil.loadImg(mContext, mAvatar, photo.user.profile_image.small);
 
-            int width = ViewUtil.getScreenSize(mContext)[0] - mColumn * DimensionUtil.dpToPx(4);
-
-            lp.width = width / mColumn;
-            lp.height = lp.width;
-        } else {
-            int width = ViewUtil.getScreenSize(mContext)[0] - mColumn * DimensionUtil.dpToPx(4);
+            int width = ViewUtil.getScreenSize(mContext)[0] - (mColumn + 1) * DimensionUtil.dpToPx(6);
 
             lp.width = width / mColumn;
             lp.height = lp.width * 3 / 2;
+        } else {
+            mLikeBtn.setVisibility(View.GONE);
+            mLikes.setVisibility(View.GONE);
+
+            int width = ViewUtil.getScreenSize(mContext)[0] - (mColumn + 1) * DimensionUtil.dpToPx(6);
+
+            lp.width = width / mColumn;
+            lp.height = lp.width;
         }
 
         mPhotoView.setLayoutParams(lp);

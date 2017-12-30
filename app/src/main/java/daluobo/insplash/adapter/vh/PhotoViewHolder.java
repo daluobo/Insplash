@@ -44,6 +44,7 @@ public abstract class PhotoViewHolder extends RecyclerView.ViewHolder implements
     public Drawable mIcFavoriteBorder;
     @BindDrawable(R.drawable.ic_favorite)
     public Drawable mIcFavorite;
+
     @BindString(R.string.msg_please_login)
     public String mMsgPleaseLogin;
 

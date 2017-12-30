@@ -20,9 +20,11 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ConfigHelper;
+import daluobo.insplash.helper.DownloadHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -30,7 +32,6 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
  */
 
 public class PhotosAdapter extends FooterAdapter<Photo> {
-    protected Context mContext;
     protected LayoutInflater mInflater;
     protected boolean mIsShowUser = true;
     protected int mColumn = 1;
@@ -46,7 +47,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     }
 
     public PhotosAdapter(Context context, List<Photo> data, LifecycleOwner owner, PhotoViewModel viewModel, FragmentManager manager) {
-        this.mContext = context;
+        super.mContext = context;
         super.mData = data;
         this.mLifecycleOwner = owner;
         this.mViewModel = viewModel;
@@ -113,7 +114,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
 
                     @Override
                     public void onDownloadClick(Photo photo) {
-
+                        onPhotoDownload(photo);
                     }
 
                     @Override
@@ -155,10 +156,20 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
             protected void onSuccess(LikePhoto likePhoto) {
                 onPhotoLikeChange(likePhoto.photo);
             }
+
             @Override
             protected void onError(String msg) {
                 super.onError(msg);
                 onPhotoLikeChange(photo);
+            }
+        });
+    }
+
+    public void onPhotoDownload(final Photo photo) {
+        mViewModel.getDownloadLink(photo.id).observe(mLifecycleOwner, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(mContext) {
+            @Override
+            protected void onSuccess(PhotoDownloadLink link) {
+                DownloadHelper.download(mLifecycleOwner, mContext, link.url);
             }
         });
     }

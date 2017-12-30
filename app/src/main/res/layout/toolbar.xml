@@ -6,23 +6,23 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?attr/actionBarSize"
     android:background="@color/colorWhite"
-    android:navigationIcon="@drawable/ic_menu"
-    app:navigationIcon="@drawable/ic_menu">
+    android:minHeight="?attr/actionBarSize"
+    android:navigationIcon="@drawable/ic_arrow_back"
+    app:navigationIcon="@drawable/ic_arrow_back">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="24dp"
         android:layout_gravity="center"
         android:gravity="center"
+        android:paddingEnd="24dp"
         android:singleLine="true"
         android:text="@string/app_name"
-        android:textStyle="bold"
+        android:textColor="@color/colorIcon"
         android:textSize="16dp"
-        android:textColor="@color/colorIcon">
+        android:textStyle="bold">
     </TextView>
 
 </android.support.v7.widget.Toolbar>

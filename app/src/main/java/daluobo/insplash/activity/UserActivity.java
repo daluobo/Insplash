@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,51 +13,25 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindArray;
-import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.CountTabFragmentAdapter;
-import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.fragment.UserCollectionsFragment;
-import daluobo.insplash.fragment.UserPhotosFragment;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;
-import daluobo.insplash.viewmodel.UserPhotoViewModel;
-import daluobo.insplash.viewmodel.UserViewModel;
 
-public class UserActivity extends BaseActivity {
-    public static final String ARG_USER = "user";
-    public static final String ARG_SHOW_INDEX = "show_index";
-
-    private int mShowIndex = 0;
+public class UserActivity extends BaseUserActivity {
     private int mHintClickCount = 0;
-
-    protected UserViewModel mViewModel;
-    protected CountTabFragmentAdapter mAdapter;
-
-    private List<Fragment> mFragments = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
-    private List<String> mCounts = new ArrayList<>();
     private boolean isShowUserInfo = false;
 
     @BindDrawable(R.drawable.ic_mood)
@@ -96,33 +69,18 @@ public class UserActivity extends BaseActivity {
     TextView mInstagramUsername;
     @BindView(R.id.extra_info_container)
     LinearLayout mExtraInfoContainer;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBar;
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
     @BindView(R.id.root_container)
     CoordinatorLayout mRootContainer;
     @BindView(R.id.edit_profile_container)
     LinearLayout mEditProfileContainer;
-    @BindView(R.id.title)
-    TextView mTitle;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.extra_info_hint)
     ImageView mExtraInfoHint;
     @BindView(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
     @BindView(R.id.mood)
     ImageView mMood;
-
-    @BindArray(R.array.user_tabs)
-    String[] mUserTabs;
-    @BindColor(R.color.colorTitle)
-    int mColorTitle;
-    @BindColor(R.color.colorText)
-    int mColorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,16 +91,12 @@ public class UserActivity extends BaseActivity {
 
         initData();
         initView();
-
     }
 
     @Override
     public void initData() {
-        User user = getIntent().getParcelableExtra(ARG_USER);
-        mShowIndex = getIntent().getIntExtra(ARG_SHOW_INDEX, 0);
+        super.initData();
 
-        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        mViewModel.setUser(user);
         mViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
@@ -169,67 +123,8 @@ public class UserActivity extends BaseActivity {
                 mInstagramUsername.setText(user.instagram_username);
             }
         });
-
-        mCounts.add(user.total_photos + "");
-        mCounts.add(user.total_collections + "");
-        mCounts.add(user.total_likes + "");
-
-        titles.add(mUserTabs[0]);
-        titles.add(mUserTabs[1]);
-        titles.add(mUserTabs[2]);
-
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
-        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
-
-        mAdapter = new CountTabFragmentAdapter(this, getSupportFragmentManager(), mFragments, titles, mCounts);
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            tab.setCustomView(mAdapter.getTabView(i));
-        }
-
-
     }
 
-    @Override
-    public void initView() {
-        setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mTitle.setText("@" + mViewModel.getUserData().username);
-
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                TextView count = tab.getCustomView().findViewById(R.id.count);
-                count.setTextColor(mColorTitle);
-                TextView title = tab.getCustomView().findViewById(R.id.title);
-                title.setTextColor(mColorTitle);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                TextView count = tab.getCustomView().findViewById(R.id.count);
-                count.setTextColor(mColorText);
-                TextView title = tab.getCustomView().findViewById(R.id.title);
-                title.setTextColor(mColorText);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        mViewPager.setCurrentItem(mShowIndex, true);
-        mAdapter.setTabSelected(mTabLayout.getTabAt(mShowIndex).getCustomView(), mColorTitle);
-    }
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
     public void onViewClicked(View view) {

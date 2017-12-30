@@ -20,7 +20,6 @@ import daluobo.insplash.model.net.Collection;
  */
 
 public class CollectionsAdapter extends FooterAdapter<Collection> {
-    protected Context mContext;
     protected boolean mIsShowUser = true;
 
     @IntDef({CollectionViewType.COLLECTION_COVER, CollectionViewType.COLLECTION_PREVIEW, CollectionViewType.COLLECTION_COMPAT})
@@ -31,7 +30,7 @@ public class CollectionsAdapter extends FooterAdapter<Collection> {
     }
 
     public CollectionsAdapter(Context context, List<Collection> data) {
-        this.mContext = context;
+        super.mContext = context;
         super.mData = data;
     }
 

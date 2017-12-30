@@ -236,7 +236,7 @@ public class PhotoActivity extends BaseActivity {
         mTime.setText(time);
         mSize.setText(photo.width + " x " + photo.height);
 
-        ImgUtil.loadImg(PhotoActivity.this, mAvatar, photo.user.profile_image.medium);
+        ImgUtil.loadImg(PhotoActivity.this, mAvatar, photo.user.profile_image.large);
         mUsername.setText(photo.user.username);
         mColor.setText(photo.color);
 

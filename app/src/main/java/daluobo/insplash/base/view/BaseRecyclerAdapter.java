@@ -1,5 +1,6 @@
 package daluobo.insplash.base.view;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected List<D> mData;
+    protected Context mContext;
 
     @Override
     public void onBindViewHolder(VH holder, int position) {

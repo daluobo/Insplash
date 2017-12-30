@@ -26,17 +26,15 @@ import daluobo.insplash.util.ImgUtil;
 
 public class UsersAdapter extends FooterAdapter<User> {
 
-    private Context mContext;
-
-    public UsersAdapter(Context context, List<User> data) {
-        this.mContext = context;
-        super.mData = data;
-    }
-
     @IntDef({UserViewType.COMPAT, UserViewType.CARD})
     private @interface UserViewType {
         int COMPAT = 10;
         int CARD = 11;
+    }
+
+    public UsersAdapter(Context context, List<User> data) {
+        super.mContext = context;
+        super.mData = data;
     }
 
     @Override

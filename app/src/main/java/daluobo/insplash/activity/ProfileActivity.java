@@ -85,7 +85,6 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

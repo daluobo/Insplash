@@ -22,7 +22,7 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
     private int mTop;
     private int mBottom;
 
-    int dp1, dp2, dp3, dp4;
+    int dp1, dp2, dp3, dpTop, dpBottom;
 
     public LineDecoration(Context context, int width, int top, int bottom) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
@@ -32,10 +32,13 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
         mTop = top;
         mBottom = bottom;
 
-        dp1 = DimensionUtil.dpToPx(mWidth / 2);
-        dp2 = DimensionUtil.dpToPx(mWidth);
-        dp3 = DimensionUtil.dpToPx(mTop);
-        dp4 = DimensionUtil.dpToPx(mBottom);
+        dp1 = DimensionUtil.dpToPx(mWidth);
+        dp2 = DimensionUtil.dpToPx(mWidth / 3);
+        dp3 = DimensionUtil.dpToPx(mWidth * 2 / 3);
+
+
+        dpTop = DimensionUtil.dpToPx(mTop);
+        dpBottom = DimensionUtil.dpToPx(mBottom);
     }
 
     @Override
@@ -87,13 +90,16 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int spanCount = getSpanCount(parent);
 
-        outRect.set(dp1, dp3, dp1, dp4);
-
-//        if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-//            outRect.set(dp1, dp3, dp1, dp4);
-//        } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
-//            outRect.set(dp1, dp3, dp1, dp4);
-//        }
+        if (spanCount == 2) {
+            dp2 = dp1 / 2;
+        }
+        if (isFirstColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
+            outRect.set(dp1, dpTop, dp2, dpBottom);
+        } else if (isLastColumn(parent, parent.getChildAdapterPosition(view), spanCount)) {
+            outRect.set(dp2, dpTop, dp1, dpBottom);
+        } else {
+            outRect.set(dp3, dpTop, dp3, dpBottom);
+        }
 
     }
 }

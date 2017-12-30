@@ -65,7 +65,7 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
         if (ConfigHelper.isCompatView()
                 && ((UserPhotoViewModel) mViewModel).getUserPhotoTyp() == UserPhotoViewModel.UserPhotosType.OWN) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-            mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
+            mListView.addItemDecoration(new LineDecoration(getContext(), 6, 3, 3));
         }
 
         onShowRefresh();

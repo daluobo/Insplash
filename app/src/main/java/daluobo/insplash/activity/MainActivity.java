@@ -61,8 +61,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
