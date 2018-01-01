@@ -1,4 +1,4 @@
-package daluobo.insplash.activity;
+package daluobo.insplash.activity.base;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.widget.TabLayout;
@@ -41,28 +41,28 @@ public abstract class BaseUserActivity extends BaseActivity {
     private int mShowIndex = 0;
 
     @BindArray(R.array.user_tabs)
-    String[] mUserTabs;
+    protected String[] mUserTabs;
     @BindColor(R.color.colorTitle)
-    int mColorTitle;
+    protected int mColorTitle;
     @BindColor(R.color.colorText)
-    int mColorText;
+    protected int mColorText;
     @BindColor(R.color.primary_overlay)
-    int mColorPrimaryOverlay;
+    protected int mColorPrimaryOverlay;
     @BindColor(R.color.colorPrimary)
-    int mColorPrimary;
+    protected int mColorPrimary;
     @BindColor(R.color.colorWhite)
-    int mColorWhite;
+    protected int mColorWhite;
     @BindColor(R.color.colorIcon)
-    int mColorIcon;
+    protected int mColorIcon;
 
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    protected Toolbar mToolbar;
     @BindView(R.id.title)
-    TextView mTitle;
+    protected TextView mTitle;
     @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    protected TabLayout mTabLayout;
     @BindView(R.id.view_pager)
-    ViewPager mViewPager;
+    protected ViewPager mViewPager;
 
     @Override
     public void initData() {

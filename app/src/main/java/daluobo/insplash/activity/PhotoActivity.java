@@ -4,10 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -27,10 +31,11 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
-import daluobo.insplash.helper.DownloadHelper;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.model.DownloadItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -151,6 +156,7 @@ public class PhotoActivity extends BaseActivity {
 
         initData();
         initView();
+        initService();
     }
 
     @Override
@@ -314,7 +320,7 @@ public class PhotoActivity extends BaseActivity {
                 mViewModel.getDownloadLink(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
                     @Override
                     protected void onSuccess(PhotoDownloadLink link) {
-                        DownloadHelper.download(PhotoActivity.this, PhotoActivity.this, link.url);
+                        downloadBinder.startDownload(new DownloadItem(mViewModel.getPhotoData(), link.url));
                     }
                 });
                 break;
@@ -353,5 +359,32 @@ public class PhotoActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+
+    private DownloadService.DownloadBinder downloadBinder;
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            downloadBinder = (DownloadService.DownloadBinder) iBinder;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+
+    private void initService() {
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent);
+        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
     }
 }

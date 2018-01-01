@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
+import daluobo.insplash.activity.base.BaseUserActivity;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.DimensionUtil;

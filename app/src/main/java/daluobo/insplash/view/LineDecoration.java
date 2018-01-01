@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import daluobo.insplash.util.DimensionUtil;
@@ -63,7 +62,6 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             if ((position + 1) % spanCount == 1) {
 
-                Log.e("LineDecoration", "first " + position);
                 return true;
             }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -77,7 +75,6 @@ public class LineDecoration extends RecyclerView.ItemDecoration {
 
         if (layoutManager instanceof GridLayoutManager) {
             if ((position) % spanCount == (spanCount - 1)) {
-                Log.e("LineDecoration", "last " + position);
                 return true;
             }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {

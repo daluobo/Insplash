@@ -20,11 +20,11 @@ import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.FooterAdapter;
 import daluobo.insplash.helper.ConfigHelper;
-import daluobo.insplash.helper.DownloadHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
+import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
@@ -39,6 +39,8 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
     protected PhotoViewModel mViewModel;
     protected LifecycleOwner mLifecycleOwner;
     protected FragmentManager mFragmentManager;
+
+    private OnPhotoDownloadListener mOnPhotoDownloadListener;
 
     @IntDef({PhotoViewType.COMPAT, PhotoViewType.PREVIEW})
     private @interface PhotoViewType {
@@ -169,7 +171,7 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         mViewModel.getDownloadLink(photo.id).observe(mLifecycleOwner, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(mContext) {
             @Override
             protected void onSuccess(PhotoDownloadLink link) {
-                DownloadHelper.download(mLifecycleOwner, mContext, link.url);
+                mOnPhotoDownloadListener.onDownload(photo, link.url);
             }
         });
     }
@@ -185,4 +187,11 @@ public class PhotosAdapter extends FooterAdapter<Photo> {
         }
     }
 
+    public interface OnPhotoDownloadListener {
+        void onDownload(Photo photo, String url);
+    }
+
+    public void setOnPhotoDownloadListener(OnPhotoDownloadListener onPhotoDownloadListener) {
+        mOnPhotoDownloadListener = onPhotoDownloadListener;
+    }
 }

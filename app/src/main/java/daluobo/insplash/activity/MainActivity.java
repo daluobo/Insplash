@@ -1,6 +1,10 @@
 package daluobo.insplash.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -20,15 +24,31 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.SimplePageAdapter;
+import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.fragment.CollectionsFragment;
 import daluobo.insplash.fragment.PhotosFragment;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.model.DownloadItem;
+import daluobo.insplash.model.net.Photo;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements PhotosAdapter.OnPhotoDownloadListener {
     private List<Fragment> mFragments = new ArrayList<>();
     private SimplePageAdapter mAdapter;
+    private DownloadService.DownloadBinder downloadBinder;
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            downloadBinder = (DownloadService.DownloadBinder) iBinder;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -50,6 +70,13 @@ public class MainActivity extends BaseActivity {
 
         initData();
         initView();
+        initService();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
     }
 
     @Override
@@ -87,6 +114,12 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
     }
 
+    private void initService() {
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent);
+        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -102,5 +135,11 @@ public class MainActivity extends BaseActivity {
             overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDownload(Photo photo, String url) {
+        DownloadItem di = new DownloadItem(photo, url);
+        downloadBinder.startDownload(di);
     }
 }

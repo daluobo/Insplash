@@ -188,6 +188,7 @@ public class PhotoCardViewHolder extends PhotoViewHolder{
 
 
     public void onDownloadClick(Photo photo) {
+        mPopupWindow.dismiss();
         mOnActionClickListener.onDownloadClick(photo);
     }
 

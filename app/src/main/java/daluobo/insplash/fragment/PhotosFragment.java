@@ -2,6 +2,7 @@ package daluobo.insplash.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +42,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     private TextView mPhotoType;
     private TextView mOrderBy;
     private PhotoViewModel mPhotoViewModel;
+    private PhotosAdapter.OnPhotoDownloadListener mOnPhotoDownloadListener;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
@@ -79,6 +81,22 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PhotosAdapter.OnPhotoDownloadListener) {
+            mOnPhotoDownloadListener = (PhotosAdapter.OnPhotoDownloadListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnPhotoDownloadListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnPhotoDownloadListener = null;
+    }
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,7 +116,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onViewEvent(ViewEvent event){
+    public void onViewEvent(ViewEvent event) {
         initListView();
     }
 
@@ -166,6 +184,7 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
         } else {
             mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
         }
+        ((PhotosAdapter) mAdapter).setOnPhotoDownloadListener(mOnPhotoDownloadListener);
 
         super.initListView();
 
@@ -188,4 +207,6 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     private void showSelectOrderBy() {
         PopupMenuHelper.showOrderByMenu(getContext(), mOrderBy, mPhotoViewModel.getOrderByTypeData(), mOrderByClickListener);
     }
+
+
 }

@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.view.LineDecoration;
@@ -52,7 +53,7 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     public void initData() {
         Collection collection = getArguments().getParcelable(ARG_COLLECTION);
         mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
-        ((CollectionPhotoViewModel)mViewModel).setCollection(collection);
+        ((CollectionPhotoViewModel) mViewModel).setCollection(collection);
 
         mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
 
@@ -62,7 +63,9 @@ public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
     public void initView() {
         super.initListView();
 
-        mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
+        if (ConfigHelper.isCompatView()) {
+            mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
+        }
 
         onShowRefresh();
         onRefresh();

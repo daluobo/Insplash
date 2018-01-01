@@ -16,6 +16,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.activity.base.BaseUserActivity;
 import daluobo.insplash.base.view.AppBarStateChangeListener;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.ImgUtil;
