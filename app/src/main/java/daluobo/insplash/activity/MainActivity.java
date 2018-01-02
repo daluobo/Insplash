@@ -31,7 +31,7 @@ import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.fragment.CollectionsFragment;
 import daluobo.insplash.fragment.PhotosFragment;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadItem;
 import daluobo.insplash.model.net.Photo;
 
 public class MainActivity extends BaseActivity implements PhotosAdapter.OnPhotoDownloadListener {

@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     signingConfigs {
@@ -45,9 +51,17 @@ dependencies {
     implementation "com.android.support:design:$rootProject.ext.support_version"
     implementation "com.android.support:cardview-v7:$rootProject.ext.support_version"
     implementation "com.android.support:palette-v7:$rootProject.ext.support_version"
+
     implementation 'android.arch.lifecycle:runtime:1.0.3'
-    implementation 'android.arch.lifecycle:extensions:1.0.0'
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
+
+    implementation "android.arch.lifecycle:extensions:$rootProject.ext.arch_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.arch_version"
+    implementation "android.arch.persistence.room:runtime:$rootProject.ext.arch_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.ext.arch_version"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.ext.arch_version"
+
+    implementation "io.reactivex.rxjava2:rxjava:2.1.8"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknife_version"

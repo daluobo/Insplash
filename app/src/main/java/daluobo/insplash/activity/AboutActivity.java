@@ -1,10 +1,12 @@
 package daluobo.insplash.activity;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -27,12 +29,13 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.ImgUtil;
-import daluobo.insplash.viewmodel.PhotoViewModel;
+import daluobo.insplash.viewmodel.AboutViewModel;
 
 public class AboutActivity extends BaseActivity {
-    private PhotoViewModel mViewModel;
+    private AboutViewModel mViewModel;
     private final Map<String, Object> mParam = new HashMap<>();
 
     @BindView(R.id.backdrop)
@@ -73,11 +76,10 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mViewModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(AboutViewModel.class);
 
         mImgBg = new ColorDrawable(getResources().getColor(R.color.colorPrimary));
 
-        //mParam.put("query", "tech");
         mParam.put("featured", true);
         mParam.put("orientation", Orientation.LANDSCAPE);
     }
@@ -96,22 +98,29 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onGlobalLayout() {
                 mBackdrop.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mParam.put("w", mBackdrop.getWidth() * 2 / 3);
+                mParam.put("w", mBackdrop.getWidth());
 
                 mViewModel.getRandom(mParam).observe(AboutActivity.this, new ResourceObserver<Resource<Photo>, Photo>(AboutActivity.this) {
                     @Override
                     protected void onSuccess(Photo photo) {
-                        ImgUtil.loadImg(AboutActivity.this, mBackdrop, mImgBg, photo.urls.custom);
-                        mImgBg = new ColorDrawable(Color.parseColor(photo.color));
+                        mViewModel.setPhoto(photo);
                     }
                 });
+            }
+        });
+
+        mViewModel.getPhoto().observe(this, new Observer<Photo>() {
+            @Override
+            public void onChanged(@Nullable Photo photo) {
+                ImgUtil.loadImg(AboutActivity.this, mBackdrop, mImgBg, photo.urls.custom);
+                mImgBg = new ColorDrawable(Color.parseColor(photo.color));
             }
         });
 
         mBackdrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh();
+                NavHelper.toPhoto(AboutActivity.this, mViewModel.getPhotoData(), mBackdrop);
             }
         });
     }

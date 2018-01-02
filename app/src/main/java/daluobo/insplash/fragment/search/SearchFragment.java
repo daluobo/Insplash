@@ -16,7 +16,6 @@ public abstract class SearchFragment<T> extends SimpleSwipeListFragment<T> {
     public void initView() {
         super.initView();
 
-        super.mSwipeLayout.setEnabled(false);
         if (ConfigHelper.isCompatView()) {
             mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
         }

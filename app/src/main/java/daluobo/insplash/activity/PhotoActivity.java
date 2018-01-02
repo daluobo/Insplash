@@ -35,7 +35,7 @@ import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -305,16 +305,21 @@ public class PhotoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_count_container:
-                mViewModel.likePhoto(mViewModel.getPhotoData()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
-                    @Override
-                    protected void onSuccess(LikePhoto likePhoto) {
-                        if (likePhoto.photo.liked_by_user) {
-                            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
-                        } else {
-                            ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+                if(AuthHelper.isLogin()){
+                    mViewModel.likePhoto(mViewModel.getPhotoData()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
+                        @Override
+                        protected void onSuccess(LikePhoto likePhoto) {
+                            if (likePhoto.photo.liked_by_user) {
+                                ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
+                            } else {
+                                ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+                            }
                         }
-                    }
-                });
+                    });
+                }else {
+                    ToastUtil.showShort(this, mMsgPleaseLogin);
+                }
+
                 break;
             case R.id.download_count_container:
                 mViewModel.getDownloadLink(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
@@ -361,7 +366,6 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
-
     private DownloadService.DownloadBinder downloadBinder;
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -380,7 +384,6 @@ public class PhotoActivity extends BaseActivity {
         startService(intent);
         bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
     }
-
 
     @Override
     protected void onDestroy() {

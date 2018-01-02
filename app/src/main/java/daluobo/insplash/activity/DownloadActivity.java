@@ -1,7 +1,6 @@
 package daluobo.insplash.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,17 +9,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.DownloadAdapter;
 import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.download.DownloadManager;
+import daluobo.insplash.db.model.DownloadItem;
+import daluobo.insplash.download.DownloadPresenter;
 import daluobo.insplash.view.LineDecoration;
 
 public class DownloadActivity extends BaseActivity {
 
     protected DownloadAdapter mAdapter;
+//    protected Handler mDownloadProcessHandler = new Handler();
+//    protected Runnable mUpdateProcess = new Runnable() {
+//        @Override
+//        public void run() {
+//            mAdapter.notifyDataSetChanged();
+//            mDownloadProcessHandler.postDelayed(this, 1000);
+//        }
+//    };
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -41,8 +51,23 @@ public class DownloadActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //mDownloadProcessHandler.removeCallbacks(mUpdateProcess);
+    }
+
+    @Override
     public void initData() {
-        mAdapter = new DownloadAdapter(this, DownloadManager.getInstance().mDownloadItems);
+        mAdapter = new DownloadAdapter(this, DownloadPresenter.getInstance().getDownloadItems());
+
+        DownloadPresenter.getInstance().setOnRecordChangeListener(new DownloadPresenter.OnRecordChangeListener() {
+            @Override
+            public void onChange(List<DownloadItem> downloadItems) {
+                mAdapter.clearItems();
+                mAdapter.addItems(downloadItems);
+            }
+        });
     }
 
     @Override
@@ -59,6 +84,8 @@ public class DownloadActivity extends BaseActivity {
         mListView.setLayoutManager(new LinearLayoutManager(this));
         mListView.setAdapter(mAdapter);
         mListView.addItemDecoration(new LineDecoration(this, 0, 4, 4));
+
+        //mUpdateProcess.run();
     }
 
     @Override
@@ -68,22 +95,11 @@ public class DownloadActivity extends BaseActivity {
         return true;
     }
 
-    Handler handler = new Handler();
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_delete) {
-
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.notifyDataSetChanged();
-                    handler.postDelayed(this, 1000);
-                }
-            };
-            runnable.run();
 
             return true;
         }

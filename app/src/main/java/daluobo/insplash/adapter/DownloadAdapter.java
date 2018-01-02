@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseRecyclerAdapter;
-import daluobo.insplash.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadItem;
 import daluobo.insplash.util.ImgUtil;
 
 /**
@@ -68,5 +68,9 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadItem, DownloadA
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    public interface OnActionListener{
+        void onStartClick();
     }
 }

@@ -9,18 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 
-import daluobo.insplash.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadItem;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
+public class DownloadTask extends AsyncTask<DownloadItem, Integer, String> {
     public static final String TAG = "DownloadTask";
-
-    public static final int TYPE_SUCCESS = 0;
-    public static final int TYPE_FAILED = 1;
-    public static final int TYPE_PAUSED = 2;
-    public static final int TYPE_CANCELED = 3;
 
     private boolean isCanceled = false;
     private boolean isPaused = false;
@@ -39,7 +34,7 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(DownloadItem... downloadItems) {
+    protected String doInBackground(DownloadItem... downloadItems) {
         InputStream inputStream = null;
         RandomAccessFile savedFile = null;
         File file = null;
@@ -60,9 +55,9 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
             long contentLength = getContentLength(mDownloadItem.url);
             mDownloadItem.length = contentLength;
             if (contentLength == 0) {
-                return TYPE_FAILED;
+                return DownloadState.FAILED;
             } else if (contentLength == downloadedLength) {
-                return TYPE_SUCCESS;
+                return DownloadState.SUCCESS;
             }
 
             OkHttpClient client = new OkHttpClient();
@@ -84,9 +79,9 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
 
                 while ((len = inputStream.read(bytes)) != -1) {
                     if (isCanceled) {
-                        return TYPE_CANCELED;
+                        return DownloadState.CANCELED;
                     } else if (isPaused) {
-                        return TYPE_PAUSED;
+                        return DownloadState.PAUSED;
                     } else {
                         total += len;
                         savedFile.write(bytes, 0, len);
@@ -95,7 +90,7 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
                         publishProgress(progress);
                     }
                 }
-                return TYPE_SUCCESS;
+                return DownloadState.SUCCESS;
             }
 
         } catch (Exception e) {
@@ -111,7 +106,7 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
                 Log.e(TAG, e.getMessage());
             }
         }
-        return TYPE_FAILED;
+        return DownloadState.FAILED;
     }
 
 
@@ -126,19 +121,19 @@ public class DownloadTask extends AsyncTask<DownloadItem, Integer, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer type) {
+    protected void onPostExecute(String type) {
         switch (type) {
-            case TYPE_SUCCESS:
-                mListener.onSuccess(mDownloadItem, TYPE_SUCCESS);
+            case DownloadState.SUCCESS:
+                mListener.onSuccess(mDownloadItem, DownloadState.SUCCESS);
                 break;
-            case TYPE_FAILED:
-                mListener.onFailed(mDownloadItem, TYPE_FAILED);
+            case DownloadState.FAILED:
+                mListener.onFailed(mDownloadItem, DownloadState.FAILED);
                 break;
-            case TYPE_PAUSED:
-                mListener.onPaused(mDownloadItem, TYPE_PAUSED);
+            case DownloadState.PAUSED:
+                mListener.onPaused(mDownloadItem, DownloadState.PAUSED);
                 break;
-            case TYPE_CANCELED:
-                mListener.onCanceled(mDownloadItem, TYPE_CANCELED);
+            case DownloadState.CANCELED:
+                mListener.onCanceled(mDownloadItem, DownloadState.CANCELED);
                 break;
             default:
                 break;
