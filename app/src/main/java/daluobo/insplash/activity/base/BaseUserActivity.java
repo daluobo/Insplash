@@ -80,9 +80,9 @@ public abstract class BaseUserActivity extends BaseActivity {
         titles.add(mUserTabs[1]);
         titles.add(mUserTabs[2]);
 
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
-        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUser().getValue(), UserPhotoViewModel.UserPhotosType.OWN));
+        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUser().getValue()));
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUser().getValue(), UserPhotoViewModel.UserPhotosType.LIKE));
 
         mAdapter = new CountTabFragmentAdapter(this, getSupportFragmentManager(), mFragments, titles, mCounts);
     }

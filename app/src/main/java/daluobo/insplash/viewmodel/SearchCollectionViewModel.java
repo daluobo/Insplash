@@ -7,12 +7,13 @@ import java.util.List;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.repository.SearchRepository;
+import daluobo.insplash.viewmodel.i.ISearchView;
 
 /**
  * Created by daluobo on 2017/12/7.
  */
 
-public class SearchCollectionViewModel extends BasePageViewModel<Collection> implements ISearchView{
+public class SearchCollectionViewModel extends BasePageViewModel<Collection> implements ISearchView {
     private String mQuery;
     private SearchRepository mRepository = new SearchRepository();
 

@@ -169,7 +169,7 @@ public class CollectionActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (AuthHelper.getUsername().equals(mViewModel.getCollectionData().user.username)) {
+        if (AuthHelper.getUsername().equals(mViewModel.getCollection().getValue().user.username)) {
             getMenuInflater().inflate(R.menu.menu_edit, menu);
         }
         return true;
@@ -180,13 +180,13 @@ public class CollectionActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-            NavHelper.editCollection(getSupportFragmentManager(), mViewModel.getCollectionData());
+            NavHelper.editCollection(getSupportFragmentManager(), mViewModel.getCollection().getValue());
         }
         return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.user_container)
     public void onViewClicked() {
-        NavHelper.toUser(this, mViewModel.getCollectionData().user, mAvatar);
+        NavHelper.toUser(this, mViewModel.getCollection().getValue().user, mAvatar);
     }
 }

@@ -17,11 +17,11 @@ import daluobo.insplash.repository.CollectionsRepository;
 public class CollectionPhotoViewModel extends PhotoViewModel {
     protected CollectionsRepository mRepository = new CollectionsRepository();
     protected MediatorLiveData<Collection> mCollection = new MediatorLiveData<>();
-    protected Collection mCollectionData;
+
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        return mRepository.loadPhoto(mCollectionData.id + "", page);
+        return mRepository.loadPhoto(mCollection.getValue().id + "", page);
     }
 
     public MediatorLiveData<Collection> getCollection() {
@@ -30,10 +30,6 @@ public class CollectionPhotoViewModel extends PhotoViewModel {
 
     public void setCollection(Collection collection) {
         mCollection.setValue(collection);
-        mCollectionData = collection;
     }
 
-    public Collection getCollectionData() {
-        return mCollectionData;
-    }
 }

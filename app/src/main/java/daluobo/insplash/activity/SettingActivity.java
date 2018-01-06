@@ -293,7 +293,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initUserProfile() {
-        if (mViewModel.getUserData() != null) {
+        if (mViewModel.getUser().getValue() != null) {
             return;
         }
         if (AuthHelper.mCurrentUser == null) {
@@ -370,26 +370,26 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
-                NavHelper.toProfile(this, mViewModel.getUserData());
+                NavHelper.toProfile(this, mViewModel.getUser().getValue());
                 break;
             case R.id.total_photos_container:
-                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 0);
+                NavHelper.toUser(this, mViewModel.getUser().getValue(), mAvatar, 0);
                 break;
             case R.id.total_collections_container:
-                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 1);
+                NavHelper.toUser(this, mViewModel.getUser().getValue(), mAvatar, 1);
                 break;
             case R.id.total_likes_container:
-                NavHelper.toUser(this, mViewModel.getUserData(), mAvatar, 2);
+                NavHelper.toUser(this, mViewModel.getUser().getValue(), mAvatar, 2);
                 break;
             case R.id.download_btn:
                 NavHelper.toDownload(this);
                 break;
             case R.id.view_btn:
-                PopupMenuHelper.showViewTypeMenu(this, mViewType, mViewModel.getViewTypeData(), mViewTypeClickListener);
+                PopupMenuHelper.showViewTypeMenu(this, mViewType, mViewModel.getViewType().getValue(), mViewTypeClickListener);
                 mViewHint.setImageDrawable(mIcDropDownPrimary);
                 break;
             case R.id.language_btn:
-                PopupMenuHelper.showLanguageMenu(this, mLanguage, mViewModel.getLanguageData(), mLanguageClickListener);
+                PopupMenuHelper.showLanguageMenu(this, mLanguage, mViewModel.getLanguage().getValue(), mLanguageClickListener);
                 mLanguageHint.setImageDrawable(mIcDropDownPrimary);
                 break;
             case R.id.about_btn:

@@ -172,11 +172,11 @@ public class PhotoActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        initContent(mViewModel.getPhotoData());
-        loadPhoto(mViewModel.getPhotoData());
+        initContent(mViewModel.getPhoto().getValue());
+        loadPhoto(mViewModel.getPhoto().getValue());
         //initIcon(mViewModel.getPhotoData());
 
-        mViewModel.getPhoto(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
+        mViewModel.getPhoto(mViewModel.getPhoto().getValue().id).observe(this, new ResourceObserver<Resource<Photo>, Photo>(this) {
             @Override
             protected void onSuccess(Photo photo) {
                 mViewModel.setPhoto(photo);
@@ -306,7 +306,7 @@ public class PhotoActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.like_count_container:
                 if(AuthHelper.isLogin()){
-                    mViewModel.likePhoto(mViewModel.getPhotoData()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
+                    mViewModel.likePhoto(mViewModel.getPhoto().getValue()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
                         @Override
                         protected void onSuccess(LikePhoto likePhoto) {
                             if (likePhoto.photo.liked_by_user) {
@@ -322,10 +322,10 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.download_count_container:
-                mViewModel.getDownloadLink(mViewModel.getPhotoData().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
+                mViewModel.getDownloadLink(mViewModel.getPhoto().getValue().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
                     @Override
                     protected void onSuccess(PhotoDownloadLink link) {
-                        downloadBinder.startDownload(new DownloadItem(mViewModel.getPhotoData(), link.url));
+                        downloadBinder.startDownload(new DownloadItem(mViewModel.getPhoto().getValue(), link.url));
                     }
                 });
                 break;
@@ -353,12 +353,12 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.user_container:
-                NavHelper.toUser(this, mViewModel.getPhotoData().user, mAvatar);
+                NavHelper.toUser(this, mViewModel.getPhoto().getValue().user, mAvatar);
 
                 break;
             case R.id.collect_btn:
                 if (AuthHelper.isLogin()) {
-                    NavHelper.collectPhoto(getSupportFragmentManager(), mViewModel.getPhotoData());
+                    NavHelper.collectPhoto(getSupportFragmentManager(), mViewModel.getPhoto().getValue());
                 } else {
                     ToastUtil.showShort(this, mMsgPleaseLogin);
                 }

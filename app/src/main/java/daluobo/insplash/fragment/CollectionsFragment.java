@@ -130,7 +130,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
     }
 
     private void showSelectType() {
-        PopupMenuHelper.showCollectionTypeMenu(getContext(), mCollectionType, mCollectionsViewModel.getCurrentTypeData(), mTypeClickListener);
+        PopupMenuHelper.showCollectionTypeMenu(getContext(), mCollectionType, mCollectionsViewModel.getCurrentType().getValue(), mTypeClickListener);
     }
 
 }

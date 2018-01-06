@@ -84,7 +84,4 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
         return mCurrentType;
     }
 
-    public OptionItem getCurrentTypeData() {
-        return mCurrentType.getValue();
-    }
 }

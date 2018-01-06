@@ -39,8 +39,4 @@ public class CollectionsEditViewModel extends CollectionsViewModel {
     public void setCollection(Collection collection) {
         mCollection.setValue(collection);
     }
-
-    public Collection getCollectionData(){
-        return mCollection.getValue();
-    }
 }

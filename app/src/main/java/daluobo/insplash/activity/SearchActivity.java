@@ -121,8 +121,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 SearchFragment sf = ((SearchFragment) mFragments.get(mViewPager.getCurrentItem()));
-                if (mViewModel.getQueryData() != null && !mViewModel.getQueryData().equals(sf.getQuery())) {
-                    sf.setQuery(mViewModel.getQueryData());
+                if (mViewModel.getQuery().getValue() != null && !mViewModel.getQuery().getValue().equals(sf.getQuery())) {
+                    sf.setQuery(mViewModel.getQuery().getValue());
                 }
             }
 

@@ -10,17 +10,16 @@ import daluobo.insplash.model.OptionItem;
 
 public class SettingViewModel extends UserViewModel {
     private MediatorLiveData<OptionItem> mViewType = new MediatorLiveData<>();
-    private OptionItem mViewTypeData;
+
 
     private MediatorLiveData<OptionItem> mLanguage = new MediatorLiveData<>();
-    private OptionItem mLanguageData;
+
 
     public MediatorLiveData<OptionItem> getViewType() {
         return mViewType;
     }
 
     public void setViewType(OptionItem viewType) {
-        mViewTypeData = viewType;
         mViewType.setValue(viewType);
     }
 
@@ -29,15 +28,7 @@ public class SettingViewModel extends UserViewModel {
     }
 
     public void setLanguage(OptionItem language) {
-        mLanguageData = language;
         mLanguage.setValue(language);
     }
 
-    public OptionItem getViewTypeData() {
-        return mViewTypeData;
-    }
-
-    public OptionItem getLanguageData() {
-        return mLanguageData;
-    }
 }

@@ -1,9 +1,7 @@
 package daluobo.insplash.download;
 
+import android.arch.lifecycle.LiveData;
 import android.os.Environment;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,9 +11,6 @@ import daluobo.insplash.common.MyApplication;
 import daluobo.insplash.db.model.DownloadItem;
 import daluobo.insplash.repository.DownloadRepository;
 import daluobo.insplash.util.ToastUtil;
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by daluobo on 2017/12/31.
@@ -25,7 +20,7 @@ public class DownloadPresenter {
     private static DownloadPresenter mInstance;
 
     protected DownloadRepository mRepository;
-    protected Flowable<List<DownloadItem>> mDbRecord;
+    protected LiveData<List<DownloadItem>> mDbRecord;
     protected List<DownloadItem> mDownloadItems = new ArrayList<>();
     private OnRecordChangeListener mOnRecordChangeListener;
 
@@ -33,35 +28,7 @@ public class DownloadPresenter {
         mRepository = new DownloadRepository();
         mDbRecord = mRepository.getAll();
 
-        mDbRecord.onBackpressureDrop()
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<DownloadItem>>() {
-                    @Override
-                    public void onSubscribe(Subscription s) {
 
-                    }
-
-                    @Override
-                    public void onNext(List<DownloadItem> downloadItems) {
-                        mDownloadItems.clear();
-                        mDownloadItems.addAll(downloadItems);
-                        if (mOnRecordChangeListener != null) {
-                            mOnRecordChangeListener.onChange(downloadItems);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     public static DownloadPresenter getInstance() {

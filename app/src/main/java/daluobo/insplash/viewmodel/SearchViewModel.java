@@ -18,7 +18,4 @@ public class SearchViewModel extends ViewModel {
         mQuery.setValue(query);
     }
 
-    public String getQueryData(){
-        return mQuery.getValue();
-    }
 }

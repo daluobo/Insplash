@@ -206,8 +206,8 @@ public class UserActivity extends BaseUserActivity {
                 break;
 
             case R.id.bio:
-                if (mViewModel.getUserData().portfolio_url != null) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.getUserData().portfolio_url)));
+                if (mViewModel.getUser().getValue().portfolio_url != null) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.getUser().getValue().portfolio_url)));
                 }
                 break;
         }

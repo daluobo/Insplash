@@ -111,12 +111,12 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:src="@drawable/ic_neutral"/>
+                            android:src="@drawable/ic_launcher_icon"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -245,7 +245,7 @@
                         android:background="@color/colorWhite"
                         android:gravity="center_vertical"
                         android:padding="16dp"
-                        android:text="@string/open_source_licenses"
+                        android:text="@string/open_source_library"
                         android:textColor="@color/colorTitle"
                         android:textSize="12sp"/>
 

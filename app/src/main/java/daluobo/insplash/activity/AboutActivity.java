@@ -120,7 +120,7 @@ public class AboutActivity extends BaseActivity {
         mBackdrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHelper.toPhoto(AboutActivity.this, mViewModel.getPhotoData(), mBackdrop);
+                NavHelper.toPhoto(AboutActivity.this, mViewModel.getPhoto().getValue(), mBackdrop);
             }
         });
     }

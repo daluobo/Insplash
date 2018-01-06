@@ -1,4 +1,4 @@
-package daluobo.insplash.viewmodel;
+package daluobo.insplash.viewmodel.i;
 
 /**
  * Created by daluobo on 2017/12/15.

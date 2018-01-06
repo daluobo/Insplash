@@ -3,7 +3,7 @@ package daluobo.insplash.fragment.search;
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.view.LineDecoration;
-import daluobo.insplash.viewmodel.ISearchView;
+import daluobo.insplash.viewmodel.i.ISearchView;
 
 /**
  * Created by daluobo on 2017/12/7.

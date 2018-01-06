@@ -19,8 +19,4 @@ public class PhotoDetailViewModel extends PhotoViewModel {
     public void setPhoto(Photo photo) {
         mPhoto.setValue(photo);
     }
-
-    public Photo getPhotoData() {
-        return mPhoto.getValue();
-    }
 }

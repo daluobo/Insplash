@@ -91,9 +91,9 @@ public class TestActivity extends AppCompatActivity {
         titles.add("collections");
         titles.add("likes");
 
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.OWN));
-        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUserData()));
-        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUserData(), UserPhotoViewModel.UserPhotosType.LIKE));
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUser().getValue(), UserPhotoViewModel.UserPhotosType.OWN));
+        mFragments.add(UserCollectionsFragment.newInstance(mViewModel.getUser().getValue()));
+        mFragments.add(UserPhotosFragment.newInstance(mViewModel.getUser().getValue(), UserPhotoViewModel.UserPhotosType.LIKE));
 
         mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);

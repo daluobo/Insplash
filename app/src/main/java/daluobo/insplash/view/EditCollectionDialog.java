@@ -137,7 +137,7 @@ public class EditCollectionDialog extends DialogFragment {
                 break;
             case R.id.save_btn:
                 if (mHint.getVisibility() == View.VISIBLE) {
-                    mViewModel.deleteCollection(mViewModel.getCollectionData().id).observe(this, new ResourceObserver<Resource<Object>, Object>(getContext()) {
+                    mViewModel.deleteCollection(mViewModel.getCollection().getValue().id).observe(this, new ResourceObserver<Resource<Object>, Object>(getContext()) {
                         @Override
                         protected void onSuccess(Object o) {
                             ToastUtil.showShort(getContext(), mMsgDeleteSuccess);
@@ -155,7 +155,7 @@ public class EditCollectionDialog extends DialogFragment {
                     param.put("description", mDescription.getText());
                     param.put("private", mIsPrivate.isChecked());
 
-                    mViewModel.updateCollection(mViewModel.getCollectionData().id, param).observe(this, new ResourceObserver<Resource<Collection>, Collection>(getContext()) {
+                    mViewModel.updateCollection(mViewModel.getCollection().getValue().id, param).observe(this, new ResourceObserver<Resource<Collection>, Collection>(getContext()) {
                         @Override
                         protected void onSuccess(Collection collection) {
                             ToastUtil.showShort(getContext(), mMsgUpdateSuccess);
