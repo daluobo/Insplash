@@ -18,20 +18,19 @@ import daluobo.insplash.adapter.vh.PhotoCardViewHolder;
 import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
-import daluobo.insplash.base.view.FooterAdapter;
+import daluobo.insplash.base.view.LoadableAdapter;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
-import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
 /**
  * Created by daluobo on 2017/11/12.
  */
 
-public class PhotosAdapter extends FooterAdapter<Photo> {
+public class PhotosAdapter extends LoadableAdapter<Photo> {
     protected LayoutInflater mInflater;
     protected boolean mIsShowUser = true;
     protected int mColumn = 1;

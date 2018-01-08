@@ -25,7 +25,8 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.event.ViewEvent;
+import daluobo.insplash.event.PhotoChangeEvent;
+import daluobo.insplash.event.OptionEvent;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
@@ -116,8 +117,13 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onViewEvent(ViewEvent event) {
+    public void onViewEvent(OptionEvent event) {
         initListView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPhotoChangeEvent(PhotoChangeEvent event) {
+        mAdapter.onItemChanged(event.mPhoto);
     }
 
     @Override

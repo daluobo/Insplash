@@ -3,10 +3,14 @@ package daluobo.insplash.fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SimpleSwipeListFragment;
+import daluobo.insplash.event.CollectionChangeEvent;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.viewmodel.UserCollectionViewModel;
@@ -46,5 +50,17 @@ public class UserCollectionsFragment extends SimpleSwipeListFragment<List<Collec
 
         onShowRefresh();
         onRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCollectionEvent(CollectionChangeEvent event){
+        switch (event.mAction){
+            case CollectionChangeEvent.Action.UPDATE:
+                mAdapter.onItemChanged(event.mCollection);
+                break;
+            case CollectionChangeEvent.Action.DELETE:
+                mAdapter.onItemRemove(event.mCollection);
+                break;
+        }
     }
 }

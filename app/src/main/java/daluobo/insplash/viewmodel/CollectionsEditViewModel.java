@@ -17,8 +17,8 @@ import daluobo.insplash.repository.UserRepository;
 
 public class CollectionsEditViewModel extends CollectionsViewModel {
     protected UserRepository mRepository = new UserRepository();
-    private Photo mPhoto;
     private MediatorLiveData<Collection> mCollection = new MediatorLiveData<>();
+    private Photo mPhoto;
 
     public LiveData<Resource<List<Collection>>> getMyCollections() {
         return mRepository.getCollections(AuthHelper.getUsername(), 1, 999);

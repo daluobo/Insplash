@@ -6,12 +6,14 @@ import android.support.annotation.Keep;
 
 import java.util.List;
 
+import daluobo.insplash.model.IdObject;
+
 /**
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class Photo implements Parcelable {
-    public String id;
+public class Photo extends IdObject implements Parcelable {
+
     public String created_at;
     public String updated_at;
     public int width;
@@ -31,6 +33,7 @@ public class Photo implements Parcelable {
     public List<Collection> current_user_collections;
     public List<Category> categories;
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -38,7 +41,7 @@ public class Photo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        super.writeToParcel(dest, flags);
         dest.writeString(this.created_at);
         dest.writeString(this.updated_at);
         dest.writeInt(this.width);
@@ -62,7 +65,7 @@ public class Photo implements Parcelable {
     }
 
     protected Photo(Parcel in) {
-        this.id = in.readString();
+        super(in);
         this.created_at = in.readString();
         this.updated_at = in.readString();
         this.width = in.readInt();

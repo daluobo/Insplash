@@ -9,15 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.DownloadAdapter;
 import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.db.model.DownloadItem;
-import daluobo.insplash.download.DownloadPresenter;
 import daluobo.insplash.view.LineDecoration;
 
 public class DownloadActivity extends BaseActivity {
@@ -59,15 +55,15 @@ public class DownloadActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mAdapter = new DownloadAdapter(this, DownloadPresenter.getInstance().getDownloadItems());
-
-        DownloadPresenter.getInstance().setOnRecordChangeListener(new DownloadPresenter.OnRecordChangeListener() {
-            @Override
-            public void onChange(List<DownloadItem> downloadItems) {
-                mAdapter.clearItems();
-                mAdapter.addItems(downloadItems);
-            }
-        });
+//        mAdapter = new DownloadAdapter(this, DownloadPresenter.getInstance().getDownloadItems());
+//
+//        DownloadPresenter.getInstance().setOnRecordChangeListener(new DownloadPresenter.OnRecordChangeListener() {
+//            @Override
+//            public void onChange(List<DownloadInfo> downloadItems) {
+//                mAdapter.clearItems();
+//                mAdapter.addItems(downloadItems);
+//            }
+//        });
     }
 
     @Override

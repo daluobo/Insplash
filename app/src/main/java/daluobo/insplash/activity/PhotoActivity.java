@@ -3,15 +3,15 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -19,8 +19,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindDrawable;
 import butterknife.BindString;
@@ -31,11 +34,12 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.db.model.DownloadInfo;
 import daluobo.insplash.download.DownloadService;
+import daluobo.insplash.event.PhotoChangeEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.db.model.DownloadItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -143,7 +147,8 @@ public class PhotoActivity extends BaseActivity {
     ImageView mLocationHint;
     @BindView(R.id.exif_model_hint)
     ImageView mExifModelHint;
-
+    @BindView(R.id.like_progress_bar)
+    ProgressBar mLikeProgressBar;
 
     @BindString(R.string.msg_please_login)
     String mMsgPleaseLogin;
@@ -156,7 +161,8 @@ public class PhotoActivity extends BaseActivity {
 
         initData();
         initView();
-        initService();
+
+        verifyStoragePermissions(this);
     }
 
     @Override
@@ -305,18 +311,39 @@ public class PhotoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.like_count_container:
-                if(AuthHelper.isLogin()){
+                mLikeCountHint.setVisibility(View.GONE);
+                mLikeProgressBar.setVisibility(View.VISIBLE);
+
+                if (AuthHelper.isLogin()) {
                     mViewModel.likePhoto(mViewModel.getPhoto().getValue()).observe(this, new ResourceObserver<Resource<LikePhoto>, LikePhoto>(this) {
                         @Override
                         protected void onSuccess(LikePhoto likePhoto) {
                             if (likePhoto.photo.liked_by_user) {
-                                ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavorite, mPhotoColorId));
+                                mLikeCountHint.setImageDrawable(mIcFavorite);
                             } else {
-                                ViewUtil.setDrawableTop(mLikeCount, ViewUtil.tintDrawable(mIcFavoriteBorder, mPhotoColorId));
+                                mLikeCountHint.setImageDrawable(mIcFavoriteBorder);
                             }
+
+                            mViewModel.setPhoto(likePhoto.photo);
+                            mLikeCount.setText(likePhoto.photo.likes+"");
+
+                            mLikeCountHint.animate()
+                                    .rotationBy(360)
+                                    .setDuration(300)
+                                    .start();
+
+                            onPhotoChange();
+                        }
+
+                        @Override
+                        protected void onFinal() {
+                            super.onFinal();
+
+                            mLikeProgressBar.setVisibility(View.GONE);
+                            mLikeCountHint.setVisibility(View.VISIBLE);
                         }
                     });
-                }else {
+                } else {
                     ToastUtil.showShort(this, mMsgPleaseLogin);
                 }
 
@@ -325,7 +352,11 @@ public class PhotoActivity extends BaseActivity {
                 mViewModel.getDownloadLink(mViewModel.getPhoto().getValue().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
                     @Override
                     protected void onSuccess(PhotoDownloadLink link) {
-                        downloadBinder.startDownload(new DownloadItem(mViewModel.getPhoto().getValue(), link.url));
+                        Intent intent = new Intent(PhotoActivity.this, DownloadService.class);
+                        intent.setAction(DownloadService.ACTION_START);
+                        intent.putExtra(DownloadService.ARG_DOWNLOAD_INFO, new DownloadInfo(mViewModel.getPhoto().getValue(), link.url));
+
+                        startService(intent);
                     }
                 });
                 break;
@@ -366,28 +397,27 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
-    private DownloadService.DownloadBinder downloadBinder;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            downloadBinder = (DownloadService.DownloadBinder) iBinder;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
-
-    private void initService() {
-        Intent intent = new Intent(this, DownloadService.class);
-        startService(intent);
-        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+    private void onPhotoChange() {
+        EventBus.getDefault().post(new PhotoChangeEvent(mViewModel.getPhoto().getValue()));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(mServiceConnection);
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"};
+
+    public static void verifyStoragePermissions(Activity activity) {
+
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

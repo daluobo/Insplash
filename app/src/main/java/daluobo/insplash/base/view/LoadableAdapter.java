@@ -12,7 +12,7 @@ import daluobo.insplash.common.AppConstant;
  * Created by daluobo on 2017/11/24.
  */
 
-public abstract class FooterAdapter<D> extends BaseRecyclerAdapter<D, RecyclerView.ViewHolder> {
+public abstract class LoadableAdapter<D> extends BaseRecyclerAdapter<D, RecyclerView.ViewHolder> {
     protected boolean isShowFooter = true;
 
     @IntDef({ItemViewType.NORMAL_TYPE, ItemViewType.FOOTER_TYPE})

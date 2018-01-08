@@ -4,9 +4,8 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
-import daluobo.insplash.db.AppDatabase;
-import daluobo.insplash.db.dao.DownloadDao;
-import daluobo.insplash.db.model.DownloadItem;
+import daluobo.insplash.db.dao.DownloadInfoDao;
+import daluobo.insplash.db.model.DownloadInfo;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -17,14 +16,14 @@ import io.reactivex.ObservableOnSubscribe;
 
 public class DownloadRepository {
 
-    DownloadDao mDownloadDao = AppDatabase.sInstance.downloadDao();
+    DownloadInfoDao mDownloadDao = null;
 
 
-    public LiveData<List<DownloadItem>> getAll() {
+    public LiveData<List<DownloadInfo>> getAll() {
         return mDownloadDao.getAll();
     }
 
-    public void add(final DownloadItem downloadItem) {
+    public void add(final DownloadInfo downloadItem) {
 
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
@@ -38,7 +37,7 @@ public class DownloadRepository {
 
     }
 
-    public void update(DownloadItem downloadItem) {
+    public void update(DownloadInfo downloadItem) {
         mDownloadDao.update(downloadItem);
     }
 

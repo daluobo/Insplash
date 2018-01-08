@@ -6,14 +6,15 @@ import android.support.annotation.Keep;
 
 import java.util.List;
 
+import daluobo.insplash.model.IdObject;
+
 /**
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class User extends ApiModel implements Parcelable {
+public class User extends IdObject implements Parcelable {
 
     public String uid;
-    public String id;
     public String updated_at;
     public int numeric_id;
     public String username;
@@ -48,8 +49,8 @@ public class User extends ApiModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeString(this.uid);
-        dest.writeString(this.id);
         dest.writeString(this.updated_at);
         dest.writeInt(this.numeric_id);
         dest.writeString(this.username);
@@ -81,8 +82,8 @@ public class User extends ApiModel implements Parcelable {
     }
 
     protected User(Parcel in) {
+        super(in);
         this.uid = in.readString();
-        this.id = in.readString();
         this.updated_at = in.readString();
         this.numeric_id = in.readInt();
         this.username = in.readString();

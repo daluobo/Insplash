@@ -35,7 +35,7 @@ import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.event.LanguageEvent;
-import daluobo.insplash.event.ViewEvent;
+import daluobo.insplash.event.OptionEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.ConfigHelper;
@@ -118,7 +118,7 @@ public class SettingActivity extends BaseActivity {
             ConfigHelper.setViewType(menuItem.value);
             mViewModel.setViewType(menuItem);
 
-            EventBus.getDefault().post(new ViewEvent(menuItem));
+            EventBus.getDefault().post(new OptionEvent(menuItem));
         }
 
         @Override

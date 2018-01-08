@@ -13,6 +13,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.helper.AnimHelper;
+import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.BasePageViewModel;
 
@@ -27,7 +28,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
     @BindView(R.id.swipe_layout)
     protected SwipeRefreshLayout mSwipeLayout;
 
-    protected FooterAdapter mAdapter;
+    protected LoadableAdapter mAdapter;
     protected BasePageViewModel mViewModel;
     protected LinearLayoutManager mLayoutManager;
     protected OnScrollUpListener mOnScrollUpListener;
@@ -72,7 +73,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
 
     @Override
     public void onHideLoading() {
-        ((FooterAdapter) mListView.getAdapter()).setShowFooter(false);
+        ((LoadableAdapter) mListView.getAdapter()).setShowFooter(false);
     }
 
     @Override
@@ -104,14 +105,21 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
 
             @Override
             protected void onSuccess(List<T> photos) {
-                onLoadSuccess(photos);
-
                 if (photos.size() == 0) {
                     mAdapter.setShowFooter(false);
                     ToastUtil.showShort(getContext(), "Nothing more!");
                     return;
                 }
+
+                onLoadSuccess(photos);
                 mViewModel.onPageLoad();
+            }
+
+            @Override
+            protected void onError(String msg) {
+                super.onError(msg);
+
+                mListView.smoothScrollBy(0, -DimensionUtil.dpToPx(48));
             }
 
             @Override

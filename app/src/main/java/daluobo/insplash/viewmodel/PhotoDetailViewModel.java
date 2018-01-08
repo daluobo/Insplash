@@ -11,7 +11,6 @@ import daluobo.insplash.model.net.Photo;
 public class PhotoDetailViewModel extends PhotoViewModel {
     protected MediatorLiveData<Photo> mPhoto = new MediatorLiveData<>();
 
-
     public MediatorLiveData<Photo> getPhoto() {
         return mPhoto;
     }

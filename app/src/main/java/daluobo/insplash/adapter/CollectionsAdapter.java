@@ -11,7 +11,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.adapter.vh.CompatCollectionViewHolder;
 import daluobo.insplash.adapter.vh.CoverViewHolder;
 import daluobo.insplash.adapter.vh.PreViewHolder;
-import daluobo.insplash.base.view.FooterAdapter;
+import daluobo.insplash.base.view.LoadableAdapter;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.model.net.Collection;
 
@@ -19,7 +19,7 @@ import daluobo.insplash.model.net.Collection;
  * Created by daluobo on 2017/11/27.
  */
 
-public class CollectionsAdapter extends FooterAdapter<Collection> {
+public class CollectionsAdapter extends LoadableAdapter<Collection> {
     protected boolean mIsShowUser = true;
 
     @IntDef({CollectionViewType.COLLECTION_COVER, CollectionViewType.COLLECTION_PREVIEW, CollectionViewType.COLLECTION_COMPAT})

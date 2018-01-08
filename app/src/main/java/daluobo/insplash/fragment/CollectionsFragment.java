@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.event.ViewEvent;
+import daluobo.insplash.event.OptionEvent;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
@@ -78,7 +78,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onViewEvent(ViewEvent event) {
+    public void onViewEvent(OptionEvent event) {
         initListView();
     }
 

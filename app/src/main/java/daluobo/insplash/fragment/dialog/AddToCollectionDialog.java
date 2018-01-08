@@ -1,4 +1,4 @@
-package daluobo.insplash.view;
+package daluobo.insplash.fragment.dialog;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;

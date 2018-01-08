@@ -15,23 +15,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseRecyclerAdapter;
-import daluobo.insplash.db.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadInfo;
 import daluobo.insplash.util.ImgUtil;
 
 /**
  * Created by daluobo on 2017/12/30.
  */
 
-public class DownloadAdapter extends BaseRecyclerAdapter<DownloadItem, DownloadAdapter.ViewHolder> {
+public class DownloadAdapter extends BaseRecyclerAdapter<DownloadInfo, DownloadAdapter.ViewHolder> {
     DecimalFormat df = new DecimalFormat("#.00");
 
-    public DownloadAdapter(Context context, List<DownloadItem> data) {
+    public DownloadAdapter(Context context, List<DownloadInfo> data) {
         super.mContext = context;
         super.mData = data;
     }
 
     @Override
-    protected void bindDataToItemView(ViewHolder viewHolder, DownloadItem item, int position) {
+    protected void bindDataToItemView(ViewHolder viewHolder, DownloadInfo item, int position) {
         viewHolder.mName.setText(item.name);
 
         String length = df.format((double) item.length / (1024 * 1024)) + " M";
@@ -41,7 +41,7 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadItem, DownloadA
         viewHolder.mLength.setText(length);
         ImgUtil.loadImg(mContext, viewHolder.mPhotoView, item.previewUrl);
 
-        viewHolder.mProgressBar.setProgress(item.process);
+        viewHolder.mProgressBar.setProgress((int) item.process);
     }
 
     @Override
@@ -67,6 +67,7 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadItem, DownloadA
             super(itemView);
             ButterKnife.bind(this, itemView);
 
+            mProgressBar.setMax(100);
         }
     }
 

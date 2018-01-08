@@ -58,4 +58,16 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     public void clearItems() {
         mData.clear();
     }
+
+    public void onItemChanged(D item) {
+        int index = mData.indexOf(item);
+        mData.set(index, item);
+        notifyItemChanged(index, "payload");
+    }
+
+    public void onItemRemove(D item) {
+        int index = mData.indexOf(item);
+        mData.remove(index);
+        notifyItemRemoved(index);
+    }
 }

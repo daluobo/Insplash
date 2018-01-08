@@ -20,12 +20,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.event.CollectionChangeEvent;
 import daluobo.insplash.fragment.CollectionPhotoFragment;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
@@ -135,13 +139,13 @@ public class CollectionActivity extends BaseActivity {
 
                 mUsername.setText(collection.user.username);
                 ImgUtil.loadImg(CollectionActivity.this, mAvatar, collection.user.profile_image.medium);
-
-                FragmentManager manager = getSupportFragmentManager();
-                manager.beginTransaction()
-                        .add(R.id.fragment_container, CollectionPhotoFragment.newInstance(collection))
-                        .commit();
             }
         });
+
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .add(R.id.fragment_container, CollectionPhotoFragment.newInstance(mViewModel.getCollection().getValue()))
+                .commit();
     }
 
     @Override
@@ -164,6 +168,18 @@ public class CollectionActivity extends BaseActivity {
             animator.start();
         } else {
             finish();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCollectionEvent(CollectionChangeEvent event){
+        switch (event.mAction){
+            case CollectionChangeEvent.Action.UPDATE:
+                mViewModel.setCollection(event.mCollection);
+                break;
+            case CollectionChangeEvent.Action.DELETE:
+                finish();
+                break;
         }
     }
 

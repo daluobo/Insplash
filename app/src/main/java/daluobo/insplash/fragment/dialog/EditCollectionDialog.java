@@ -1,4 +1,4 @@
-package daluobo.insplash.view;
+package daluobo.insplash.fragment.dialog;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +29,7 @@ import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
+import daluobo.insplash.event.CollectionChangeEvent;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.util.ToastUtil;
 import daluobo.insplash.viewmodel.CollectionsEditViewModel;
@@ -80,6 +85,7 @@ public class EditCollectionDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_edit_collection, container);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this, view);
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -87,6 +93,12 @@ public class EditCollectionDialog extends DialogFragment {
         initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initData() {
@@ -105,6 +117,11 @@ public class EditCollectionDialog extends DialogFragment {
     }
 
     private void initView() {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(String event){
 
     }
 
@@ -142,6 +159,8 @@ public class EditCollectionDialog extends DialogFragment {
                         protected void onSuccess(Object o) {
                             ToastUtil.showShort(getContext(), mMsgDeleteSuccess);
                             EditCollectionDialog.this.dismiss();
+
+                            EventBus.getDefault().post(new CollectionChangeEvent(mViewModel.getCollection().getValue(), CollectionChangeEvent.Action.DELETE));
                         }
                     });
                 } else {
@@ -160,6 +179,8 @@ public class EditCollectionDialog extends DialogFragment {
                         protected void onSuccess(Collection collection) {
                             ToastUtil.showShort(getContext(), mMsgUpdateSuccess);
                             EditCollectionDialog.this.dismiss();
+
+                            EventBus.getDefault().post(new CollectionChangeEvent(collection, CollectionChangeEvent.Action.UPDATE));
                         }
                     });
                 }

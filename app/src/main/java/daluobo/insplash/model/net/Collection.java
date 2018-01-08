@@ -8,12 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import daluobo.insplash.model.IdObject;
+
 /**
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class Collection implements Parcelable {
-    public String id;
+public class Collection extends IdObject implements Parcelable {
     public String title;
     public String description;
     public String published_at;
@@ -31,25 +32,6 @@ public class Collection implements Parcelable {
     public List<PreviewPhotos> preview_photos;
     public List<String> keywords;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-
-        Collection other = (Collection) obj;
-
-        if (id == null) {
-            if (other.id == null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-
-        return true;
-    }
 
     @Override
     public int describeContents() {
@@ -58,7 +40,7 @@ public class Collection implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        super.writeToParcel(dest, flags);
         dest.writeString(this.title);
         dest.writeString(this.description);
         dest.writeString(this.published_at);
@@ -80,7 +62,7 @@ public class Collection implements Parcelable {
     }
 
     protected Collection(Parcel in) {
-        this.id = in.readString();
+        super(in);
         this.title = in.readString();
         this.description = in.readString();
         this.published_at = in.readString();

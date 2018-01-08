@@ -6,10 +6,10 @@ import daluobo.insplash.model.OptionItem;
  * Created by daluobo on 2017/12/27.
  */
 
-public class ViewEvent {
+public class OptionEvent {
     public OptionItem mOptionItem;
 
-    public ViewEvent(OptionItem optionItem) {
+    public OptionEvent(OptionItem optionItem) {
         this.mOptionItem = optionItem;
     }
 }

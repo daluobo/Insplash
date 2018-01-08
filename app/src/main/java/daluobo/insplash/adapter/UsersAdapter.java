@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.base.view.FooterAdapter;
+import daluobo.insplash.base.view.LoadableAdapter;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.User;
@@ -24,7 +24,7 @@ import daluobo.insplash.util.ImgUtil;
  * Created by daluobo on 2017/12/7.
  */
 
-public class UsersAdapter extends FooterAdapter<User> {
+public class UsersAdapter extends LoadableAdapter<User> {
 
     @IntDef({UserViewType.COMPAT, UserViewType.CARD})
     private @interface UserViewType {

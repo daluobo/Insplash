@@ -1,16 +1,19 @@
 package daluobo.insplash.download;
 
 
-import daluobo.insplash.db.model.DownloadItem;
+import daluobo.insplash.db.model.DownloadInfo;
 
 public interface DownloadListener {
-    void onProgress(DownloadItem downloadItem, int progress);
+    void onWaiting(DownloadInfo downloadItem, String state);
 
-    void onSuccess(DownloadItem downloadItem, String state);
+    void onProgress(DownloadInfo downloadItem, String state, int progress);
 
-    void onFailed(DownloadItem downloadItem, String state);
+    void onSuccess(DownloadInfo downloadItem, String state);
 
-    void onPaused(DownloadItem downloadItem, String state);
+    void onPaused(DownloadInfo downloadItem, String state);
 
-    void onCanceled(DownloadItem downloadItem, String state);
+    void onCanceled(DownloadInfo downloadItem, String state);
+
+    void onFailed(DownloadInfo downloadItem, String state);
+
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import daluobo.insplash.db.AppDatabase;
 import daluobo.insplash.util.imm.IMMLeaks;
 
 /**
@@ -23,8 +22,6 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
 
-        AppDatabase.init(this);
-
         IMMLeaks.fixFocusedViewLeak(this);
         initLeakCanary();
     }
@@ -32,7 +29,7 @@ public class MyApplication extends Application {
     private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
+            // You should not get your app in this process.
             return;
         }
         LeakCanary.install(this);

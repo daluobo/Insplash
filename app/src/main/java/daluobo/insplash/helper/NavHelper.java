@@ -21,8 +21,8 @@ import daluobo.insplash.activity.UserActivity;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
-import daluobo.insplash.view.AddToCollectionDialog;
-import daluobo.insplash.view.EditCollectionDialog;
+import daluobo.insplash.fragment.dialog.AddToCollectionDialog;
+import daluobo.insplash.fragment.dialog.EditCollectionDialog;
 
 /**
  * Created by daluobo on 2017/12/2.
@@ -65,7 +65,7 @@ public class NavHelper {
 
         if (ConfigHelper.isCompatView()) {
             intent = new Intent(context, CompatUserActivity.class);
-            intent.putExtra(CompatUserActivity.ARG_USER, user);
+            intent.putExtra(UserActivity.ARG_USER, user);
         } else {
             intent = new Intent(context, UserActivity.class);
             intent.putExtra(UserActivity.ARG_USER, user);
@@ -86,7 +86,7 @@ public class NavHelper {
 
         if (ConfigHelper.isCompatView()) {
             intent = new Intent(context, CompatUserActivity.class);
-            intent.putExtra(CompatUserActivity.ARG_USER, user);
+            intent.putExtra(UserActivity.ARG_USER, user);
         } else {
             intent = new Intent(context, UserActivity.class);
             intent.putExtra(UserActivity.ARG_USER, user);

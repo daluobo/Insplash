@@ -1,179 +1,190 @@
 package daluobo.insplash.download;
 
-import android.os.AsyncTask;
-import android.os.Environment;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
 
-import daluobo.insplash.db.model.DownloadItem;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import daluobo.insplash.db.AppDatabase;
+import daluobo.insplash.db.model.DownloadInfo;
 
-public class DownloadTask extends AsyncTask<DownloadItem, Integer, String> {
+public class DownloadTask {
     public static final String TAG = "DownloadTask";
 
-    private boolean isCanceled = false;
-    private boolean isPaused = false;
-    private int lastProgress;
+    private static final int START_DOWNLOAD = 1;
+    private static final int UPDATE_PROGRESS = 2;
 
-    private DownloadItem mDownloadItem;
-    private DownloadListener mListener;
+    private Context mContext;
+    private DownloadInfo mDownloadInfo;
 
-    public DownloadTask(DownloadListener listener) {
-        this.mListener = listener;
-    }
+    private Handler mHandler = new Handler(new Handler.Callback() {
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
+        @Override
+        public boolean handleMessage(Message message) {
+            if (START_DOWNLOAD == message.what) {
 
-    @Override
-    protected String doInBackground(DownloadItem... downloadItems) {
-        InputStream inputStream = null;
-        RandomAccessFile savedFile = null;
-        File file = null;
+                new DownloadThread().start();
 
-        try {
-            long downloadedLength = 0;
-            mDownloadItem = downloadItems[0];
-            String fileName = mDownloadItem.name;
-            String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath();
+                return true;
+            } else if (UPDATE_PROGRESS == message.what) {
 
-            File fileDir = new File(directory + "/Insplash");
-            createDir(fileDir);
-            file = new File(directory + "/Insplash/" + fileName);
-            if (file.exists()) {
-                downloadedLength = file.length();
+                DownloadInfo di = (DownloadInfo) message.obj;
+
+                mDownloadInfo.process = di.process;
+                //AppDatabase.get(mContext).downloadDao().update(mDownloadInfo);
+                return true;
             }
 
-            long contentLength = getContentLength(mDownloadItem.url);
-            mDownloadItem.length = contentLength;
-            if (contentLength == 0) {
-                return DownloadState.FAILED;
-            } else if (contentLength == downloadedLength) {
-                return DownloadState.SUCCESS;
-            }
+            return false;
+        }
+    });
 
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .addHeader("RANGE", "bytes=" + downloadedLength + "-")
-                    .url(mDownloadItem.url)
-                    .build();
+    public DownloadTask(Context context, DownloadInfo downloadInfo) {
+        this.mContext = context;
+        this.mDownloadInfo = downloadInfo;
+    }
 
-            Response response = client.newCall(request).execute();
+    public void start() {
+        new Thread() {
+            @Override
+            public void run() {
+                DownloadInfo di = AppDatabase.get(mContext).downloadDao().getDataById(mDownloadInfo.id);
+                if (di != null) {
+                    Message msg = Message.obtain();
+                    msg.what = START_DOWNLOAD;
+                    msg.obj = di;
 
-            if (response != null) {
-                inputStream = response.body().byteStream();
-                savedFile = new RandomAccessFile(file, "rw");
-                savedFile.seek(downloadedLength);
-
-                byte[] bytes = new byte[1024];
-                int total = 0;
-                int len;
-
-                while ((len = inputStream.read(bytes)) != -1) {
-                    if (isCanceled) {
-                        return DownloadState.CANCELED;
-                    } else if (isPaused) {
-                        return DownloadState.PAUSED;
-                    } else {
-                        total += len;
-                        savedFile.write(bytes, 0, len);
-
-                        int progress = (int) ((total + downloadedLength) * 100 / contentLength);
-                        publishProgress(progress);
-                    }
+                    mHandler.sendMessage(msg);
+                    return;
                 }
-                return DownloadState.SUCCESS;
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage());
-        } finally {
+                HttpURLConnection conn = null;
+                RandomAccessFile raf = null;
+
+                try {
+                    conn = HttpHelper.getInstance().createConnection(mDownloadInfo.url);
+                    conn.setRequestMethod("GET");
+                    conn.setUseCaches(false);
+
+                    int length = -1;
+                    int responseCode = conn.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        length = conn.getContentLength();
+                    }
+
+                    if (length > 0) {
+
+                        File fileDir = new File(FileHelper.mDirectory);
+                        if (!fileDir.exists()) {
+                            fileDir.mkdir();
+                        }
+
+                        File tempFile = new File(fileDir, mDownloadInfo.name);
+                        if (!tempFile.exists()){
+                            tempFile.createNewFile();
+                        }
+
+                        raf = new RandomAccessFile(tempFile, "rw");
+                        raf.setLength(length);
+
+                        mDownloadInfo.length = length;
+                        mDownloadInfo.process = 0;
+
+                        //AppDatabase.get(mContext).downloadDao().add(mDownloadInfo);
+
+                        Message msg = Message.obtain();
+                        msg.what = START_DOWNLOAD;
+                        msg.obj = mDownloadInfo;
+
+                        mHandler.sendMessage(msg);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (raf != null) {
+                        try {
+                            raf.close();
+                        } catch (Exception e) {
+                        }
+                    }
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+
+                }
+            }
+        }.start();
+
+    }
+
+    class DownloadThread extends Thread {
+        @Override
+        public void run() {
+            HttpURLConnection conn = null;
+            RandomAccessFile raf = null;
+            InputStream is = null;
             try {
-                if (inputStream != null) {
-                    inputStream.close();
+                conn = HttpHelper.getInstance().createConnection(mDownloadInfo.url);
+                conn.setRequestMethod("GET");
+                conn.setUseCaches(false);
+                conn.setRequestProperty("Range", "bytes = " + mDownloadInfo.process + "-" + mDownloadInfo.length);
+
+                int length = -1;
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_PARTIAL || responseCode == HttpURLConnection.HTTP_OK) {
+                    length = conn.getContentLength();
+                } else {
+                    return;
+                }
+
+                if (length > 0) {
+                    File tempFile = new File(FileHelper.mDirectory + "/" + mDownloadInfo.name);
+                    raf = new RandomAccessFile(tempFile, "rwd");
+                    raf.seek(mDownloadInfo.process);
+
+                    is = conn.getInputStream();
+                    byte[] buffer = new byte[1024 * 4];
+
+                    int len = -1;
+                    boolean finish = false;
+
+                    while (!finish && (len = is.read(buffer)) != -1) {
+                        raf.write(buffer, 0, len);
+
+                        if (mDownloadInfo.process + len > mDownloadInfo.length) {
+                            finish = true;
+                        }
+                        mDownloadInfo.process += len;
+
+                        Log.d(TAG, mDownloadInfo.process + "");
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, e.getMessage());
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+                    }
+                }
+                if (raf != null) {
+                    try {
+                        raf.close();
+                    } catch (Exception e) {
+                    }
+                }
+                if (conn != null) {
+                    conn.disconnect();
+                }
+
             }
-        }
-        return DownloadState.FAILED;
-    }
-
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        int progress = values[0];
-        if (progress > lastProgress) {
-            mListener.onProgress(mDownloadItem, progress);
-            lastProgress = progress;
-            Log.d(TAG, progress + "");
-        }
-    }
-
-    @Override
-    protected void onPostExecute(String type) {
-        switch (type) {
-            case DownloadState.SUCCESS:
-                mListener.onSuccess(mDownloadItem, DownloadState.SUCCESS);
-                break;
-            case DownloadState.FAILED:
-                mListener.onFailed(mDownloadItem, DownloadState.FAILED);
-                break;
-            case DownloadState.PAUSED:
-                mListener.onPaused(mDownloadItem, DownloadState.PAUSED);
-                break;
-            case DownloadState.CANCELED:
-                mListener.onCanceled(mDownloadItem, DownloadState.CANCELED);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-    }
-
-    public void pauseDownload() {
-        isPaused = true;
-    }
-
-    public void cancelDownload() {
-        isCanceled = true;
-    }
-
-    private long getContentLength(String downloadUrl) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(downloadUrl).build();
-        Response response = client.newCall(request).execute();
-        if (response != null && response.isSuccessful()) {
-            long contentLength = response.body().contentLength();
-            response.body().close();
-            return contentLength;
-        }
-        return 0;
-    }
-
-    public static void createDir(File file) {
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                //dir exists
-            } else {
-                //the same name file exists, can not create dir
-            }
-        } else {
-            file.mkdir();
         }
     }
 }

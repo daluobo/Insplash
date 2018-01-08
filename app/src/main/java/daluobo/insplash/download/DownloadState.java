@@ -10,11 +10,18 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @Retention(RetentionPolicy.SOURCE)
-@StringDef({DownloadState.PROCESSING, DownloadState.SUCCESS, DownloadState.FAILED, DownloadState.PAUSED, DownloadState.CANCELED})
+@StringDef({
+        DownloadState.WAITING,
+        DownloadState.PROCESSING,
+        DownloadState.SUCCESS,
+        DownloadState.PAUSED,
+        DownloadState.FAILED,
+        DownloadState.CANCELED})
 public @interface DownloadState {
-    String PROCESSING = "0";
-    String SUCCESS = "1";
-    String FAILED = "2";
-    String PAUSED = "3";
-    String CANCELED = "4";
+    String WAITING = "0";
+    String PROCESSING = "1";
+    String SUCCESS = "2";
+    String FAILED = "3";
+    String PAUSED = "4";
+    String CANCELED = "5";
 }
