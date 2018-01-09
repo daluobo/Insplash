@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import java.util.List;
 
 import daluobo.insplash.adapter.UsersAdapter;
+import daluobo.insplash.fragment.base.SearchFragment;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.viewmodel.SearchUserViewModel;
 

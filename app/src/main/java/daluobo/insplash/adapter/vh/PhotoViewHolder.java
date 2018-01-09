@@ -19,6 +19,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.adapter.listener.OnActionClickListener;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.util.ViewUtil;
 

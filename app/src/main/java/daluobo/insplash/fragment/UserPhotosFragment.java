@@ -2,14 +2,17 @@ package daluobo.insplash.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import java.util.List;
-
+import butterknife.ButterKnife;
+import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.view.SimpleSwipeListFragment;
+import daluobo.insplash.fragment.base.BasePhotoFragment;
 import daluobo.insplash.helper.ConfigHelper;
-import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
@@ -19,7 +22,7 @@ import daluobo.insplash.viewmodel.UserPhotoViewModel;
  * Created by daluobo on 2017/12/5.
  */
 
-public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
+public class UserPhotosFragment extends BasePhotoFragment {
     public static final String ARG_USER = "user";
     public static final String ARG_TYPE = "type";
 
@@ -37,6 +40,16 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
         return fragment;
     }
 
+    @Nullable
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.swipe_list, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
+
+        initData();
+        initView();
+        return view;
+    }
 
     @Override
     public void initData() {
@@ -60,8 +73,6 @@ public class UserPhotosFragment extends SimpleSwipeListFragment<List<Photo>> {
 
     @Override
     public void initView() {
-        super.initView();
-
         if (ConfigHelper.isCompatView()
                 && ((UserPhotoViewModel) mViewModel).getUserPhotoTyp() == UserPhotoViewModel.UserPhotosType.OWN) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 3));

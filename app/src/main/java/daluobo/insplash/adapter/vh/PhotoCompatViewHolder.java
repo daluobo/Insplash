@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.adapter.listener.OnActionClickListener;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;
@@ -21,7 +22,7 @@ import daluobo.insplash.util.ViewUtil;
  * Created by daluobo on 2017/12/25.
  */
 
-public class CompatPhotoViewHolder extends PhotoViewHolder {
+public class PhotoCompatViewHolder extends PhotoViewHolder {
 
     @BindView(R.id.container)
     RelativeLayout mContainer;
@@ -30,7 +31,7 @@ public class CompatPhotoViewHolder extends PhotoViewHolder {
 
     int mColumn = 1;
 
-    public CompatPhotoViewHolder(View itemView, Context context, int column, OnActionClickListener onActionClickListener) {
+    public PhotoCompatViewHolder(View itemView, Context context, int column, OnActionClickListener onActionClickListener) {
         super(itemView, context);
         ButterKnife.bind(this, itemView);
 
@@ -77,7 +78,6 @@ public class CompatPhotoViewHolder extends PhotoViewHolder {
             lp.width = ViewUtil.getScreenSize(mContext)[0];
             lp.height = lp.width * photo.height / photo.width;
         } else if (mColumn == 2) {
-            mAvatar.setVisibility(View.VISIBLE);
             ImgUtil.loadImg(mContext, mAvatar, photo.user.profile_image.small);
 
             int width = ViewUtil.getScreenSize(mContext)[0] - (mColumn + 1) * DimensionUtil.dpToPx(6);

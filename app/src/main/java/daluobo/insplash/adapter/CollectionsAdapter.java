@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.vh.CompatCollectionViewHolder;
-import daluobo.insplash.adapter.vh.CoverViewHolder;
-import daluobo.insplash.adapter.vh.PreViewHolder;
+import daluobo.insplash.adapter.vh.CollectionCardViewHolder;
+import daluobo.insplash.adapter.vh.CollectionCompatViewHolder;
+import daluobo.insplash.adapter.vh.CollectionViewHolder;
 import daluobo.insplash.base.view.LoadableAdapter;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.model.net.Collection;
@@ -22,11 +22,10 @@ import daluobo.insplash.model.net.Collection;
 public class CollectionsAdapter extends LoadableAdapter<Collection> {
     protected boolean mIsShowUser = true;
 
-    @IntDef({CollectionViewType.COLLECTION_COVER, CollectionViewType.COLLECTION_PREVIEW, CollectionViewType.COLLECTION_COMPAT})
+    @IntDef({CollectionViewType.COLLECTION_COMPAT, CollectionViewType.COLLECTION_CARD})
     private @interface CollectionViewType {
-        int COLLECTION_COVER = 10;
-        int COLLECTION_PREVIEW = 11;
-        int COLLECTION_COMPAT = 12;
+        int COLLECTION_COMPAT = 10;
+        int COLLECTION_CARD = 11;
     }
 
     public CollectionsAdapter(Context context, List<Collection> data) {
@@ -46,36 +45,22 @@ public class CollectionsAdapter extends LoadableAdapter<Collection> {
         } else if (ConfigHelper.isCompatView()) {
             return CollectionViewType.COLLECTION_COMPAT;
         } else {
-            if (mData.get(position).preview_photos.size() >= 3) {
-                return CollectionViewType.COLLECTION_PREVIEW;
-            }
-            return CollectionViewType.COLLECTION_COVER;
+            return CollectionViewType.COLLECTION_CARD;
         }
     }
 
     @Override
     protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, Collection item, int position) {
-        if (viewHolder instanceof CompatCollectionViewHolder) {
-            CompatCollectionViewHolder ccvh = (CompatCollectionViewHolder) viewHolder;
-            ccvh.bindDataToView(item, position);
-        } else if (viewHolder instanceof CoverViewHolder) {
-            CoverViewHolder cvh = (CoverViewHolder) viewHolder;
-            cvh.bindDataToView(item, position);
-        } else if (viewHolder instanceof PreViewHolder) {
-            PreViewHolder pvh = (PreViewHolder) viewHolder;
-            pvh.bindDataToView(item, position);
-        }
+        ((CollectionViewHolder) viewHolder).bindDataToView(item, position);
     }
 
     @Override
     protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case CollectionViewType.COLLECTION_COMPAT:
-                return new CompatCollectionViewHolder(inflateItemView(parent, R.layout.item_collection_compat), mContext);
-            case CollectionViewType.COLLECTION_COVER:
-                return new CoverViewHolder(inflateItemView(parent, R.layout.item_collection_cover), mContext, mIsShowUser);
-            case CollectionViewType.COLLECTION_PREVIEW:
-                return new PreViewHolder(inflateItemView(parent, R.layout.item_collection_preview), mContext, mIsShowUser);
+                return new CollectionCompatViewHolder(inflateItemView(parent, R.layout.item_collection_compat), mContext, mIsShowUser);
+            case CollectionViewType.COLLECTION_CARD:
+                return new CollectionCardViewHolder(inflateItemView(parent, R.layout.item_collection_card), mContext, mIsShowUser);
         }
 
         return null;

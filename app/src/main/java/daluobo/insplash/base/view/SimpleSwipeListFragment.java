@@ -26,8 +26,4 @@ public abstract class SimpleSwipeListFragment<T> extends SwipeListFragment<T>{
         return view;
     }
 
-    @Override
-    public void initView() {
-        super.initListView();
-    }
 }

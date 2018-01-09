@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.vh.CompatPhotoViewHolder;
-import daluobo.insplash.adapter.vh.OnActionClickListener;
+import daluobo.insplash.adapter.vh.PhotoCompatViewHolder;
+import daluobo.insplash.adapter.listener.OnActionClickListener;
 import daluobo.insplash.adapter.vh.PhotoCardViewHolder;
 import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
@@ -79,8 +79,8 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
         if (viewHolder instanceof PhotoCardViewHolder) {
             PhotoCardViewHolder pvh = (PhotoCardViewHolder) viewHolder;
             pvh.bindDataToView(item, position);
-        } else if (viewHolder instanceof CompatPhotoViewHolder) {
-            CompatPhotoViewHolder cpv = (CompatPhotoViewHolder) viewHolder;
+        } else if (viewHolder instanceof PhotoCompatViewHolder) {
+            PhotoCompatViewHolder cpv = (PhotoCompatViewHolder) viewHolder;
             cpv.bindDataToView(item, position);
         }
     }
@@ -89,7 +89,7 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
     protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case PhotoViewType.COMPAT:
-                return new CompatPhotoViewHolder(inflateItemView(parent, R.layout.item_photo_compat), mContext, mColumn, new OnActionClickListener() {
+                return new PhotoCompatViewHolder(inflateItemView(parent, R.layout.item_photo_compat), mContext, mColumn, new OnActionClickListener() {
                     @Override
                     public void onLikeClick(final Photo photo) {
                         onPhotoLike(photo);
@@ -107,7 +107,7 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
 
                 });
             case PhotoViewType.PREVIEW:
-                return new PhotoCardViewHolder(inflateItemView(parent, R.layout.item_photo), mContext, mIsShowUser, new OnActionClickListener() {
+                return new PhotoCardViewHolder(inflateItemView(parent, R.layout.item_photo_card), mContext, mIsShowUser, new OnActionClickListener() {
                     @Override
                     public void onLikeClick(final Photo photo) {
                         onPhotoLike(photo);

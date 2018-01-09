@@ -28,7 +28,7 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.TabFragmentAdapter;
 import daluobo.insplash.fragment.search.SearchCollectionFragment;
-import daluobo.insplash.fragment.search.SearchFragment;
+import daluobo.insplash.fragment.base.SearchFragment;
 import daluobo.insplash.fragment.search.SearchPhotoFragment;
 import daluobo.insplash.fragment.search.SearchUserFragment;
 import daluobo.insplash.viewmodel.SearchViewModel;

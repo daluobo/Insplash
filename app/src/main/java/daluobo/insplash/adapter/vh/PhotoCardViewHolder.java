@@ -16,6 +16,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.adapter.listener.OnActionClickListener;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Photo;

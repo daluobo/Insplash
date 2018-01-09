@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -18,12 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
-import daluobo.insplash.base.view.SwipeListFragment;
 import daluobo.insplash.event.OptionEvent;
+import daluobo.insplash.fragment.base.BaseCollectionFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
-import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.CollectionsViewModel;
 
@@ -31,10 +29,11 @@ import daluobo.insplash.viewmodel.CollectionsViewModel;
  * Created by daluobo on 2017/11/9.
  */
 
-public class CollectionsFragment extends SwipeListFragment<Collection> {
-    protected LayoutInflater mInflater;
-    private TextView mCollectionType;
+public class CollectionsFragment extends BaseCollectionFragment {
     private CollectionsViewModel mCollectionsViewModel;
+    protected LayoutInflater mInflater;
+    protected TextView mCollectionType;
+    protected LineDecoration mLineDecoration;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
@@ -64,22 +63,20 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
 
         initData();
         initView();
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroyView();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onViewEvent(OptionEvent event) {
-        initListView();
+        if (ConfigHelper.isCompatView()) {
+            mListView.addItemDecoration(mLineDecoration);
+        }else {
+            mListView.removeItemDecoration(mLineDecoration);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -100,6 +97,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
         });
 
         mCollectionsViewModel.setCurrentType(PopupMenuHelper.getCollectionType().get(0));
+        mLineDecoration = new LineDecoration(getContext(), 0, 4, 4);
     }
 
     @Override
@@ -125,7 +123,7 @@ public class CollectionsFragment extends SwipeListFragment<Collection> {
         super.initListView();
 
         if (ConfigHelper.isCompatView()) {
-            mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
+            mListView.addItemDecoration(mLineDecoration);
         }
     }
 

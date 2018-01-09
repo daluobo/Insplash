@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.view.SwipeListFragment;
+import daluobo.insplash.fragment.base.BasePhotoFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.model.net.Collection;
-import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
 import daluobo.insplash.viewmodel.PhotoViewModel;
@@ -22,7 +21,7 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
  * Created by daluobo on 2017/11/29.
  */
 
-public class CollectionPhotoFragment extends SwipeListFragment<Photo> {
+public class CollectionPhotoFragment extends BasePhotoFragment{
     public static final String ARG_COLLECTION = "collection";
 
     public CollectionPhotoFragment() {

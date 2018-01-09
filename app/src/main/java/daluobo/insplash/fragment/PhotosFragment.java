@@ -6,31 +6,25 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.base.view.SwipeListFragment;
-import daluobo.insplash.event.PhotoChangeEvent;
 import daluobo.insplash.event.OptionEvent;
+import daluobo.insplash.fragment.base.BasePhotoFragment;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
-import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.PhotoViewModel;
 
@@ -38,12 +32,13 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
  * Created by daluobo on 2017/11/9.
  */
 
-public class PhotosFragment extends SwipeListFragment<List<Photo>> {
+public class PhotosFragment extends BasePhotoFragment {
     protected LayoutInflater mInflater;
     private TextView mPhotoType;
     private TextView mOrderBy;
     private PhotoViewModel mPhotoViewModel;
     private PhotosAdapter.OnPhotoDownloadListener mOnPhotoDownloadListener;
+    private LineDecoration mLineDecoration;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
@@ -103,27 +98,16 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
 
         initData();
         initView();
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroyView();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onViewEvent(OptionEvent event) {
+        mListView.removeItemDecoration(mLineDecoration);
         initListView();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onPhotoChangeEvent(PhotoChangeEvent event) {
-        mAdapter.onItemChanged(event.mPhoto);
     }
 
     @Override
@@ -157,6 +141,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
         mPhotoViewModel.setCurrentType(PopupMenuHelper.getPhotoType().get(0));
         mPhotoViewModel.setOrderByType(PopupMenuHelper.getOrderBy().get(0));
+
+        mLineDecoration = new LineDecoration(getContext(), 8, 4, 4);
     }
 
     @Override
@@ -196,14 +182,8 @@ public class PhotosFragment extends SwipeListFragment<List<Photo>> {
 
         if (ConfigHelper.isCompatView()) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            mListView.addItemDecoration(new LineDecoration(getContext(), 8, 4, 4));
-        }
-        mListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+            mListView.addItemDecoration(mLineDecoration);
+    }
     }
 
     private void showSelectType() {
