@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.model.net.Collection;
 
 /**
  * Created by daluobo on 2017/12/25.
@@ -22,7 +23,7 @@ public class CollectionCardViewHolder extends CollectionViewHolder {
 
 
     public CollectionCardViewHolder(View itemView, Context context, boolean isShowUser) {
-        super(itemView,context);
+        super(itemView, context);
         ButterKnife.bind(this, itemView);
 
         mIsShowUser = isShowUser;
@@ -38,4 +39,16 @@ public class CollectionCardViewHolder extends CollectionViewHolder {
 
     }
 
+    @Override
+    public void bindDataToView(Collection collection, int position) {
+        super.bindDataToView(collection, position);
+
+
+        if (mIsShowUser) {
+            mUsername.setVisibility(View.VISIBLE);
+            mUsername.setText(collection.user.name);
+        } else {
+            mUsername.setVisibility(View.GONE);
+        }
+    }
 }

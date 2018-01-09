@@ -103,6 +103,7 @@ public class UserActivity extends BaseUserActivity {
             public void onChanged(@Nullable User user) {
                 ImgUtil.loadImg(UserActivity.this, mAvatar, user.profile_image.large);
 
+                mTitle.setText("@" + user.username);
                 mName.setText(user.name);
                 mLocation.setText(user.location);
 
@@ -125,7 +126,6 @@ public class UserActivity extends BaseUserActivity {
             }
         });
     }
-
 
     @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
     public void onViewClicked(View view) {

@@ -56,7 +56,7 @@ public class PhotoCardViewHolder extends PhotoViewHolder{
         mIsShowUser = isShowUser;
         mOnActionClickListener = onMenuItemClickListener;
 
-        mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 8);
+        mContainerWidth = ViewUtil.getScreenSize(mContext)[0] - DimensionUtil.dip2px(mContext, 16);
 
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override

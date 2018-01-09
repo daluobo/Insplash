@@ -79,6 +79,8 @@ public class UserPhotosFragment extends BasePhotoFragment {
             mListView.addItemDecoration(new LineDecoration(getContext(), 6, 3, 3));
         }
 
+        initListView();
+
         onShowRefresh();
         onRefresh();
     }
