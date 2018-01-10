@@ -37,7 +37,7 @@ public class User extends IdObject implements Parcelable {
     public int uploads_remaining;
     public String instagram_username;
     public String email;
-    public String badge;
+    public Badge badge;
     public Links links;
     public List<Photo> photos;
 
@@ -73,7 +73,7 @@ public class User extends IdObject implements Parcelable {
         dest.writeInt(this.uploads_remaining);
         dest.writeString(this.instagram_username);
         dest.writeString(this.email);
-        dest.writeString(this.badge);
+        dest.writeParcelable(this.badge, flags);
         dest.writeParcelable(this.links, flags);
         dest.writeTypedList(this.photos);
     }
@@ -106,7 +106,7 @@ public class User extends IdObject implements Parcelable {
         this.uploads_remaining = in.readInt();
         this.instagram_username = in.readString();
         this.email = in.readString();
-        this.badge = in.readString();
+        this.badge = in.readParcelable(Badge.class.getClassLoader());
         this.links = in.readParcelable(Links.class.getClassLoader());
         this.photos = in.createTypedArrayList(Photo.CREATOR);
     }

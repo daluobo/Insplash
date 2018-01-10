@@ -176,4 +176,19 @@ public class CollectionsRepository extends BaseRepository{
             }
         }.getAsLiveData();
     }
+
+    public LiveData<Resource<List<Collection>>> related(final String id) {
+        return new NetworkResource<List<Collection>, List<Collection>>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Collection>>> createCall() {
+                return mCollectsService.related(id);
+            }
+
+            @Override
+            protected List<Collection> convertResult(@NonNull List<Collection> item) {
+                return item;
+            }
+        }.getAsLiveData();
+    }
 }

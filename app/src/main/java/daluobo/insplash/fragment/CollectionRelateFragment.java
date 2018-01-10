@@ -9,26 +9,24 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.PhotosAdapter;
-import daluobo.insplash.fragment.base.BasePhotoFragment;
-import daluobo.insplash.helper.ConfigHelper;
+import daluobo.insplash.adapter.CollectionsAdapter;
+import daluobo.insplash.fragment.base.BaseCollectionFragment;
 import daluobo.insplash.model.net.Collection;
-import daluobo.insplash.view.LineDecoration;
-import daluobo.insplash.viewmodel.CollectionPhotoViewModel;
-import daluobo.insplash.viewmodel.PhotoViewModel;
+import daluobo.insplash.viewmodel.CollectionRelateVIewModel;
 
 /**
- * Created by daluobo on 2017/11/29.
+ * Created by daluobo on 2018/1/10.
  */
 
-public class CollectionPhotoFragment extends BasePhotoFragment{
+public class CollectionRelateFragment extends BaseCollectionFragment{
     public static final String ARG_COLLECTION = "arg_collection";
 
-    public CollectionPhotoFragment() {
+
+    public CollectionRelateFragment() {
     }
 
-    public static CollectionPhotoFragment newInstance(Collection collection) {
-        CollectionPhotoFragment fragment = new CollectionPhotoFragment();
+    public static CollectionRelateFragment newInstance(Collection collection) {
+        CollectionRelateFragment fragment = new CollectionRelateFragment();
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_COLLECTION, collection);
@@ -51,23 +49,18 @@ public class CollectionPhotoFragment extends BasePhotoFragment{
     @Override
     public void initData() {
         Collection collection = getArguments().getParcelable(ARG_COLLECTION);
-        mViewModel = ViewModelProviders.of(this).get(CollectionPhotoViewModel.class);
-        ((CollectionPhotoViewModel) mViewModel).setCollection(collection);
+        mViewModel = ViewModelProviders.of(this).get(CollectionRelateVIewModel.class);
 
-        mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
+        ((CollectionRelateVIewModel)mViewModel).setCollection(collection);
 
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
     }
 
     @Override
     public void initView() {
         super.initListView();
 
-        if (ConfigHelper.isCompatView()) {
-            mListView.addItemDecoration(new LineDecoration(getContext(), 0, 4, 4));
-        }
-
         onShowRefresh();
         onRefresh();
     }
-
 }

@@ -98,6 +98,7 @@ public class CollectionsFragment extends BaseCollectionFragment {
 
         mCollectionsViewModel.setCurrentType(PopupMenuHelper.getCollectionType().get(0));
         mLineDecoration = new LineDecoration(getContext(), 0, 4, 4);
+        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
     }
 
     @Override
@@ -114,13 +115,6 @@ public class CollectionsFragment extends BaseCollectionFragment {
         });
 
         initListView();
-    }
-
-    @Override
-    public void initListView() {
-        mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
-
-        super.initListView();
 
         if (ConfigHelper.isCompatView()) {
             mListView.addItemDecoration(mLineDecoration);

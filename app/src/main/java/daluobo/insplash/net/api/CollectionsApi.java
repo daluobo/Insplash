@@ -67,4 +67,7 @@ public interface CollectionsApi {
 
     @DELETE("/collections/{id}")
     LiveData<ApiResponse<Object>> deleteCollection(@Path("id") String id);
+
+    @GET("/collections/{id}/related")
+    LiveData<ApiResponse<List<Collection>>> related(@Path("id") String id);
 }

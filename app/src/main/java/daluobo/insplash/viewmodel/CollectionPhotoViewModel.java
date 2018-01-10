@@ -21,7 +21,7 @@ public class CollectionPhotoViewModel extends PhotoViewModel {
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        return mRepository.loadPhoto(mCollection.getValue().id + "", page);
+        return mRepository.loadPhoto(mCollection.getValue().id, page);
     }
 
     public MediatorLiveData<Collection> getCollection() {

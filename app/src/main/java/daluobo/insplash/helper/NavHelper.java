@@ -11,6 +11,7 @@ import android.view.View;
 
 import daluobo.insplash.activity.AboutActivity;
 import daluobo.insplash.activity.CollectionActivity;
+import daluobo.insplash.activity.CollectionRelatedActivity;
 import daluobo.insplash.activity.CompatUserActivity;
 import daluobo.insplash.activity.DownloadActivity;
 import daluobo.insplash.activity.PhotoActivity;
@@ -138,4 +139,11 @@ public class NavHelper {
     public static void toDownload(Context context) {
         context.startActivity(new Intent(context, DownloadActivity.class));
     }
+
+    public static void toRelateCollection(Context context, Collection collection) {
+        Intent intent = new Intent(context, CollectionRelatedActivity.class);
+        intent.putExtra(CollectionRelatedActivity.ARG_COLLECTION, collection);
+        context.startActivity(intent);
+    }
+
 }

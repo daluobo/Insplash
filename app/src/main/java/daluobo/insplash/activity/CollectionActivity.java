@@ -172,8 +172,8 @@ public class CollectionActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCollectionEvent(CollectionChangeEvent event){
-        switch (event.mAction){
+    public void onCollectionEvent(CollectionChangeEvent event) {
+        switch (event.mAction) {
             case CollectionChangeEvent.Action.UPDATE:
                 mViewModel.setCollection(event.mCollection);
                 break;
@@ -201,8 +201,16 @@ public class CollectionActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.user_container)
-    public void onViewClicked() {
-        NavHelper.toUser(this, mViewModel.getCollection().getValue().user, mAvatar);
+
+    @OnClick({R.id.tags, R.id.user_container})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tags:
+                NavHelper.toRelateCollection(this, mViewModel.getCollection().getValue());
+                break;
+            case R.id.user_container:
+                NavHelper.toUser(this, mViewModel.getCollection().getValue().user, mAvatar);
+                break;
+        }
     }
 }

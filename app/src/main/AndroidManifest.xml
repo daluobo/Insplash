@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
-
     <application
         android:name=".common.MyApplication"
         android:allowBackup="true"
@@ -18,10 +17,10 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <service android:name=".download.DownloadService"
-                 android:enabled="true"
-                 android:exported="true"/>
+        <service
+            android:name=".download.DownloadService"
+            android:enabled="true"
+            android:exported="true"/>
 
         <activity
             android:name=".activity.MainActivity"
@@ -82,6 +81,8 @@
             android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity android:name=".activity.DownloadActivity">
+        </activity>
+        <activity android:name=".activity.CollectionRelatedActivity">
         </activity>
     </application>
 

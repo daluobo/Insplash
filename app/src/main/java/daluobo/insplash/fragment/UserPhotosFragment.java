@@ -73,13 +73,13 @@ public class UserPhotosFragment extends BasePhotoFragment {
 
     @Override
     public void initView() {
+        initListView();
+
         if (ConfigHelper.isCompatView()
                 && ((UserPhotoViewModel) mViewModel).getUserPhotoTyp() == UserPhotoViewModel.UserPhotosType.OWN) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             mListView.addItemDecoration(new LineDecoration(getContext(), 6, 3, 3));
         }
-
-        initListView();
 
         onShowRefresh();
         onRefresh();

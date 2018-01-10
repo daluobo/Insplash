@@ -108,7 +108,7 @@ public class UserActivity extends BaseUserActivity {
                 mLocation.setText(user.location);
 
                 if (user.badge != null) {
-                    mBadge.setText(user.badge);
+                    mBadge.setText(user.badge.title);
                     mBadge.setVisibility(View.VISIBLE);
                 } else {
                     mBadge.setVisibility(View.GONE);

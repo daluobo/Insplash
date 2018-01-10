@@ -48,15 +48,4 @@ public class IdObject implements Parcelable {
         this.id = in.readString();
     }
 
-    public static final Creator<IdObject> CREATOR = new Creator<IdObject>() {
-        @Override
-        public IdObject createFromParcel(Parcel source) {
-            return new IdObject(source);
-        }
-
-        @Override
-        public IdObject[] newArray(int size) {
-            return new IdObject[size];
-        }
-    };
 }

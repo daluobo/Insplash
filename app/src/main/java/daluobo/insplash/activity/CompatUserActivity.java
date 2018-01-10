@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -22,6 +23,8 @@ import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.ImgUtil;
 
 public class CompatUserActivity extends BaseUserActivity {
+
+
     @BindView(R.id.backdrop)
     ImageView mBackdrop;
     @BindView(R.id.avatar)
@@ -30,7 +33,12 @@ public class CompatUserActivity extends BaseUserActivity {
     TextView mName;
     @BindView(R.id.location)
     TextView mLocation;
-
+    @BindView(R.id.badge)
+    TextView mBadge;
+    @BindView(R.id.bio)
+    TextView mBio;
+    @BindView(R.id.user_info_container)
+    LinearLayout mUserInfoContainer;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbar;
     @BindView(R.id.appbar)
@@ -63,6 +71,20 @@ public class CompatUserActivity extends BaseUserActivity {
                 }
                 mName.setText(user.name);
                 mTitle.setText("@" + user.username);
+
+                if (user.badge != null) {
+                    mBadge.setText(user.badge.title);
+                    mBadge.setVisibility(View.VISIBLE);
+                } else {
+                    mBadge.setVisibility(View.GONE);
+                }
+
+                if (user.bio != null) {
+                    mBio.setText(user.bio);
+                    mBio.setVisibility(View.VISIBLE);
+                } else {
+                    mBio.setVisibility(View.GONE);
+                }
 
                 if (user.photos != null && user.photos.size() > 0) {
                     Random random = new Random();
