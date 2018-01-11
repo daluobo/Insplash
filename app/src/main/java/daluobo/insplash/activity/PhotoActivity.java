@@ -3,15 +3,11 @@ package daluobo.insplash.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -34,12 +30,11 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
-import daluobo.insplash.db.model.DownloadInfo;
-import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.event.PhotoChangeEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.helper.PermissionHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -161,8 +156,6 @@ public class PhotoActivity extends BaseActivity {
 
         initData();
         initView();
-
-        verifyStoragePermissions(this);
     }
 
     @Override
@@ -325,7 +318,7 @@ public class PhotoActivity extends BaseActivity {
                             }
 
                             mViewModel.setPhoto(likePhoto.photo);
-                            mLikeCount.setText(likePhoto.photo.likes+"");
+                            mLikeCount.setText(likePhoto.photo.likes + "");
 
                             mLikeCountHint.animate()
                                     .rotationBy(360)
@@ -349,14 +342,11 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.download_count_container:
+                PermissionHelper.verifyStoragePermissions(this);
                 mViewModel.getDownloadLink(mViewModel.getPhoto().getValue().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
                     @Override
                     protected void onSuccess(PhotoDownloadLink link) {
-                        Intent intent = new Intent(PhotoActivity.this, DownloadService.class);
-                        intent.setAction(DownloadService.ACTION_START);
-                        intent.putExtra(DownloadService.ARG_DOWNLOAD_INFO, new DownloadInfo(mViewModel.getPhoto().getValue(), link.url));
-
-                        startService(intent);
+                        NavHelper.downloadPhoto(PhotoActivity.this, mViewModel.getPhoto().getValue(), link.url);
                     }
                 });
                 break;
@@ -399,25 +389,5 @@ public class PhotoActivity extends BaseActivity {
 
     private void onPhotoChange() {
         EventBus.getDefault().post(new PhotoChangeEvent(mViewModel.getPhoto().getValue()));
-    }
-
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.WRITE_EXTERNAL_STORAGE"};
-
-    public static void verifyStoragePermissions(Activity activity) {
-
-        try {
-            //检测是否有写的权限
-            int permission = ActivityCompat.checkSelfPermission(activity,
-                    "android.permission.WRITE_EXTERNAL_STORAGE");
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // 没有写的权限，去申请写的权限，会弹出对话框
-                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

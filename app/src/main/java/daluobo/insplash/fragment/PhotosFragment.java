@@ -2,7 +2,6 @@ package daluobo.insplash.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +36,6 @@ public class PhotosFragment extends BasePhotoFragment {
     private TextView mPhotoType;
     private TextView mOrderBy;
     private PhotoViewModel mPhotoViewModel;
-    private PhotosAdapter.OnPhotoDownloadListener mOnPhotoDownloadListener;
     private LineDecoration mLineDecoration;
 
     @BindView(R.id.header_container)
@@ -75,22 +73,6 @@ public class PhotosFragment extends BasePhotoFragment {
     public static PhotosFragment newInstance() {
         PhotosFragment fragment = new PhotosFragment();
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof PhotosAdapter.OnPhotoDownloadListener) {
-            mOnPhotoDownloadListener = (PhotosAdapter.OnPhotoDownloadListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnPhotoDownloadListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mOnPhotoDownloadListener = null;
     }
 
     @Nullable
@@ -176,7 +158,6 @@ public class PhotosFragment extends BasePhotoFragment {
         } else {
             mAdapter = new PhotosAdapter(getContext(), mViewModel.getData(), this, (PhotoViewModel) mViewModel, getFragmentManager());
         }
-        ((PhotosAdapter) mAdapter).setOnPhotoDownloadListener(mOnPhotoDownloadListener);
 
         super.initListView();
 

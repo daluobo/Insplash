@@ -20,16 +20,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.PhotosAdapter;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.SimplePageAdapter;
-import daluobo.insplash.db.model.DownloadInfo;
 import daluobo.insplash.fragment.CollectionsFragment;
 import daluobo.insplash.fragment.PhotosFragment;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.model.net.Photo;
 
-public class MainActivity extends BaseActivity implements PhotosAdapter.OnPhotoDownloadListener {
+public class MainActivity extends BaseActivity{
     private List<Fragment> mFragments = new ArrayList<>();
     private SimplePageAdapter mAdapter;
 
@@ -112,8 +109,4 @@ public class MainActivity extends BaseActivity implements PhotosAdapter.OnPhotoD
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDownload(Photo photo, String url) {
-        DownloadInfo di = new DownloadInfo(photo, url);
-    }
 }

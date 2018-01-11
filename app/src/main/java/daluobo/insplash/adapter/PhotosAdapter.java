@@ -1,5 +1,6 @@
 package daluobo.insplash.adapter;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.support.annotation.IntDef;
@@ -12,15 +13,16 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import daluobo.insplash.R;
-import daluobo.insplash.adapter.vh.PhotoCompatViewHolder;
 import daluobo.insplash.adapter.listener.OnActionClickListener;
 import daluobo.insplash.adapter.vh.PhotoCardViewHolder;
+import daluobo.insplash.adapter.vh.PhotoCompatViewHolder;
 import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.LoadableAdapter;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.helper.PermissionHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -38,8 +40,6 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
     protected PhotoViewModel mViewModel;
     protected LifecycleOwner mLifecycleOwner;
     protected FragmentManager mFragmentManager;
-
-    private OnPhotoDownloadListener mOnPhotoDownloadListener;
 
     @IntDef({PhotoViewType.COMPAT, PhotoViewType.PREVIEW})
     private @interface PhotoViewType {
@@ -167,10 +167,12 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
     }
 
     public void onPhotoDownload(final Photo photo) {
+        PermissionHelper.verifyStoragePermissions((Activity) mContext);
+
         mViewModel.getDownloadLink(photo.id).observe(mLifecycleOwner, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(mContext) {
             @Override
             protected void onSuccess(PhotoDownloadLink link) {
-                mOnPhotoDownloadListener.onDownload(photo, link.url);
+                NavHelper.downloadPhoto(mContext, photo, link.url);
             }
         });
     }
@@ -186,11 +188,4 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
         }
     }
 
-    public interface OnPhotoDownloadListener {
-        void onDownload(Photo photo, String url);
-    }
-
-    public void setOnPhotoDownloadListener(OnPhotoDownloadListener onPhotoDownloadListener) {
-        mOnPhotoDownloadListener = onPhotoDownloadListener;
-    }
 }

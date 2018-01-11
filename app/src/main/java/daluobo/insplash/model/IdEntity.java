@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by daluobo on 2018/1/8.
  */
 
-public class IdObject implements Parcelable {
+public class IdEntity implements Parcelable {
     public String id;
 
     @Override
@@ -19,7 +19,7 @@ public class IdObject implements Parcelable {
         if (getClass() != obj.getClass())
             return false;
 
-        IdObject other = (IdObject) obj;
+        IdEntity other = (IdEntity) obj;
 
         if (id == null) {
             if (other.id == null)
@@ -41,11 +41,22 @@ public class IdObject implements Parcelable {
         dest.writeString(this.id);
     }
 
-    public IdObject() {
+    public IdEntity() {
     }
 
-    protected IdObject(Parcel in) {
+    protected IdEntity(Parcel in) {
         this.id = in.readString();
     }
 
+    public static final Creator<IdEntity> CREATOR = new Creator<IdEntity>() {
+        @Override
+        public IdEntity createFromParcel(Parcel source) {
+            return new IdEntity(source);
+        }
+
+        @Override
+        public IdEntity[] newArray(int size) {
+            return new IdEntity[size];
+        }
+    };
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import daluobo.insplash.db.AppDatabase;
 import daluobo.insplash.util.imm.IMMLeaks;
 
 /**
@@ -24,6 +25,8 @@ public class MyApplication extends Application {
 
         IMMLeaks.fixFocusedViewLeak(this);
         initLeakCanary();
+
+        AppDatabase.init(this);
     }
 
     private void initLeakCanary() {

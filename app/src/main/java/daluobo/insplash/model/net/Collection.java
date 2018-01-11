@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import daluobo.insplash.model.IdObject;
+import daluobo.insplash.model.IdEntity;
 
 /**
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class Collection extends IdObject implements Parcelable {
+public class Collection extends IdEntity implements Parcelable {
     public String title;
     public String description;
     public String published_at;

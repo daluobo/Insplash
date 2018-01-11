@@ -54,6 +54,7 @@
                 android:layout_height="40dp"
                 android:foreground="?android:selectableItemBackground"
                 android:padding="8dp"
+                android:layout_marginStart="8dp"
                 android:transitionName="avatar"
                 tools:src="@drawable/ic_account_box"
                 tools:tint="@color/colorPrimary"/>

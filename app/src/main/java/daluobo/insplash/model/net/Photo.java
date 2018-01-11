@@ -6,13 +6,13 @@ import android.support.annotation.Keep;
 
 import java.util.List;
 
-import daluobo.insplash.model.IdObject;
+import daluobo.insplash.model.IdEntity;
 
 /**
  * Created by daluobo on 2017/11/12.
  */
 @Keep
-public class Photo extends IdObject implements Parcelable {
+public class Photo extends IdEntity implements Parcelable {
 
     public String created_at;
     public String updated_at;

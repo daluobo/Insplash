@@ -19,11 +19,13 @@ import daluobo.insplash.activity.ProfileActivity;
 import daluobo.insplash.activity.SearchActivity;
 import daluobo.insplash.activity.SettingActivity;
 import daluobo.insplash.activity.UserActivity;
+import daluobo.insplash.db.model.DownloadInfo;
+import daluobo.insplash.download.DownloadService;
+import daluobo.insplash.fragment.dialog.AddToCollectionDialog;
+import daluobo.insplash.fragment.dialog.EditCollectionDialog;
 import daluobo.insplash.model.net.Collection;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.User;
-import daluobo.insplash.fragment.dialog.AddToCollectionDialog;
-import daluobo.insplash.fragment.dialog.EditCollectionDialog;
 
 /**
  * Created by daluobo on 2017/12/2.
@@ -146,4 +148,11 @@ public class NavHelper {
         context.startActivity(intent);
     }
 
+    public static void downloadPhoto(Context context, Photo photo, String url){
+        Intent intent = new Intent(context, DownloadService.class);
+        intent.setAction(DownloadService.ACTION_START);
+        intent.putExtra(DownloadService.ARG_DOWNLOAD_INFO, new DownloadInfo(photo, url));
+
+        context.startService(intent);
+    }
 }

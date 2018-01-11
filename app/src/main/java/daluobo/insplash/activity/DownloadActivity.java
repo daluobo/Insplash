@@ -1,6 +1,9 @@
 package daluobo.insplash.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -9,24 +12,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.DownloadAdapter;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.db.model.DownloadInfo;
 import daluobo.insplash.view.LineDecoration;
+import daluobo.insplash.viewmodel.DownloadInfoViewModel;
 
 public class DownloadActivity extends BaseActivity {
-
     protected DownloadAdapter mAdapter;
-//    protected Handler mDownloadProcessHandler = new Handler();
-//    protected Runnable mUpdateProcess = new Runnable() {
-//        @Override
-//        public void run() {
-//            mAdapter.notifyDataSetChanged();
-//            mDownloadProcessHandler.postDelayed(this, 1000);
-//        }
-//    };
+    protected DownloadInfoViewModel mViewModel;
+    protected List<DownloadInfo> mData = new ArrayList<>();
 
     @BindView(R.id.title)
     TextView mTitle;
@@ -46,24 +47,21 @@ public class DownloadActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        //mDownloadProcessHandler.removeCallbacks(mUpdateProcess);
-    }
 
     @Override
     public void initData() {
-//        mAdapter = new DownloadAdapter(this, DownloadPresenter.getInstance().getDownloadItems());
-//
-//        DownloadPresenter.getInstance().setOnRecordChangeListener(new DownloadPresenter.OnRecordChangeListener() {
-//            @Override
-//            public void onChange(List<DownloadInfo> downloadItems) {
-//                mAdapter.clearItems();
-//                mAdapter.addItems(downloadItems);
-//            }
-//        });
+        mViewModel = ViewModelProviders.of(this).get(DownloadInfoViewModel.class);
+
+        mViewModel.getAll().observe(this, new Observer<List<DownloadInfo>>() {
+            @Override
+            public void onChanged(@Nullable List<DownloadInfo> downloadInfo) {
+                mData.clear();
+                mData.addAll(downloadInfo);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mAdapter = new DownloadAdapter(this, mData);
     }
 
     @Override
@@ -81,7 +79,6 @@ public class DownloadActivity extends BaseActivity {
         mListView.setAdapter(mAdapter);
         mListView.addItemDecoration(new LineDecoration(this, 0, 4, 4));
 
-        //mUpdateProcess.run();
     }
 
     @Override

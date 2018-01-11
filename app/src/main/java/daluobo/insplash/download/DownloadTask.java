@@ -53,7 +53,7 @@ public class DownloadTask {
         new Thread() {
             @Override
             public void run() {
-                DownloadInfo di = AppDatabase.get(mContext).downloadDao().getDataById(mDownloadInfo.id);
+                DownloadInfo di = AppDatabase.sInstance.downloadDao().getDataById(mDownloadInfo.id);
                 if (di != null) {
                     Message msg = Message.obtain();
                     msg.what = START_DOWNLOAD;
@@ -95,7 +95,7 @@ public class DownloadTask {
                         mDownloadInfo.length = length;
                         mDownloadInfo.process = 0;
 
-                        //AppDatabase.get(mContext).downloadDao().add(mDownloadInfo);
+                        AppDatabase.sInstance.downloadDao().add(mDownloadInfo);
 
                         Message msg = Message.obtain();
                         msg.what = START_DOWNLOAD;

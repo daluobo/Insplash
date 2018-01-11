@@ -14,9 +14,13 @@ import daluobo.insplash.db.model.DownloadInfo;
 
 @Database(entities = {DownloadInfo.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+    public static AppDatabase sInstance;
 
-    public static AppDatabase get(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "insplash.db").build();
+    public static AppDatabase init(Context context) {
+        if (sInstance == null) {
+            sInstance = Room.databaseBuilder(context, AppDatabase.class, "insplash.db").build();
+        }
+        return sInstance;
     }
 
     public abstract DownloadInfoDao downloadDao();

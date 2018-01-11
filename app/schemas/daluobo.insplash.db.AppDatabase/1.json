@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "da75fe023bcd657aea39040e8f75293d",
+    "identityHash": "913654ab1077f1b42f6cb2954b6cb54c",
     "entities": [
       {
         "tableName": "download",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER NOT NULL, `id` TEXT, `name` TEXT, `preview_url` TEXT, `url` TEXT, `process` INTEGER NOT NULL, `state` TEXT, `length` INTEGER NOT NULL, PRIMARY KEY(`uid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT, `name` TEXT, `preview_url` TEXT, `url` TEXT, `process` INTEGER NOT NULL, `state` TEXT, `length` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -61,7 +61,7 @@
           "columnNames": [
             "uid"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -69,7 +69,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"da75fe023bcd657aea39040e8f75293d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"913654ab1077f1b42f6cb2954b6cb54c\")"
     ]
   }
 }

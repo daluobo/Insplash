@@ -17,7 +17,7 @@ import daluobo.insplash.model.net.Photo;
 @Entity(tableName = "download")
 public class DownloadInfo implements Parcelable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
     @ColumnInfo(name = "id")
     public String id;
