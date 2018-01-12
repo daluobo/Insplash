@@ -41,7 +41,7 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadInfo, DownloadA
         viewHolder.mLength.setText(length);
         ImgUtil.loadImg(mContext, viewHolder.mPhotoView, item.previewUrl);
 
-        viewHolder.mProgressBar.setProgress((int) item.process);
+        viewHolder.mProgressBar.setProgress((int) (item.process * 100/item.length) );
     }
 
     @Override

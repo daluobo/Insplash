@@ -14,7 +14,7 @@ import okhttp3.Response;
  */
 
 public class FileHelper {
-    public static final String mDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath();
+    public static final String mDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+"/Insplash";
 
     public long getContentLength(String downloadUrl) throws IOException {
         OkHttpClient client = new OkHttpClient();

@@ -13,15 +13,15 @@ import java.lang.annotation.RetentionPolicy;
 @StringDef({
         DownloadState.WAITING,
         DownloadState.PROCESSING,
-        DownloadState.SUCCESS,
+        DownloadState.FINISH,
         DownloadState.PAUSED,
-        DownloadState.FAILED,
+        DownloadState.ERROR,
         DownloadState.CANCELED})
 public @interface DownloadState {
     String WAITING = "0";
     String PROCESSING = "1";
-    String SUCCESS = "2";
-    String FAILED = "3";
+    String FINISH = "2";
+    String ERROR = "3";
     String PAUSED = "4";
     String CANCELED = "5";
 }

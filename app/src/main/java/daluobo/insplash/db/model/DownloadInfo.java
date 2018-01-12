@@ -7,7 +7,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Keep;
 
-import daluobo.insplash.download.DownloadState;
 import daluobo.insplash.model.net.Photo;
 
 /**
@@ -30,7 +29,6 @@ public class DownloadInfo implements Parcelable {
     @ColumnInfo(name = "process")
     public long process;
 
-    @DownloadState
     @ColumnInfo(name = "state")
     public String state;
     @ColumnInfo(name = "length")
