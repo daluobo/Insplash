@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import daluobo.insplash.R;
 import daluobo.insplash.common.GlideApp;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -28,14 +29,7 @@ public class ImgUtil {
         GlideApp.with(context)
                 .load(url)
                 .placeholder(placeholder)
-                .transition(withCrossFade())
-                .into(imageView);
-    }
-
-    public static void loadImgCC(@NonNull Context context, @NonNull ImageView imageView, @NonNull String url) {
-        GlideApp.with(context)
-                .load(url)
-                .centerCrop()
+                .error(R.drawable.ic_fail)
                 .transition(withCrossFade())
                 .into(imageView);
     }
@@ -46,14 +40,7 @@ public class ImgUtil {
                 .centerCrop()
                 .transition(withCrossFade())
                 .placeholder(placeholder)
-                .into(imageView);
-    }
-
-    public static void loadImg(@NonNull Context context, @NonNull ImageView imageView, @NonNull Drawable drawable) {
-        GlideApp.with(context)
-                .load(drawable)
-                .centerCrop()
-                .transition(withCrossFade())
+                .error(R.drawable.ic_fail)
                 .into(imageView);
     }
 }

@@ -16,8 +16,10 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
+import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.Collection;
+import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
 import daluobo.insplash.util.ViewUtil;
 
@@ -52,6 +54,7 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
     Context mContext;
     Collection mCollection;
     int mPosition;
+    int mContainerWidth = 0;
     boolean mIsShowUser = true;
 
 
@@ -67,17 +70,26 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
                 NavHelper.toUser(mContext, mCollection.user, mAvatar);
             }
         });
+
+        mContainerWidth = ViewUtil.getScreenSize(mContext)[0];
+        if(!ConfigHelper.isCompatView()){
+            mContainerWidth = mContainerWidth - DimensionUtil.dpToPx(16);
+        }
     }
 
     public void bindDataToView(Collection collection, int position) {
         mCollection = collection;
         mPosition = position;
 
+        mPreview0.setVisibility(View.VISIBLE);
+        mPreview1.setVisibility(View.VISIBLE);
+        mPreview2.setVisibility(View.VISIBLE);
+
         mTitle.setText(collection.title);
         mTotalPhotos.setText(collection.total_photos + "  " + mPhotosStr);
         if (mIsShowUser) {
             mAvatar.setVisibility(View.VISIBLE);
-            ImgUtil.loadImgCC(mContext, mAvatar, collection.user.profile_image.small);
+            ImgUtil.loadImg(mContext, mAvatar, collection.user.profile_image.small);
         } else {
             mAvatar.setVisibility(View.GONE);
         }
@@ -90,48 +102,50 @@ public abstract class CollectionViewHolder extends RecyclerView.ViewHolder imple
         }
 
         if (collection.cover_photo == null) {
-            ViewGroup.LayoutParams lp = mPhotosContainer.getLayoutParams();
-            lp.height = lp.width * 2 / 3;
+            mPreview0.setVisibility(View.INVISIBLE);
+            mPreview2.setVisibility(View.INVISIBLE);
 
-            mPreview0.setLayoutParams(lp);
-            mPreview0.setImageDrawable(mIcNeutral);
+            ViewGroup.LayoutParams lp = mPhotosContainer.getLayoutParams();
+            lp.width = mContainerWidth;
+            lp.height = lp.width / 3;
+
+            mPhotosContainer.setLayoutParams(lp);
+            mPreview1.setImageDrawable(mIcNeutral);
 
             return;
         }
 
-        int screenWidth = ViewUtil.getScreenSize(mContext)[0];
         ColorDrawable bg = new ColorDrawable(Color.parseColor(collection.cover_photo.color));
         ViewGroup.LayoutParams containerLp = mPhotosContainer.getLayoutParams();
 
-        mPreview1.setVisibility(View.VISIBLE);
-        mPreview2.setVisibility(View.VISIBLE);
-
         if (collection.preview_photos.size() >= 3) {
-            containerLp.height = screenWidth / 3;
+            containerLp.height = mContainerWidth / 3;
             mPhotosContainer.setLayoutParams(containerLp);
 
             ImgUtil.loadImgCC(mContext, mPreview0, bg, collection.preview_photos.get(0).urls.thumb);
             ImgUtil.loadImgCC(mContext, mPreview1, bg, collection.preview_photos.get(1).urls.thumb);
             ImgUtil.loadImgCC(mContext, mPreview2, bg, collection.preview_photos.get(2).urls.thumb);
         } else if (collection.preview_photos.size() == 2) {
+            mPreview1.setVisibility(View.VISIBLE);
             mPreview2.setVisibility(View.GONE);
 
-            containerLp.height = screenWidth / 2;
+            containerLp.height = mContainerWidth / 2;
             mPhotosContainer.setLayoutParams(containerLp);
 
             ImgUtil.loadImgCC(mContext, mPreview0, bg, collection.preview_photos.get(0).urls.small);
             ImgUtil.loadImgCC(mContext, mPreview1, bg, collection.preview_photos.get(1).urls.small);
+
         } else {
             mPreview1.setVisibility(View.GONE);
             mPreview2.setVisibility(View.GONE);
 
-            containerLp.height = screenWidth * 2 / 3;
+            containerLp.height = mContainerWidth * 2 / 3;
             mPhotosContainer.setLayoutParams(containerLp);
 
             if (collection.cover_photo != null) {
-                ImgUtil.loadImgCC(mContext, mPreview0, bg, collection.cover_photo.urls.small);
+                ImgUtil.loadImgCC(mContext, mPreview0, bg, collection.cover_photo.urls.regular);
             } else {
-                ImgUtil.loadImg(mContext, mPreview0, mIcNeutral);
+                mPreview0.setImageDrawable(mIcNeutral);
             }
         }
     }

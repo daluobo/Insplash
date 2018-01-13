@@ -148,6 +148,8 @@ public class DownloadTask {
                 }
 
                 if (length > 0) {
+                    mDownloadInfo.length = length;
+
                     File tempFile = new File(FileHelper.mDirectory + "/" + mDownloadInfo.name);
                     raf = new RandomAccessFile(tempFile, "rwd");
                     raf.seek(mDownloadInfo.process);

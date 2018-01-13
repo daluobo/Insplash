@@ -18,6 +18,7 @@ import daluobo.insplash.model.net.Collection;
 public class CollectionCardViewHolder extends CollectionViewHolder {
     @BindView(R.id.container)
     CardView mContainer;
+
     @BindView(R.id.username)
     TextView mUsername;
 
@@ -42,7 +43,6 @@ public class CollectionCardViewHolder extends CollectionViewHolder {
     @Override
     public void bindDataToView(Collection collection, int position) {
         super.bindDataToView(collection, position);
-
 
         if (mIsShowUser) {
             mUsername.setVisibility(View.VISIBLE);

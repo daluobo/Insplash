@@ -21,4 +21,7 @@
     <color name="colorBg">#F8F9FA</color>
 
 
+    <color name="colorYellow">#f1c84c</color>
+    <color name="colorGreen">#7da743</color>
+    <color name="colorBlue">#4c829e</color>
 </resources>

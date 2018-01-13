@@ -148,6 +148,14 @@ public class NavHelper {
         context.startActivity(intent);
     }
 
+    public static void downloadPhoto(Context context, DownloadInfo downloadInfo, String action){
+        Intent intent = new Intent(context, DownloadService.class);
+        intent.setAction(action);
+        intent.putExtra(DownloadService.ARG_DOWNLOAD_INFO, downloadInfo);
+
+        context.startService(intent);
+    }
+
     public static void downloadPhoto(Context context, Photo photo, String url){
         Intent intent = new Intent(context, DownloadService.class);
         intent.setAction(DownloadService.ACTION_START);

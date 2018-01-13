@@ -18,33 +18,72 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/photos_container"
+        <include layout="@layout/item_photo_container"/>
+
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:layout_height="96dp">
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:textColor="@color/colorTitle"
+            android:textSize="16sp"
+            tools:text="title"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"
+            android:textSize="12sp"
+            tools:text="description"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBg"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/preview_0"
+                android:id="@+id/avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:foreground="?android:selectableItemBackground"
+                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_account_box"
+                android:transitionName="avatar"
+                tools:tint="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/username"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"/>
+                android:background="?android:selectableItemBackground"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/colorTitle"
+                tools:text="username"/>
 
-            <ImageView
-                android:id="@+id/preview_1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/preview_2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/total_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="?android:selectableItemBackground"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:textColor="@color/colorTitle"
+                tools:text="0"/>
         </LinearLayout>
-
-        <include layout="@layout/item_collection_footer"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

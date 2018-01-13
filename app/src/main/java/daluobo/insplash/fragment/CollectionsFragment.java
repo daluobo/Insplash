@@ -19,10 +19,8 @@ import daluobo.insplash.R;
 import daluobo.insplash.adapter.CollectionsAdapter;
 import daluobo.insplash.event.OptionEvent;
 import daluobo.insplash.fragment.base.BaseCollectionFragment;
-import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.PopupMenuHelper;
 import daluobo.insplash.model.OptionItem;
-import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.CollectionsViewModel;
 
 /**
@@ -33,7 +31,6 @@ public class CollectionsFragment extends BaseCollectionFragment {
     private CollectionsViewModel mCollectionsViewModel;
     protected LayoutInflater mInflater;
     protected TextView mCollectionType;
-    protected LineDecoration mLineDecoration;
 
     @BindView(R.id.header_container)
     FrameLayout mHeaderContainer;
@@ -71,11 +68,6 @@ public class CollectionsFragment extends BaseCollectionFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onViewEvent(OptionEvent event) {
-        if (ConfigHelper.isCompatView()) {
-            mListView.addItemDecoration(mLineDecoration);
-        }else {
-            mListView.removeItemDecoration(mLineDecoration);
-        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -97,7 +89,6 @@ public class CollectionsFragment extends BaseCollectionFragment {
         });
 
         mCollectionsViewModel.setCurrentType(PopupMenuHelper.getCollectionType().get(0));
-        mLineDecoration = new LineDecoration(getContext(), 0, 4, 4);
         mAdapter = new CollectionsAdapter(getContext(), mViewModel.getData());
     }
 
@@ -115,10 +106,6 @@ public class CollectionsFragment extends BaseCollectionFragment {
         });
 
         initListView();
-
-        if (ConfigHelper.isCompatView()) {
-            mListView.addItemDecoration(mLineDecoration);
-        }
     }
 
     private void showSelectType() {

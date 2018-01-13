@@ -6,37 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp">
 
-    <LinearLayout
-        android:id="@+id/photos_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:layout_height="96dp">
-
-        <ImageView
-            android:id="@+id/preview_0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/preview_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/preview_0"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/preview_2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/preview_1"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
+    <include layout="@layout/item_photo_container"/>
 
     <TextView
         android:id="@+id/title"

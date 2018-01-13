@@ -30,7 +30,8 @@ import daluobo.insplash.util.ViewUtil;
  */
 
 public class PhotoCardViewHolder extends PhotoViewHolder{
-
+    @BindView(R.id.container)
+    CardView mContainer;
     @BindView(R.id.description)
     TextView mDescription;
     @BindView(R.id.avatar)
@@ -39,8 +40,6 @@ public class PhotoCardViewHolder extends PhotoViewHolder{
     TextView mUsername;
     @BindView(R.id.more)
     ImageView mMore;
-    @BindView(R.id.container)
-    CardView mContainer;
 
     private int mContainerWidth;
     private boolean mIsShowUser = true;

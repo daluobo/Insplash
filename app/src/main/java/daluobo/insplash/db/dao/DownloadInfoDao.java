@@ -22,6 +22,9 @@ public interface DownloadInfoDao {
     @Query("SELECT * FROM download")
     LiveData<List<DownloadInfo>> getAll();
 
+    @Query("SELECT * FROM download WHERE state = :state")
+    LiveData<List<DownloadInfo>> getProcessing(String state);
+
     @Query("SELECT * FROM download WHERE id = :id")
     LiveData<DownloadInfo> getById(String id);
 
@@ -39,4 +42,7 @@ public interface DownloadInfoDao {
 
     @Delete
     void delete(DownloadInfo... downloadItems);
+
+    @Query("SELECT * FROM download WHERE state != :state")
+    List<DownloadInfo> getNotProcessing(String state);
 }

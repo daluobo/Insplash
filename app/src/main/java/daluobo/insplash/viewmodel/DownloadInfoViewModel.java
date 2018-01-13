@@ -18,4 +18,8 @@ public class DownloadInfoViewModel extends ViewModel{
     public LiveData<List<DownloadInfo>> getAll() {
         return mRepository.getAll();
     }
+
+    public LiveData<List<DownloadInfo>> getProcessing() {
+        return mRepository.getProcessing();
+    }
 }

@@ -20,7 +20,10 @@ import butterknife.ButterKnife;
 import daluobo.insplash.R;
 import daluobo.insplash.adapter.DownloadAdapter;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.db.AppDatabase;
 import daluobo.insplash.db.model.DownloadInfo;
+import daluobo.insplash.download.DownloadService;
+import daluobo.insplash.download.DownloadState;
 import daluobo.insplash.view.LineDecoration;
 import daluobo.insplash.viewmodel.DownloadInfoViewModel;
 
@@ -47,7 +50,6 @@ public class DownloadActivity extends BaseActivity {
 
     }
 
-
     @Override
     public void initData() {
         mViewModel = ViewModelProviders.of(this).get(DownloadInfoViewModel.class);
@@ -55,9 +57,27 @@ public class DownloadActivity extends BaseActivity {
         mViewModel.getAll().observe(this, new Observer<List<DownloadInfo>>() {
             @Override
             public void onChanged(@Nullable List<DownloadInfo> downloadInfo) {
+
                 mData.clear();
                 mData.addAll(downloadInfo);
                 mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mViewModel.getProcessing().observe(this, new Observer<List<DownloadInfo>>() {
+            @Override
+            public void onChanged(@Nullable List<DownloadInfo> downloadInfos) {
+                for (final DownloadInfo di : downloadInfos) {
+                    if (!DownloadService.isDownloading(di)) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                di.state = DownloadState.ERROR;
+                                AppDatabase.sInstance.downloadDao().update(di);
+                            }
+                        }.start();
+                    }
+                }
             }
         });
 
@@ -93,7 +113,13 @@ public class DownloadActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_delete) {
-
+            new Thread() {
+                @Override
+                public void run() {
+                    List<DownloadInfo> deleteList = AppDatabase.sInstance.downloadDao().getNotProcessing(DownloadState.PROCESSING);
+                    AppDatabase.sInstance.downloadDao().deleteAll(deleteList);
+                }
+            }.start();
             return true;
         }
         return super.onOptionsItemSelected(item);
