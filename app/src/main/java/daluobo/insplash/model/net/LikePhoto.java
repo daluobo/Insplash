@@ -2,11 +2,12 @@ package daluobo.insplash.model.net;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 /**
  * Created by daluobo on 2017/12/19.
  */
-
+@Keep
 public class LikePhoto implements Parcelable {
     public Photo photo;
     public User user;

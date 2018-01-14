@@ -2,11 +2,12 @@ package daluobo.insplash.model.net;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 /**
  * Created by daluobo on 2017/12/22.
  */
-
+@Keep
 public class PhotoDownloadLink implements Parcelable {
     public String url;
 

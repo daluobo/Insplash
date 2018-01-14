@@ -2,11 +2,12 @@ package daluobo.insplash.model.net;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 /**
  * Created by daluobo on 2018/1/10.
  */
-
+@Keep
 public class Badge implements Parcelable {
     public String title;
     public Boolean primary;

@@ -31,7 +31,6 @@ public class DownloadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
             DownloadInfo downloadFile = intent.getParcelableExtra(ARG_DOWNLOAD_INFO);
-
             if (ACTION_START.equals(intent.getAction())) {
                 start(downloadFile);
             } else if (ACTION_RESTART.equals(intent.getAction())) {
@@ -45,10 +44,13 @@ public class DownloadService extends Service {
     }
 
     private void start(DownloadInfo downloadFile) {
+
+
         DownloadTask dt = new DownloadTask(this, downloadFile);
         dt.start();
         downloadFile.state = DownloadState.PROCESSING;
         mTaskList.add(dt);
+
 
         if (mTaskList.size() == 1) {
             final ScheduledExecutorService updateProcessExecutor = Executors.newScheduledThreadPool(1);

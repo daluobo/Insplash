@@ -2,11 +2,12 @@ package daluobo.insplash.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 /**
  * Created by daluobo on 2018/1/8.
  */
-
+@Keep
 public class IdEntity implements Parcelable {
     public String id;
 
