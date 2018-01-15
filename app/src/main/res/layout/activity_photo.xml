@@ -116,6 +116,8 @@
                     android:id="@+id/download_count_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_file_download"/>
 
                 <TextView
@@ -172,6 +174,22 @@
                 android:textColor="@color/colorTitle"
                 tools:text="time"/>
 
+            <TextView
+                android:id="@+id/size"
+                style="@style/InfoText"
+                android:drawableLeft="@drawable/ic_straighten"
+                android:drawablePadding="16dp"
+                android:textColor="@color/colorTitle"
+                tools:text="size x size"/>
+
+            <TextView
+                android:id="@+id/color"
+                style="@style/InfoText"
+                android:drawableLeft="@drawable/ic_palette"
+                android:drawablePadding="16dp"
+                android:textColor="@color/colorTitle"
+                tools:text="color"/>
+
             <RelativeLayout
                 android:id="@+id/show_exif_btn"
                 android:layout_width="match_parent"
@@ -186,7 +204,6 @@
                     android:layout_toRightOf="@id/exif_model_hint"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="···"
                     android:textColor="@color/colorTitle"
                     tools:text="exif_model"/>
 
@@ -207,7 +224,6 @@
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/ic_arrow_down"/>
             </RelativeLayout>
-
 
             <LinearLayout
                 android:id="@+id/exif_container"
@@ -308,22 +324,6 @@
                     android:layout_height="1dp"
                     android:background="@color/colorBg"></LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/size"
-                style="@style/InfoText"
-                android:drawableLeft="@drawable/ic_straighten"
-                android:drawablePadding="16dp"
-                android:textColor="@color/colorTitle"
-                tools:text="size x size"/>
-
-            <TextView
-                android:id="@+id/color"
-                style="@style/InfoText"
-                android:drawableLeft="@drawable/ic_palette"
-                android:drawablePadding="16dp"
-                android:textColor="@color/colorTitle"
-                tools:text="color"/>
 
         </LinearLayout>
 

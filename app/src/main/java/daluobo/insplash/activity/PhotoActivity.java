@@ -5,9 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -30,11 +33,12 @@ import daluobo.insplash.R;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.BaseActivity;
+import daluobo.insplash.db.model.DownloadInfo;
+import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.event.PhotoChangeEvent;
 import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.helper.AuthHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.PermissionHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -148,6 +152,10 @@ public class PhotoActivity extends BaseActivity {
     @BindString(R.string.msg_please_login)
     String mMsgPleaseLogin;
 
+    private long mDownloadingStartTimeMillis;
+    private boolean mIsCompleteAnimationPending = false;
+    private boolean mIsDownloading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,6 +259,11 @@ public class PhotoActivity extends BaseActivity {
         } else {
             ViewUtil.setDrawableStart(mCollectBtn, mIcMarkBorder);
         }
+
+        DownloadInfo downloadInfo = new DownloadInfo(photo, null);
+        if(DownloadService.isDownloading(downloadInfo)){
+            showDownloadAnim();
+        }
     }
 
     private void updateContent(Photo photo) {
@@ -342,11 +355,18 @@ public class PhotoActivity extends BaseActivity {
 
                 break;
             case R.id.download_count_container:
-                PermissionHelper.verifyStoragePermissions(this);
+                if(mIsDownloading){
+                    NavHelper.toDownload(this);
+                    return;
+                }
+
                 mViewModel.getDownloadLink(mViewModel.getPhoto().getValue().id).observe(this, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(this) {
                     @Override
                     protected void onSuccess(PhotoDownloadLink link) {
-                        NavHelper.downloadPhoto(PhotoActivity.this, mViewModel.getPhoto().getValue(), link.url);
+                        DownloadInfo downloadInfo = new DownloadInfo(mViewModel.getPhoto().getValue(), link.url);
+                        NavHelper.downloadPhoto(PhotoActivity.this, downloadInfo, DownloadService.ACTION_START);
+
+                        showDownloadAnim();
                     }
                 });
                 break;
@@ -385,6 +405,33 @@ public class PhotoActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void showDownloadAnim() {
+        if (mIsCompleteAnimationPending) {
+            return;
+        }
+        if (mIsDownloading) {
+            final long delayMillis = 2666 - ((System.currentTimeMillis() - mDownloadingStartTimeMillis) % 2666);
+            mDownloadCountHint.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    swapAnimation(R.drawable.avd_downloading_finish);
+                    mIsCompleteAnimationPending = false;
+                }
+            }, delayMillis);
+            mIsCompleteAnimationPending = true;
+        } else {
+            swapAnimation(R.drawable.avd_downloading_begin);
+            mDownloadingStartTimeMillis = System.currentTimeMillis();
+        }
+        mIsDownloading = !mIsDownloading;
+    }
+
+    private void swapAnimation(@DrawableRes int drawableResId) {
+        final Drawable avd = AnimatedVectorDrawableCompat.create(this, drawableResId);
+        mDownloadCountHint.setImageDrawable(avd);
+        ((Animatable) avd).start();
     }
 
     private void onPhotoChange() {

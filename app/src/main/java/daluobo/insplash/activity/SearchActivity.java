@@ -64,7 +64,7 @@ public class SearchActivity extends BaseActivity {
 
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 
     @Override

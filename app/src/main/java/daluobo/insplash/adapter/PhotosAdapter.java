@@ -1,6 +1,5 @@
 package daluobo.insplash.adapter;
 
-import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.support.annotation.IntDef;
@@ -20,9 +19,10 @@ import daluobo.insplash.adapter.vh.PhotoViewHolder;
 import daluobo.insplash.base.arch.Resource;
 import daluobo.insplash.base.arch.ResourceObserver;
 import daluobo.insplash.base.view.LoadableAdapter;
+import daluobo.insplash.db.model.DownloadInfo;
+import daluobo.insplash.download.DownloadService;
 import daluobo.insplash.helper.ConfigHelper;
 import daluobo.insplash.helper.NavHelper;
-import daluobo.insplash.helper.PermissionHelper;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
@@ -167,12 +167,10 @@ public class PhotosAdapter extends LoadableAdapter<Photo> {
     }
 
     public void onPhotoDownload(final Photo photo) {
-        PermissionHelper.verifyStoragePermissions((Activity) mContext);
-
         mViewModel.getDownloadLink(photo.id).observe(mLifecycleOwner, new ResourceObserver<Resource<PhotoDownloadLink>, PhotoDownloadLink>(mContext) {
             @Override
             protected void onSuccess(PhotoDownloadLink link) {
-                NavHelper.downloadPhoto(mContext, photo, link.url);
+                NavHelper.downloadPhoto(mContext, new DownloadInfo(photo, link.url), DownloadService.ACTION_START);
             }
         });
     }

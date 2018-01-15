@@ -31,8 +31,8 @@
     </string-array>
 
     <string-array name="view_option">
-        <item>紧凑</item>
         <item>卡片</item>
+        <item>紧凑</item>
     </string-array>
 
     <string-array name="language_option">

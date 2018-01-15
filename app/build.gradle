@@ -8,6 +8,8 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "0.0.1"
+        vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -29,15 +31,6 @@ android {
     buildTypes {
 
         release {
-            minifyEnabled true
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        debug{
             minifyEnabled true
             minifyEnabled true
             zipAlignEnabled true

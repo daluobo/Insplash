@@ -77,8 +77,8 @@ public class PopupMenuHelper {
         mViewOption = res.getStringArray(R.array.view_option);
 
         mViewType.clear();
-        mViewType.add(new OptionItem(mViewOption[0], ConfigHelper.ViewType.COMPAT));
-        mViewType.add(new OptionItem(mViewOption[1], ConfigHelper.ViewType.CARD));
+        mViewType.add(new OptionItem(mViewOption[0], ConfigHelper.ViewType.CARD));
+        mViewType.add(new OptionItem(mViewOption[1], ConfigHelper.ViewType.COMPAT));
     }
 
     public static void initLanguage(Context context) {

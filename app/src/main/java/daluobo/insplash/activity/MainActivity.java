@@ -1,5 +1,6 @@
 package daluobo.insplash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -19,12 +20,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 import daluobo.insplash.R;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.base.view.SimplePageAdapter;
 import daluobo.insplash.fragment.CollectionsFragment;
 import daluobo.insplash.fragment.PhotosFragment;
 import daluobo.insplash.helper.NavHelper;
+import daluobo.insplash.helper.PermissionHelper;
+import daluobo.insplash.test.TestActivity;
 
 public class MainActivity extends BaseActivity{
     private List<Fragment> mFragments = new ArrayList<>();
@@ -50,6 +54,8 @@ public class MainActivity extends BaseActivity{
 
         initData();
         initView();
+
+        PermissionHelper.verifyStoragePermissions(this);
     }
 
     @Override
@@ -107,6 +113,12 @@ public class MainActivity extends BaseActivity{
             overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnLongClick(R.id.title)
+    public boolean onTitleClick(View view){
+        startActivity(new Intent(this, TestActivity.class));
+        return true;
     }
 
 }

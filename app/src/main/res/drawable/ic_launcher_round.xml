@@ -6,13 +6,13 @@
         android:viewportWidth="108">
 
     <path
-        android:fillColor="@color/colorPrimary"
+        android:fillColor="@color/colorWhite"
         android:pathData="M0,54
         A33 33 0 1 1 108 54
         A33 33 0 1 1 0, 54"/>
 
     <path
-        android:fillColor="@color/colorWhite"
+        android:fillColor="@color/colorPrimary"
         android:pathData="M45.0,24.0
         L39.51,30.0
         L30.0,30.0
