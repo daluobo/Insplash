@@ -13,7 +13,9 @@ import daluobo.insplash.common.AppConstant;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
+import daluobo.insplash.model.net.TrendingFeed;
 import daluobo.insplash.net.RetrofitHelper;
+import daluobo.insplash.net.api.Napi;
 import daluobo.insplash.net.api.PhotosApi;
 
 /**
@@ -22,9 +24,12 @@ import daluobo.insplash.net.api.PhotosApi;
 
 public class PhotoRepository extends BaseRepository{
     private PhotosApi mPhotoService;
+    private Napi mNapiService;
+    private String mNextTrendingPage = "";
 
     public PhotoRepository() {
         mPhotoService = RetrofitHelper.buildApi().create(PhotosApi.class);
+        mNapiService = RetrofitHelper.buildUnsplsh().create(Napi.class);
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(final int page, final String order_by) {
@@ -53,6 +58,25 @@ public class PhotoRepository extends BaseRepository{
             @Override
             protected List<Photo> convertResult(@NonNull List<Photo> item) {
                 return item;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Photo>>>  getTrending(final int page) {
+        return new NetworkResource<List<Photo>, TrendingFeed>() {
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<TrendingFeed>> createCall() {
+                if(page == 0){
+                    mNextTrendingPage = "";
+                }
+                return mNapiService.trending(mNextTrendingPage);
+            }
+
+            @Override
+            protected List<Photo> convertResult(@NonNull TrendingFeed item) {
+                mNextTrendingPage = item.next_page;
+                return item.photos;
             }
         }.getAsLiveData();
     }

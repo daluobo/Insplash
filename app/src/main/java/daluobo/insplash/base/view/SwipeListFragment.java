@@ -6,7 +6,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.animation.LayoutAnimationController;
+import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,6 +35,10 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
     protected RecyclerView mListView;
     @BindView(R.id.swipe_layout)
     protected SwipeRefreshLayout mSwipeLayout;
+    @BindView(R.id.empty_hint_container)
+    LinearLayout mEmptyHintContainer;
+    @BindView(R.id.error_hint_container)
+    LinearLayout mErrorHintContainer;
 
     protected LoadableAdapter mAdapter;
     protected BasePageViewModel mViewModel;
@@ -111,6 +117,11 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
             }
 
             @Override
+            protected void onError(String msg) {
+                mErrorHintContainer.setVisibility(View.VISIBLE);
+            }
+
+            @Override
             protected void onFinal() {
                 super.onFinal();
                 onHideRefresh();
@@ -149,6 +160,13 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
     }
 
     protected void onRefreshSuccess(List<T> data) {
+        if (data.size() == 0) {
+            mEmptyHintContainer.setVisibility(View.VISIBLE);
+        } else {
+            mErrorHintContainer.setVisibility(View.GONE);
+            mEmptyHintContainer.setVisibility(View.GONE);
+        }
+
         mAdapter.clearItems();
         mAdapter.addItems(data);
         mAdapter.notifyDataSetChanged();
@@ -163,7 +181,7 @@ public abstract class SwipeListFragment<T> extends BaseFragment implements Swipe
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(String event){
+    public void onEvent(String event) {
 
     }
 }

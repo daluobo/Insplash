@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import daluobo.insplash.base.arch.ApiResponse;
-import daluobo.insplash.model.net.PhotoDownloadLink;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
+import daluobo.insplash.model.net.PhotoDownloadLink;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -21,6 +21,7 @@ import retrofit2.http.QueryMap;
  */
 
 public interface PhotosApi {
+
     @GET("/photos")
     LiveData<ApiResponse<List<Photo>>> photos(@Query("page") int page,
                                               @Query("order_by") String order_by,

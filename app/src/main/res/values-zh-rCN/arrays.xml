@@ -15,6 +15,7 @@
 
     <string-array name="photos_option">
         <item>照片</item>
+        <item>推荐</item>
         <item>精选</item>
     </string-array>
 

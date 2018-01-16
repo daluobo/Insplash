@@ -58,7 +58,7 @@ public class CollectionsFragment extends BaseCollectionFragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photos, container, false);
+        View view = inflater.inflate(R.layout.fragment_page, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         initData();

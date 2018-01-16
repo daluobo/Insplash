@@ -33,6 +33,8 @@ import daluobo.insplash.viewmodel.PhotoViewModel;
 
 public class PhotosFragment extends BasePhotoFragment {
     protected LayoutInflater mInflater;
+
+
     private TextView mPhotoType;
     private TextView mOrderBy;
     private PhotoViewModel mPhotoViewModel;
@@ -78,7 +80,7 @@ public class PhotosFragment extends BasePhotoFragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photos, container, false);
+        View view = inflater.inflate(R.layout.fragment_page, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         initData();
@@ -164,7 +166,7 @@ public class PhotosFragment extends BasePhotoFragment {
         if (ConfigHelper.isCompatView()) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             mListView.addItemDecoration(mLineDecoration);
-    }
+        }
     }
 
     private void showSelectType() {
@@ -174,6 +176,5 @@ public class PhotosFragment extends BasePhotoFragment {
     private void showSelectOrderBy() {
         PopupMenuHelper.showOrderByMenu(getContext(), mOrderBy, mPhotoViewModel.getOrderByTypeData(), mOrderByClickListener);
     }
-
 
 }

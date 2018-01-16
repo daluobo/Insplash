@@ -48,8 +48,9 @@ public class PopupMenuHelper {
         mPhotosOption = res.getStringArray(R.array.photos_option);
 
         mPhotoType.clear();
-        mPhotoType.add(new OptionItem(mPhotosOption[0], PhotoViewModel.PhotoType.ALL));
-        mPhotoType.add(new OptionItem(mPhotosOption[1], PhotoViewModel.PhotoType.CURATED));
+        mPhotoType.add(new OptionItem(mPhotosOption[0], PhotoViewModel.PhotoType.NEW));
+        mPhotoType.add(new OptionItem(mPhotosOption[1], PhotoViewModel.PhotoType.TRENDING));
+        mPhotoType.add(new OptionItem(mPhotosOption[2], PhotoViewModel.PhotoType.CURATED));
     }
 
     public static void initOrderBy(Context context) {

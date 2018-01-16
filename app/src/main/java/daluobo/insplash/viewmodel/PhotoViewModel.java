@@ -25,31 +25,27 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     protected MediatorLiveData<OptionItem> mCurrentType = new MediatorLiveData<>();
     protected MediatorLiveData<OptionItem> mOrderByType = new MediatorLiveData<>();
 
+
     @PhotoType
-    private String mType = PhotoType.ALL;
+    private String mType = PhotoType.NEW;
 
     @Retention(RetentionPolicy.SOURCE)
-    @StringDef({PhotoViewModel.PhotoType.ALL, PhotoViewModel.PhotoType.CURATED})
+    @StringDef({PhotoType.NEW, PhotoType.CURATED,PhotoType.TRENDING})
     public @interface PhotoType {
-        String ALL = "all";
+        String NEW = "new";
         String CURATED = "curated";
+        String TRENDING = "trending";
     }
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        if (mType.equals(PhotoType.ALL)) {
-            return getPhotos(page);
-        } else {
-            return getCurated(page);
+        if (mType.equals(PhotoType.NEW)) {
+            return mRepository.getPhotos(page, mOrderBy);
+        } else if(mType.equals(PhotoType.CURATED)){
+            return mRepository.getCurated(page);
+        }else {
+            return mRepository.getTrending(page);
         }
-    }
-
-    public LiveData<Resource<List<Photo>>> getPhotos(int page) {
-        return mRepository.getPhotos(page, mOrderBy);
-    }
-
-    public LiveData<Resource<List<Photo>>> getCurated(int page) {
-        return mRepository.getCurated(page);
     }
 
     public LiveData<Resource<Photo>> getPhoto(String id) {
