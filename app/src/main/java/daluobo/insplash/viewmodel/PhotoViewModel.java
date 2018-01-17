@@ -1,7 +1,9 @@
 package daluobo.insplash.viewmodel;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Transformations;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -14,6 +16,7 @@ import daluobo.insplash.model.OptionItem;
 import daluobo.insplash.model.net.LikePhoto;
 import daluobo.insplash.model.net.Photo;
 import daluobo.insplash.model.net.PhotoDownloadLink;
+import daluobo.insplash.model.net.TrendingFeed;
 import daluobo.insplash.repository.PhotoRepository;
 
 /**
@@ -25,12 +28,13 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     protected MediatorLiveData<OptionItem> mCurrentType = new MediatorLiveData<>();
     protected MediatorLiveData<OptionItem> mOrderByType = new MediatorLiveData<>();
 
+    private String mNextTrendingPage = "";
 
     @PhotoType
     private String mType = PhotoType.NEW;
 
     @Retention(RetentionPolicy.SOURCE)
-    @StringDef({PhotoType.NEW, PhotoType.CURATED,PhotoType.TRENDING})
+    @StringDef({PhotoType.NEW, PhotoType.CURATED, PhotoType.TRENDING})
     public @interface PhotoType {
         String NEW = "new";
         String CURATED = "curated";
@@ -41,10 +45,23 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
         if (mType.equals(PhotoType.NEW)) {
             return mRepository.getPhotos(page, mOrderBy);
-        } else if(mType.equals(PhotoType.CURATED)){
+        } else if (mType.equals(PhotoType.CURATED)) {
             return mRepository.getCurated(page);
-        }else {
-            return mRepository.getTrending(page);
+        } else {
+            if (page <= 0) {
+                mNextTrendingPage = "";
+            }
+            return Transformations.switchMap(mRepository.getTrending(mNextTrendingPage),
+                    new Function<Resource<TrendingFeed>, LiveData<Resource<List<Photo>>>>() {
+                        @Override
+                        public LiveData<Resource<List<Photo>>> apply(Resource<TrendingFeed> input) {
+                            mNextTrendingPage = input.data.next_page;
+
+                            MediatorLiveData<Resource<List<Photo>>> result = new MediatorLiveData<>();
+                            result.setValue(new Resource(input.status, input.data.photos, input.message));
+                            return result;
+                        }
+                    });
         }
     }
 

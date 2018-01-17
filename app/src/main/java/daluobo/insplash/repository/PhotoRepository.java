@@ -25,11 +25,11 @@ import daluobo.insplash.net.api.PhotosApi;
 public class PhotoRepository extends BaseRepository{
     private PhotosApi mPhotoService;
     private Napi mNapiService;
-    private String mNextTrendingPage = "";
+
 
     public PhotoRepository() {
         mPhotoService = RetrofitHelper.buildApi().create(PhotosApi.class);
-        mNapiService = RetrofitHelper.buildUnsplsh().create(Napi.class);
+        mNapiService = RetrofitHelper.buildNapi().create(Napi.class);
     }
 
     public LiveData<Resource<List<Photo>>> getPhotos(final int page, final String order_by) {
@@ -62,21 +62,17 @@ public class PhotoRepository extends BaseRepository{
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<List<Photo>>>  getTrending(final int page) {
-        return new NetworkResource<List<Photo>, TrendingFeed>() {
+    public LiveData<Resource<TrendingFeed>>  getTrending(final String after) {
+        return new NetworkResource<TrendingFeed, TrendingFeed>() {
             @NonNull
             @Override
             protected LiveData<ApiResponse<TrendingFeed>> createCall() {
-                if(page == 0){
-                    mNextTrendingPage = "";
-                }
-                return mNapiService.trending(mNextTrendingPage);
+                return mNapiService.trending(after);
             }
 
             @Override
-            protected List<Photo> convertResult(@NonNull TrendingFeed item) {
-                mNextTrendingPage = item.next_page;
-                return item.photos;
+            protected TrendingFeed convertResult(@NonNull TrendingFeed item) {
+                return item;
             }
         }.getAsLiveData();
     }

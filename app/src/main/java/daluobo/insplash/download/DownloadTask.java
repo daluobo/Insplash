@@ -137,7 +137,7 @@ public class DownloadTask {
                 conn = HttpHelper.getInstance().createConnection(mDownloadInfo.url);
                 conn.setRequestMethod("GET");
                 conn.setUseCaches(false);
-                conn.setRequestProperty("Range", "bytes = " + mDownloadInfo.process + "-" + mDownloadInfo.length);
+                //conn.setRequestProperty("Range", "bytes = " + mDownloadInfo.process + "-" + mDownloadInfo.length);
 
                 int length = -1;
                 int responseCode = conn.getResponseCode();
@@ -149,10 +149,11 @@ public class DownloadTask {
 
                 if (length > 0) {
                     mDownloadInfo.length = length;
+                    mDownloadInfo.process = 0;
 
                     File tempFile = new File(FileHelper.mDirectory + "/" + mDownloadInfo.name);
                     raf = new RandomAccessFile(tempFile, "rwd");
-                    raf.seek(mDownloadInfo.process);
+                    //raf.seek(mDownloadInfo.process);
 
                     is = conn.getInputStream();
                     byte[] buffer = new byte[1024 * 4];

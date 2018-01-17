@@ -163,9 +163,20 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/download_btn"
+            android:id="@+id/follow_btn"
             style="@style/InfoText"
             android:layout_marginTop="8dp"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:foreground="?android:selectableItemBackground"
+            android:padding="16dp"
+            android:text="@string/following"
+            android:textColor="@color/colorTitle"/>
+
+        <TextView
+            android:id="@+id/download_btn"
+            style="@style/InfoText"
+            android:layout_marginTop="1dp"
+            android:drawableRight="@drawable/ic_arrow_right"
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
             android:text="@string/download"
@@ -249,6 +260,7 @@
             android:id="@+id/about_btn"
             style="@style/InfoText"
             android:layout_marginTop="8dp"
+            android:drawableRight="@drawable/ic_arrow_right"
             android:foreground="?android:selectableItemBackground"
             android:padding="16dp"
             android:text="@string/about"
