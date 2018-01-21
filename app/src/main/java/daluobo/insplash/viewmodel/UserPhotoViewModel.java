@@ -18,7 +18,7 @@ import daluobo.insplash.repository.UserRepository;
 
 public class UserPhotoViewModel extends PhotoViewModel {
     private User mUser;
-    private UserRepository mRepository= new UserRepository();;
+    private UserRepository mRepository= new UserRepository();
 
     @UserPhotosType
     private int mUserPhotoType;

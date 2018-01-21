@@ -19,9 +19,8 @@ public class SearchUserFragment extends SearchFragment<List<User>> {
     }
 
     public static SearchUserFragment newInstance() {
-        SearchUserFragment fragment = new SearchUserFragment();
 
-        return fragment;
+        return new SearchUserFragment();
     }
 
     @Override

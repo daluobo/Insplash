@@ -36,26 +36,24 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/title"
                     android:paddingBottom="8dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:text="description"
                     android:textColor="@color/colorTitle"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tools:text="description"/>
 
                 <TextView
                     android:id="@+id/tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/title"
                     android:background="?selectableItemBackground"
                     android:paddingBottom="8dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:text="tags"/>
+                    tools:text="tags"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,10 +69,10 @@
 
                     <TextView
                         android:id="@+id/published_at"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="-"/>
+                        tools:text="-"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,7 +83,7 @@
                         android:id="@+id/updated_at"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-"/>
+                        tools:text="-"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -103,9 +101,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="title"
                     android:textColor="@color/colorIcon"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    tools:text="title"/>
 
             </android.support.v7.widget.Toolbar>
 
@@ -147,8 +145,8 @@
                 android:drawableRight="@drawable/ic_arrow_right"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
-                android:text="username"
-                android:textColor="@color/colorTitle"/>
+                android:textColor="@color/colorTitle"
+                tools:text="username"/>
 
         </LinearLayout>
 
@@ -156,6 +154,7 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </FrameLayout>

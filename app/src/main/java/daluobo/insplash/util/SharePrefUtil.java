@@ -15,7 +15,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharePrefUtil {
     public static void putPreference(Context context, String key, String value) {
         SharedPreferences preferences = context.getSharedPreferences(AppConstant.SHARE_PREF_KEY, MODE_PRIVATE);
-        preferences.edit().putString(key, value).commit();
+        preferences.edit().putString(key, value).apply();
     }
 
     public static String getPreference(Context context, String key) {

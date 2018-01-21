@@ -51,8 +51,7 @@ public class StatsFragment extends BaseFragment {
     }
 
     public static StatsFragment newInstance() {
-        StatsFragment fragment = new StatsFragment();
-        return fragment;
+        return new StatsFragment();
     }
 
     @Nullable

@@ -36,59 +36,53 @@ public class PopupMenuHelper {
     private static final List<OptionItem> mViewType = new ArrayList<>();
     private static final List<OptionItem> mLanguage = new ArrayList<>();
 
-    private static String[] mPhotosOption;
-    private static String[] mOrderByOption;
-    private static String[] mCollectionOption;
-    private static String[] mViewOption;
-    private static String[] mLanguageOption;
-
     public static void initPhotoType(Context context) {
         Resources res = context.getResources();
 
-        mPhotosOption = res.getStringArray(R.array.photos_option);
+        String[] photosOption = res.getStringArray(R.array.photos_option);
 
         mPhotoType.clear();
-        mPhotoType.add(new OptionItem(mPhotosOption[0], PhotoViewModel.PhotoType.NEW));
-        mPhotoType.add(new OptionItem(mPhotosOption[1], PhotoViewModel.PhotoType.TRENDING));
-        mPhotoType.add(new OptionItem(mPhotosOption[2], PhotoViewModel.PhotoType.CURATED));
+        mPhotoType.add(new OptionItem(photosOption[0], PhotoViewModel.PhotoType.NEW));
+        mPhotoType.add(new OptionItem(photosOption[1], PhotoViewModel.PhotoType.TRENDING));
+        mPhotoType.add(new OptionItem(photosOption[2], PhotoViewModel.PhotoType.CURATED));
     }
 
     public static void initOrderBy(Context context) {
         Resources res = context.getResources();
-        mOrderByOption = res.getStringArray(R.array.order_by_option);
+        String[] orderByOption = res.getStringArray(R.array.order_by_option);
 
         mOrderBy.clear();
-        mOrderBy.add(new OptionItem(mOrderByOption[0], BasePageViewModel.OrderBy.LATEST));
-        mOrderBy.add(new OptionItem(mOrderByOption[1], BasePageViewModel.OrderBy.OLDEST));
-        mOrderBy.add(new OptionItem(mOrderByOption[2], BasePageViewModel.OrderBy.POPULAR));
+        mOrderBy.add(new OptionItem(orderByOption[0], BasePageViewModel.OrderBy.LATEST));
+        mOrderBy.add(new OptionItem(orderByOption[1], BasePageViewModel.OrderBy.OLDEST));
+        mOrderBy.add(new OptionItem(orderByOption[2], BasePageViewModel.OrderBy.POPULAR));
     }
 
     public static void initCollectionType(Context context) {
         Resources res = context.getResources();
-        mCollectionOption = res.getStringArray(R.array.collection_option);
+        String[] collectionOption = res.getStringArray(R.array.collection_option);
 
         mCollectionType.clear();
-        mCollectionType.add(new OptionItem(mCollectionOption[0], CollectionsViewModel.CollectionType.ALL));
-        mCollectionType.add(new OptionItem(mCollectionOption[1], CollectionsViewModel.CollectionType.FEATURED));
-        mCollectionType.add(new OptionItem(mCollectionOption[2], CollectionsViewModel.CollectionType.CURATED));
+        mCollectionType.add(new OptionItem(collectionOption[0], CollectionsViewModel.CollectionType.ALL));
+        mCollectionType.add(new OptionItem(collectionOption[1], CollectionsViewModel.CollectionType.FEATURED));
+        mCollectionType.add(new OptionItem(collectionOption[2], CollectionsViewModel.CollectionType.CURATED));
     }
 
     public static void initViewType(Context context) {
         Resources res = context.getResources();
-        mViewOption = res.getStringArray(R.array.view_option);
+        String[] viewOption = res.getStringArray(R.array.view_option);
 
         mViewType.clear();
-        mViewType.add(new OptionItem(mViewOption[0], ConfigHelper.ViewType.CARD));
-        mViewType.add(new OptionItem(mViewOption[1], ConfigHelper.ViewType.COMPAT));
+        mViewType.add(new OptionItem(viewOption[0], ConfigHelper.ViewType.CARD));
+        mViewType.add(new OptionItem(viewOption[1], ConfigHelper.ViewType.COMPAT));
     }
 
     public static void initLanguage(Context context) {
         Resources res = context.getResources();
-        mLanguageOption = res.getStringArray(R.array.language_option);
+        String[] languageOption = res.getStringArray(R.array.language_option);
 
         mLanguage.clear();
-        mLanguage.add(new OptionItem(mLanguageOption[0], ConfigHelper.Language.ENGLISH));
-        mLanguage.add(new OptionItem(mLanguageOption[1], ConfigHelper.Language.CHINESE));
+        mLanguage.add(new OptionItem(languageOption[0], ConfigHelper.Language.ENGLISH));
+        mLanguage.add(new OptionItem(languageOption[1], ConfigHelper.Language.CHINESE));
     }
 
     public static void showPopupMenu(Context context, View anchor,

@@ -1,7 +1,6 @@
 package daluobo.insplash.download;
 
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -29,29 +28,20 @@ import javax.net.ssl.X509TrustManager;
  */
 
 public class HttpHelper {
+    private static final String TAG = "HttpHelper";
+
     protected static final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
     protected static final String CHARSET = "UTF-8";
-    /** 建立连接的超时时间 */
+    /**
+     * 建立连接的超时时间
+     */
     protected static final int connectTimeout = 5 * 1000;
-    /** 建立到资源的连接后从 input 流读入时的超时时间 */
+    /**
+     * 建立到资源的连接后从 input 流读入时的超时时间
+     */
     protected static final int readTimeout = 10 * 1000;
 
     private static HttpHelper instance;
-
-    private TrustManager[] trustAllCerts = { new X509TrustManager() {
-
-        public X509Certificate[] getAcceptedIssuers() {
-            return null;
-        }
-
-        public void checkClientTrusted(X509Certificate[] certs, String authType) {
-
-        }
-
-        public void checkServerTrusted(X509Certificate[] certs, String authType) {
-
-        }
-    } };
 
     public static HttpHelper getInstance() {
         if (instance == null) {
@@ -68,12 +58,24 @@ public class HttpHelper {
         try {
             HttpsURLConnection.setDefaultHostnameVerifier(new NullHostNameVerifier());
             SSLContext sc = SSLContext.getInstance("TLS");
+            TrustManager[] trustAllCerts = {new X509TrustManager() {
+
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+                }
+
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+                }
+            }};
             sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection
                     .setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -109,7 +111,7 @@ public class HttpHelper {
             is = getInputStream(url);
             br = new BufferedReader(new InputStreamReader(is, CHARSET));
             String line = null;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
@@ -122,12 +124,14 @@ public class HttpHelper {
                     br.close();
                 }
             } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
             }
             try {
                 if (is != null) {
                     is.close();
                 }
             } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
             }
         }
 
@@ -166,7 +170,7 @@ public class HttpHelper {
             is = conn.getInputStream();
             br = new BufferedReader(new InputStreamReader(is, CHARSET));
             String line = null;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
@@ -179,6 +183,7 @@ public class HttpHelper {
                     os.close();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
             try {
                 if (br != null) {
@@ -191,6 +196,7 @@ public class HttpHelper {
                     is.close();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -203,10 +209,7 @@ public class HttpHelper {
     }
 
     protected void disableConnectionReuseIfNecessary() {
-        // HTTP connection reuse which was buggy pre-froyo
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-            System.setProperty("http.keepAlive", "false");
-        }
+        System.setProperty("http.keepAlive", "false");
     }
 
     private class NullHostNameVerifier implements HostnameVerifier {

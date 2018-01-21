@@ -16,9 +16,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.KITKAT;
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by daluobo on 2017/12/23.
@@ -145,11 +142,6 @@ public class IMMLeaks {
      * Should be called from {@link Activity#onCreate(android.os.Bundle)} )}.
      */
     public static void fixFocusedViewLeak(Application application) {
-
-        // Don't know about other versions yet.
-        if (SDK_INT < KITKAT || SDK_INT > M) {
-            return;
-        }
 
         final InputMethodManager inputMethodManager =
                 (InputMethodManager) application.getSystemService(INPUT_METHOD_SERVICE);

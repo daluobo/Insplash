@@ -370,7 +370,7 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_container:
-                NavHelper.toProfile(this, mViewModel.getUser().getValue());
+                NavHelper.toUser(this, mViewModel.getUser().getValue(), mAvatar);
                 break;
             case R.id.total_photos_container:
                 NavHelper.toUser(this, mViewModel.getUser().getValue(), mAvatar, 0);

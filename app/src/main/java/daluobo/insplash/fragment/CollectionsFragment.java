@@ -51,8 +51,7 @@ public class CollectionsFragment extends BaseCollectionFragment {
     }
 
     public static CollectionsFragment newInstance() {
-        CollectionsFragment fragment = new CollectionsFragment();
-        return fragment;
+        return new CollectionsFragment();
     }
 
     @Nullable
@@ -94,9 +93,9 @@ public class CollectionsFragment extends BaseCollectionFragment {
 
     @Override
     public void initView() {
-        View titleView = mInflater.inflate(R.layout.header_collections, null);
-        mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        View titleView = mInflater.inflate(R.layout.header_collections, mHeaderContainer, true);
+//        mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT));
         mCollectionType = titleView.findViewById(R.id.collection_type);
         mCollectionType.setOnClickListener(new View.OnClickListener() {
             @Override

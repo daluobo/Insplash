@@ -73,8 +73,7 @@ public class PhotosFragment extends BasePhotoFragment {
     }
 
     public static PhotosFragment newInstance() {
-        PhotosFragment fragment = new PhotosFragment();
-        return fragment;
+        return new PhotosFragment();
     }
 
     @Nullable
@@ -131,7 +130,7 @@ public class PhotosFragment extends BasePhotoFragment {
 
     @Override
     public void initView() {
-        View titleView = mInflater.inflate(R.layout.header_photos, null);
+        View titleView = mInflater.inflate(R.layout.header_photos, mHeaderContainer, true);
         mPhotoType = titleView.findViewById(R.id.photo_type);
         mPhotoType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,8 +146,8 @@ public class PhotosFragment extends BasePhotoFragment {
                 showSelectOrderBy();
             }
         });
-        mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+//        mHeaderContainer.addView(titleView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initListView();
     }

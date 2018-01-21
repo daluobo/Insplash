@@ -1,9 +1,5 @@
 package daluobo.insplash.util.imm;
 
-/**
- * Created by daluobo on 2017/12/23.
- */
-
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;

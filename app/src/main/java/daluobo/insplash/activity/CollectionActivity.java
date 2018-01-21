@@ -130,7 +130,7 @@ public class CollectionActivity extends BaseActivity {
 
                 StringBuffer sb = new StringBuffer();
                 for (Tag tag : collection.tags) {
-                    sb.append(tag.title + "、 ");
+                    sb.append(tag.title).append("、 ");
                 }
                 mTags.setText(sb);
 
@@ -200,7 +200,6 @@ public class CollectionActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @OnClick({R.id.tags, R.id.user_container})
     public void onViewClicked(View view) {

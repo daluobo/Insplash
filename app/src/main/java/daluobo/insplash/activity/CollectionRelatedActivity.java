@@ -42,7 +42,7 @@ public class CollectionRelatedActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mTitle.setText("Relate Collection");
+        mTitle.setText(R.string.relate_collection);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

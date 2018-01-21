@@ -50,35 +50,35 @@
                         tools:src="@drawable/ic_account_box"
                         tools:tint="@color/colorPrimary"/>
 
-                    <LinearLayout
+
+                    <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="16dp"
                         android:layout_toEndOf="@id/avatar"
-                        android:orientation="vertical"
-                        android:paddingStart="4dp">
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:paddingStart="8dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorTitle"
+                        android:textSize="16sp"
+                        tools:text="name"/>
 
-                        <TextView
-                            android:id="@+id/name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="4dp"
-                            android:paddingStart="8dp"
-                            android:textColor="@color/colorTitle"
-                            android:textSize="16sp"
-                            tools:text="name"/>
-
-                        <TextView
-                            android:id="@+id/location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableRight="@drawable/ic_place"
-                            android:gravity="center"
-                            android:padding="4dp"
-                            android:paddingStart="8dp"
-                            tools:text="location"/>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/name"
+                        android:layout_toEndOf="@id/avatar"
+                        android:drawableRight="@drawable/ic_place"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:paddingStart="8dp"
+                        android:singleLine="true"
+                        tools:text="location"/>
 
                     <LinearLayout
                         android:id="@+id/edit_profile_container"
@@ -121,59 +121,6 @@
                     tools:text="bio"
                     tools:visibility="visible"/>
 
-                <LinearLayout
-                    android:id="@+id/show_more_info_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:gravity="end"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
-
-                    <ImageView
-                        android:id="@+id/extra_info_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_arrow_down"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/extra_info_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/email"
-                        style="@style/InfoText"
-                        android:drawableLeft="@drawable/ic_email"
-                        android:drawablePadding="8dp"
-                        tools:text="email"/>
-
-                    <TextView
-                        android:id="@+id/twitter_username"
-                        style="@style/InfoText"
-                        android:drawableLeft="@drawable/ic_twitter"
-                        android:drawablePadding="8dp"
-                        tools:text="twitter_username"/>
-
-                    <TextView
-                        android:id="@+id/instagram_username"
-                        style="@style/InfoText"
-                        android:drawableLeft="@drawable/ic_instagram"
-                        android:drawablePadding="8dp"
-                        tools:text="instagram_username"/>
-                </LinearLayout>
-
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
@@ -197,7 +144,7 @@
                     android:singleLine="true"
                     android:text="@string/app_name"
                     android:textColor="@color/colorIcon"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textStyle="bold">
                 </TextView>
 
@@ -217,6 +164,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v4.view.ViewPager>

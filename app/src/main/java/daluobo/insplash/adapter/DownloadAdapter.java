@@ -45,13 +45,17 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadInfo, DownloadA
         viewHolder.mName.setText(item.name);
 
 
-        if (item.state.equals(DownloadState.FINISH) ||
-                item.state.equals(DownloadState.ERROR)) {
-            viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcRefresh);
-        } else if (item.state.equals(DownloadState.PROCESSING)) {
-            viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcPause);
-        } else {
-            viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcPlay);
+        switch (item.state) {
+            case DownloadState.FINISH:
+            case DownloadState.ERROR:
+                viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcRefresh);
+                break;
+            case DownloadState.PROCESSING:
+                viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcPause);
+                break;
+            default:
+                viewHolder.mActionBtn.setImageDrawable(viewHolder.mIcPlay);
+                break;
         }
 
 
@@ -110,12 +114,16 @@ public class DownloadAdapter extends BaseRecyclerAdapter<DownloadInfo, DownloadA
                 public void onClick(View view) {
                     String action;
 
-                    if (mDownloadInfo.state.equals(DownloadState.PROCESSING)) {
-                        action = DownloadService.ACTION_PAUSE;
-                    } else if (mDownloadInfo.state.equals(DownloadState.FINISH)) {
-                        action = DownloadService.ACTION_RESTART;
-                    } else {
-                        action = DownloadService.ACTION_START;
+                    switch (mDownloadInfo.state) {
+                        case DownloadState.PROCESSING:
+                            action = DownloadService.ACTION_PAUSE;
+                            break;
+                        case DownloadState.FINISH:
+                            action = DownloadService.ACTION_RESTART;
+                            break;
+                        default:
+                            action = DownloadService.ACTION_START;
+                            break;
                     }
 
                     NavHelper.downloadPhoto(mContext, mDownloadInfo, action);

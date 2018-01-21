@@ -44,6 +44,7 @@ public class CountTabFragmentAdapter extends TabFragmentAdapter {
         }
         count.setText(mCounts.get(position));
         title.setText(mTitles.get(position));
+
         return view;
     }
 

@@ -30,11 +30,7 @@ public abstract class OnScrollUpListener extends RecyclerView.OnScrollListener {
         super.onScrolled(recyclerView, dx, dy);
         mLastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
 
-        if (dy > 0) {
-            mIsScrollDown = true;
-        } else {
-            mIsScrollDown = false;
-        }
+        mIsScrollDown = dy > 0;
 
         //防止RecyclerView没有滑动到顶部，触发了SwipeRefreshLayout的刷新事件
         int topRowVerticalPosition =

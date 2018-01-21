@@ -5,6 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +21,8 @@ import daluobo.insplash.adapter.CountTabFragmentAdapter;
 import daluobo.insplash.base.view.BaseActivity;
 import daluobo.insplash.fragment.UserCollectionsFragment;
 import daluobo.insplash.fragment.UserPhotosFragment;
+import daluobo.insplash.helper.AuthHelper;
+import daluobo.insplash.helper.NavHelper;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.viewmodel.UserPhotoViewModel;
 import daluobo.insplash.viewmodel.UserViewModel;
@@ -122,5 +126,23 @@ public abstract class BaseUserActivity extends BaseActivity {
 
         mViewPager.setCurrentItem(mShowIndex, true);
         mAdapter.setTabSelected(mTabLayout.getTabAt(mShowIndex).getCustomView(), mColorTitle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (AuthHelper.getUsername().equals(mViewModel.getUser().getValue().username)) {
+            getMenuInflater().inflate(R.menu.menu_edit, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+            NavHelper.toProfile(this, mViewModel.getUser().getValue());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

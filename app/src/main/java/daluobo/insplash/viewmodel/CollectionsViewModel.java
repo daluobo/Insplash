@@ -36,13 +36,13 @@ public class CollectionsViewModel extends BasePageViewModel<Collection> {
 
     @Override
     public LiveData<Resource<List<Collection>>> loadPage(int page) {
-        if (mType.equals(CollectionType.ALL)) {
-            return mRepository.collections(page);
-        } else if (mType.equals(CollectionType.FEATURED)) {
-
-            return mRepository.featured(page);
-        } else if (mType.equals(CollectionType.CURATED)) {
-            return mRepository.curated(page);
+        switch (mType) {
+            case CollectionType.ALL:
+                return mRepository.collections(page);
+            case CollectionType.FEATURED:
+                return mRepository.featured(page);
+            case CollectionType.CURATED:
+                return mRepository.curated(page);
         }
         return mRepository.collections(page);
     }

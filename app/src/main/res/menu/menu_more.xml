@@ -5,7 +5,6 @@
         android:id="@+id/action_more"
         android:icon="@drawable/ic_more_vert"
         android:orderInCategory="100"
-        android:iconTint="@color/colorIcon"
         android:title="@string/more"
         app:showAsAction="always"/>
 </menu>

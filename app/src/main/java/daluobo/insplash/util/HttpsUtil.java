@@ -47,9 +47,7 @@ public class HttpsUtil {
             sslParams.sSLSocketFactory = sslContext.getSocketFactory();
             sslParams.trustManager = trustManager;
             return sslParams;
-        } catch (NoSuchAlgorithmException e) {
-            throw new AssertionError(e);
-        } catch (KeyManagementException e) {
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new AssertionError(e);
         } catch (KeyStoreException e) {
             throw new AssertionError(e);
@@ -94,9 +92,8 @@ public class HttpsUtil {
                 try {
                     if (certificate != null)
                         certificate.close();
-                } catch (IOException e)
-
-                {
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             TrustManagerFactory trustManagerFactory = null;
@@ -108,10 +105,6 @@ public class HttpsUtil {
             TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
 
             return trustManagers;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
         } catch (KeyStoreException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -131,13 +124,9 @@ public class HttpsUtil {
             keyManagerFactory.init(clientKeyStore, password.toCharArray());
             return keyManagerFactory.getKeyManagers();
 
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
             e.printStackTrace();
         } catch (UnrecoverableKeyException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

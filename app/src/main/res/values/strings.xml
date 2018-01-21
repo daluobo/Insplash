@@ -69,4 +69,8 @@
     <string name="msg_delete_success">Delete success !</string>
     <string name="msg_update_success">update success !</string>
     <string name="msg_please_login">Please login!</string>
+    <string name="collected">collected</string>
+
+    <string name="hint_empty_page">There is really empty !</string>
+    <string name="hint_error_page">Something went wrong, try refresh !</string>
 </resources>

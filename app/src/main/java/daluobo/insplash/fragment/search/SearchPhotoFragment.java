@@ -22,8 +22,7 @@ public class SearchPhotoFragment extends SearchFragment<Photo> {
     }
 
     public static SearchPhotoFragment newInstance() {
-        SearchPhotoFragment fragment = new SearchPhotoFragment();
-        return fragment;
+        return new SearchPhotoFragment();
     }
 
     @Override

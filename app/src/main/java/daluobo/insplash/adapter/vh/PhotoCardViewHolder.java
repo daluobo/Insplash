@@ -45,8 +45,6 @@ public class PhotoCardViewHolder extends PhotoViewHolder{
     private boolean mIsShowUser = true;
     private PopupWindow mPopupWindow;
     private int[] mPopupWindowSize;
-    private TextView mDownloadBtn;
-    private TextView mCollectBtn;
 
     public PhotoCardViewHolder(View itemView, Context context, boolean isShowUser, OnActionClickListener onMenuItemClickListener) {
         super(itemView, context);
@@ -155,17 +153,17 @@ public class PhotoCardViewHolder extends PhotoViewHolder{
         final View contentView = LayoutInflater.from(mContext).inflate(R.layout.dialog_menu_photo, null, false);
         mPopupWindowSize = ViewUtil.getViewSize(contentView);
 
-        mDownloadBtn = contentView.findViewById(R.id.download_tv);
-        mCollectBtn = contentView.findViewById(R.id.collect_tv);
+        TextView downloadBtn = contentView.findViewById(R.id.download_tv);
+        TextView collectBtn = contentView.findViewById(R.id.collect_tv);
 
-        mDownloadBtn.setOnClickListener(new View.OnClickListener() {
+        downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onDownloadClick(mPhoto);
             }
         });
 
-        mCollectBtn.setOnClickListener(new View.OnClickListener() {
+        collectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCollectClick(mPhoto);

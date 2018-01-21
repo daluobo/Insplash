@@ -112,6 +112,7 @@ public class DownloadTask {
                         try {
                             raf.close();
                         } catch (Exception e) {
+                            Log.d(TAG, e.getMessage());
                         }
                     }
                     if (conn != null) {

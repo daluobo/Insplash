@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorWhite">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/dialog_title"
@@ -95,7 +94,8 @@
         android:clickable="true"
         android:padding="8dp"
         android:text="@string/delete_collection"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:focusable="true"/>
 
     <TextView
         android:id="@+id/save_btn"
@@ -108,5 +108,6 @@
         android:clickable="true"
         android:padding="8dp"
         android:text="@string/save"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary"
+        android:focusable="true"/>
 </RelativeLayout>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -118,7 +116,8 @@
             android:clickable="true"
             android:padding="8dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/create_btn"
@@ -131,7 +130,8 @@
             android:clickable="true"
             android:padding="8dp"
             android:text="@string/create_collection"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:focusable="true"/>
     </RelativeLayout>
 
     <ImageView

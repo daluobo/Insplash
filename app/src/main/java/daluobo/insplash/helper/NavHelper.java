@@ -12,7 +12,6 @@ import android.view.View;
 import daluobo.insplash.activity.AboutActivity;
 import daluobo.insplash.activity.CollectionActivity;
 import daluobo.insplash.activity.CollectionRelatedActivity;
-import daluobo.insplash.activity.CompatUserActivity;
 import daluobo.insplash.activity.DownloadActivity;
 import daluobo.insplash.activity.PhotoActivity;
 import daluobo.insplash.activity.ProfileActivity;
@@ -64,15 +63,8 @@ public class NavHelper {
     }
 
     public static void toUser(Context context, User user, View avatarView) {
-        Intent intent;
-
-        if (ConfigHelper.isCompatView()) {
-            intent = new Intent(context, CompatUserActivity.class);
-            intent.putExtra(UserActivity.ARG_USER, user);
-        } else {
-            intent = new Intent(context, UserActivity.class);
-            intent.putExtra(UserActivity.ARG_USER, user);
-        }
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(UserActivity.ARG_USER, user);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
@@ -85,16 +77,9 @@ public class NavHelper {
     }
 
     public static void toUser(Context context, User user, View avatarView, int showIndex) {
-        Intent intent;
-
-        if (ConfigHelper.isCompatView()) {
-            intent = new Intent(context, CompatUserActivity.class);
-            intent.putExtra(UserActivity.ARG_USER, user);
-        } else {
-            intent = new Intent(context, UserActivity.class);
-            intent.putExtra(UserActivity.ARG_USER, user);
-            intent.putExtra(UserActivity.ARG_SHOW_INDEX, showIndex);
-        }
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(UserActivity.ARG_USER, user);
+        intent.putExtra(UserActivity.ARG_SHOW_INDEX, showIndex);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(intent,
@@ -148,7 +133,7 @@ public class NavHelper {
         context.startActivity(intent);
     }
 
-    public static void downloadPhoto(Context context, DownloadInfo downloadInfo, String action){
+    public static void downloadPhoto(Context context, DownloadInfo downloadInfo, String action) {
         Intent intent = new Intent(context, DownloadService.class);
         intent.setAction(action);
         intent.putExtra(DownloadService.ARG_DOWNLOAD_INFO, downloadInfo);

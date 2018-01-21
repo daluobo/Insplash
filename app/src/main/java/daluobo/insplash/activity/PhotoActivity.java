@@ -254,7 +254,7 @@ public class PhotoActivity extends BaseActivity {
         mColor.setText(photo.color);
 
         if (photo.current_user_collections.size() > 0) {
-            mCollectBtn.setText("Collected");
+            mCollectBtn.setText(R.string.collected);
             ViewUtil.setDrawableStart(mCollectBtn, mIcMark);
         } else {
             ViewUtil.setDrawableStart(mCollectBtn, mIcMarkBorder);
@@ -268,11 +268,13 @@ public class PhotoActivity extends BaseActivity {
 
     private void updateContent(Photo photo) {
         Animation scaleInAnimation = AnimationUtils.loadAnimation(PhotoActivity.this, R.anim.scale_left_in);
+        Animation alphaInAnimation = AnimationUtils.loadAnimation(PhotoActivity.this, R.anim.alpha_in);
+
         mLikeCount.startAnimation(scaleInAnimation);
         mViewsCount.startAnimation(scaleInAnimation);
         mDownloadCount.startAnimation(scaleInAnimation);
-        mLocation.startAnimation(scaleInAnimation);
-        mExifModel.startAnimation(scaleInAnimation);
+        mLocation.startAnimation(alphaInAnimation);
+        mExifModel.startAnimation(alphaInAnimation);
 
         mLikeCount.setText(photo.likes + "");
         mViewsCount.setText(photo.views + "");

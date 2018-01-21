@@ -43,25 +43,26 @@ public class PhotoViewModel extends BasePageViewModel<Photo> {
 
     @Override
     public LiveData<Resource<List<Photo>>> loadPage(int page) {
-        if (mType.equals(PhotoType.NEW)) {
-            return mRepository.getPhotos(page, mOrderBy);
-        } else if (mType.equals(PhotoType.CURATED)) {
-            return mRepository.getCurated(page);
-        } else {
-            if (page <= 0) {
-                mNextTrendingPage = "";
-            }
-            return Transformations.switchMap(mRepository.getTrending(mNextTrendingPage),
-                    new Function<Resource<TrendingFeed>, LiveData<Resource<List<Photo>>>>() {
-                        @Override
-                        public LiveData<Resource<List<Photo>>> apply(Resource<TrendingFeed> input) {
-                            mNextTrendingPage = input.data.next_page;
+        switch (mType) {
+            case PhotoType.NEW:
+                return mRepository.getPhotos(page, mOrderBy);
+            case PhotoType.CURATED:
+                return mRepository.getCurated(page);
+            default:
+                if (page <= 0) {
+                    mNextTrendingPage = "";
+                }
+                return Transformations.switchMap(mRepository.getTrending(mNextTrendingPage),
+                        new Function<Resource<TrendingFeed>, LiveData<Resource<List<Photo>>>>() {
+                            @Override
+                            public LiveData<Resource<List<Photo>>> apply(Resource<TrendingFeed> input) {
+                                mNextTrendingPage = input.data.next_page;
 
-                            MediatorLiveData<Resource<List<Photo>>> result = new MediatorLiveData<>();
-                            result.setValue(new Resource(input.status, input.data.photos, input.message));
-                            return result;
-                        }
-                    });
+                                MediatorLiveData<Resource<List<Photo>>> result = new MediatorLiveData<>();
+                                result.setValue(new Resource(input.status, input.data.photos, input.message));
+                                return result;
+                            }
+                        });
         }
     }
 

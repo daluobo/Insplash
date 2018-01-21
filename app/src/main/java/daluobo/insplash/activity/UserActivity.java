@@ -2,7 +2,6 @@ package daluobo.insplash.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,63 +24,51 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daluobo.insplash.R;
 import daluobo.insplash.activity.base.BaseUserActivity;
-import daluobo.insplash.helper.AnimHelper;
 import daluobo.insplash.model.net.User;
 import daluobo.insplash.util.DimensionUtil;
 import daluobo.insplash.util.ImgUtil;
-import daluobo.insplash.util.ViewUtil;
 
 public class UserActivity extends BaseUserActivity {
-    private int mHintClickCount = 0;
-    private boolean isShowUserInfo = false;
-
-    @BindDrawable(R.drawable.ic_mood)
-    Drawable mIcMood_0;
-    @BindDrawable(R.drawable.ic_mood_satisfied)
-    Drawable mIcMood_1;
-    @BindDrawable(R.drawable.ic_mood_neutral)
-    Drawable mIcMood_2;
-    @BindDrawable(R.drawable.ic_mood_dissatisfied)
-    Drawable mIcMood_3;
-    @BindDrawable(R.drawable.ic_mood_bad)
-    Drawable mIcMood_4;
-    @BindDrawable(R.drawable.ic_mood_very_dissatisfied)
-    Drawable mIcMood_5;
-
     @BindView(R.id.avatar)
     ImageView mAvatar;
     @BindView(R.id.name)
     TextView mName;
     @BindView(R.id.location)
     TextView mLocation;
-    @BindView(R.id.badge)
-    TextView mBadge;
+    @BindView(R.id.mood)
+    ImageView mMood;
+    @BindView(R.id.edit_profile_container)
+    LinearLayout mEditProfileContainer;
     @BindView(R.id.user_info_container)
     RelativeLayout mUserInfoContainer;
-    @BindView(R.id.show_more_info_container)
-    LinearLayout mShowMoreInfoContainer;
-    @BindView(R.id.email)
-    TextView mEmail;
+    @BindView(R.id.badge)
+    TextView mBadge;
     @BindView(R.id.bio)
     TextView mBio;
-    @BindView(R.id.twitter_username)
-    TextView mTwitterUsername;
-    @BindView(R.id.instagram_username)
-    TextView mInstagramUsername;
-    @BindView(R.id.extra_info_container)
-    LinearLayout mExtraInfoContainer;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBar;
     @BindView(R.id.root_container)
     CoordinatorLayout mRootContainer;
-    @BindView(R.id.edit_profile_container)
-    LinearLayout mEditProfileContainer;
-    @BindView(R.id.extra_info_hint)
-    ImageView mExtraInfoHint;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mToolbarLayout;
-    @BindView(R.id.mood)
-    ImageView mMood;
+    private int mHintClickCount = 0;
+    private boolean isShowUserInfo = false;
+
+    @BindDrawable(R.drawable.ic_mood_very_satisfied)
+    Drawable mIcMood_0;
+    @BindDrawable(R.drawable.ic_mood)
+    Drawable mIcMood_1;
+    @BindDrawable(R.drawable.ic_mood_satisfied)
+    Drawable mIcMood_2;
+    @BindDrawable(R.drawable.ic_mood_neutral)
+    Drawable mIcMood_3;
+    @BindDrawable(R.drawable.ic_mood_dissatisfied)
+    Drawable mIcMood_4;
+    @BindDrawable(R.drawable.ic_mood_bad)
+    Drawable mIcMood_5;
+    @BindDrawable(R.drawable.ic_mood_very_dissatisfied)
+    Drawable mIcMood_6;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +107,11 @@ public class UserActivity extends BaseUserActivity {
                 } else {
                     mBio.setVisibility(View.GONE);
                 }
-                mEmail.setText(user.email);
-                mTwitterUsername.setText(user.twitter_username);
-                mInstagramUsername.setText(user.instagram_username);
             }
         });
     }
 
-    @OnClick({R.id.avatar, R.id.user_info_container, R.id.show_more_info_container, R.id.bio})
+    @OnClick({R.id.avatar, R.id.user_info_container, R.id.bio})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar:
@@ -159,6 +143,9 @@ public class UserActivity extends BaseUserActivity {
                     case 5:
                         mMood.setImageDrawable(mIcMood_5);
                         break;
+                    case 6:
+                        mMood.setImageDrawable(mIcMood_6);
+                        break;
                 }
                 mHintClickCount++;
 
@@ -183,28 +170,6 @@ public class UserActivity extends BaseUserActivity {
 
                 }).start();
                 break;
-            case R.id.show_more_info_container:
-                int height = ViewUtil.getViewSize(mExtraInfoContainer)[1];
-                if (mExtraInfoContainer.getVisibility() == View.VISIBLE) {
-                    mExtraInfoHint.animate().rotation(0);
-
-                    ValueAnimator animator = AnimHelper.createDropDown(mExtraInfoContainer, height, 0);
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mExtraInfoContainer.setVisibility(View.GONE);
-                        }
-                    });
-                    animator.start();
-                } else {
-                    mExtraInfoHint.animate().rotation(180);
-                    mExtraInfoContainer.setVisibility(View.VISIBLE);
-
-                    ValueAnimator animator = AnimHelper.createDropDown(mExtraInfoContainer, 0, height);
-                    animator.start();
-                }
-                break;
-
             case R.id.bio:
                 if (mViewModel.getUser().getValue().portfolio_url != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.getUser().getValue().portfolio_url)));
@@ -212,4 +177,5 @@ public class UserActivity extends BaseUserActivity {
                 break;
         }
     }
+
 }

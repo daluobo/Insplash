@@ -23,9 +23,7 @@ public class SearchCollectionFragment extends SearchFragment<List<Collection>> {
     }
 
     public static SearchCollectionFragment newInstance() {
-        SearchCollectionFragment fragment = new SearchCollectionFragment();
-
-        return fragment;
+        return new SearchCollectionFragment();
     }
 
     @Override

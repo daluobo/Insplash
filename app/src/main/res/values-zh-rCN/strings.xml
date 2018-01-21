@@ -68,5 +68,8 @@
     <string name="msg_delete_success">删除成功!</string>
     <string name="msg_update_success">更新成功!</string>
     <string name="msg_please_login">请登陆!</string>
+    <string name="collected">已收藏</string>
 
+    <string name="hint_empty_page">这里什么都没有 !</string>
+    <string name="hint_error_page">发生了错误，请尝试刷新 !</string>
 </resources>

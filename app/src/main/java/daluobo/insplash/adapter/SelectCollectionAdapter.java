@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import daluobo.insplash.R;
@@ -61,7 +62,7 @@ public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, Sel
         }
 
         viewHolder.mTitle.setText(item.title);
-        viewHolder.mTotalPhotos.setText(item.total_photos + " Photos");
+        viewHolder.mTotalPhotos.setText(item.total_photos + viewHolder.mPhotoStr);
         viewHolder.mProgressBar.setVisibility(View.GONE);
 
         if (item.privateX) {
@@ -114,6 +115,8 @@ public class SelectCollectionAdapter extends BaseRecyclerAdapter<Collection, Sel
         Drawable mIcDone;
         @BindColor(R.color.colorWhite)
         int mColorWhite;
+        @BindString(R.string.photos)
+        String mPhotoStr;
 
         Collection mCollection;
         int mPosition;

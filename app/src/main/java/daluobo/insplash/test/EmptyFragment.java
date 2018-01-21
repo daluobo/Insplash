@@ -19,8 +19,7 @@ public class EmptyFragment extends BaseFragment {
     }
 
     public static EmptyFragment newInstance() {
-        EmptyFragment fragment = new EmptyFragment();
-        return fragment;
+        return new EmptyFragment();
     }
 
     @Nullable

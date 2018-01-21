@@ -11,10 +11,7 @@ public class AuthHelper {
 
     public static boolean isLogin() {
         String access_token = SharePrefHelper.getAccessToken();
-        if (access_token.equals("")) {
-            return false;
-        }
-        return true;
+        return !access_token.equals("");
     }
 
     public static String getAccessToken() {
